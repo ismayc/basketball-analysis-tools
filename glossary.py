@@ -2,7 +2,7 @@
 
 Every analysis document gets (1) a Terms block at the top defining every
 glossary term the document actually uses, and (2) hover tooltips at each
-point of use — the terms are wrapped in <abbr title="..."> tags, which
+point of use. The terms are wrapped in <abbr title="..."> tags, which
 GitHub renders as a dotted underline with the definition on hover. The
 scouting one-pagers reuse the same definitions through their own renderer.
 
@@ -18,7 +18,7 @@ The block and the annotations are maintained by this tool, never by hand:
 Detection is automatic: a doc's Terms block lists exactly the glossary
 terms whose aliases appear in its prose (code spans, fenced blocks, and
 headings are ignored). Re-running the findings generators strips a README
-body back to plain text — run --sync afterwards; --check exists so
+body back to plain text, so run --sync afterwards; --check exists so
 forgetting cannot survive the gates.
 """
 from __future__ import annotations
@@ -234,7 +234,7 @@ def annotate(text: str) -> str:
 
 def wrap_terms(text: str) -> str:
     """Wrap every term alias in a plain fragment (no code/heading
-    protection) — for renderers that manage their own protected zones."""
+    protection), for renderers that manage their own protected zones."""
     return _PATTERN.sub(_wrap, text)
 
 
@@ -259,7 +259,7 @@ def terms_block(keys: list[str], glossary_rel: str) -> str:
     if not keys:
         items = "> *(no specialized metric terms in this document)*"
     else:
-        items = "\n".join(f"> - **{k}** — {TERMS[k][0]}" for k in keys)
+        items = "\n".join(f"> - **{k}**: {TERMS[k][0]}" for k in keys)
     return (f"{OPEN}\n"
             "> **Terms used in this analysis.** Dotted-underlined terms "
             "anywhere below repeat these definitions on hover "
@@ -322,7 +322,7 @@ def main(argv: list[str]) -> int:
     if check:
         if stale:
             print(f"GLOSSARY CHECK FAILED: stale terms/annotations in "
-                  f"{', '.join(stale)} — run: python tools/glossary.py "
+                  f"{', '.join(stale)}. Fix: python tools/glossary.py "
                   "--sync")
             return 1
         print("GLOSSARY CHECK PASSED (terms blocks and hover annotations "

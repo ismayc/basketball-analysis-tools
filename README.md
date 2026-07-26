@@ -13,13 +13,13 @@ whole; anything specific to one analysis lives in that analysis's repo.
 | `nba_api_compat.py` | Hard-won compatibility shims for the public NBA data stack: the stats.nba.com User-Agent fingerprint fix and the numpy 2.x `np.in1d` shim for nba-on-court. |
 | `clone_family.sh` | Check out every family repo as siblings of this one. |
 | `run_all_checks.sh` | The family-wide green light: each sibling repo's own checks, then the cross-repo gates (SQL reconciliation, scouting staleness, glossary staleness, cross-study identity tests). |
-| `tests/` | Tests that span repos — e.g. draft-study and shot-quality-study claim the identical hand-rolled IRLS in both languages; the identity is held here, on shared random data, in Python and R. |
+| `tests/` | Tests that span repos: e.g. draft-study and shot-quality-study claim the identical hand-rolled IRLS in both languages; the identity is held here, on shared random data, in Python and R. |
 
 ## Conventions
 
 The family uses **sibling checkouts**: every repo sits next to the others
 in one parent directory, and cross-repo references are `../<repo>` paths.
-No submodules, no packaging — `clone_family.sh` sets the world up, and any
+No submodules, no packaging: `clone_family.sh` sets the world up, and any
 repo's `run_checks.sh` works standalone.
 
 ## Run
