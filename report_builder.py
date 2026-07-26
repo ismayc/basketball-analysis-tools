@@ -76,13 +76,13 @@ CSS = """
 body { margin: 0; background: var(--surface); color: var(--ink);
   font: 17px/1.65 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
 .masthead { border-bottom: 1px solid var(--rule); }
-.masthead .inner { max-width: 76ch; margin: 0 auto; padding: .8rem 1.25rem;
+.masthead .inner { width: min(1200px, 94vw); margin: 0 auto; padding: .8rem 0;
   display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
 .masthead a { color: var(--ink-2); text-decoration: none; font-size: .88rem; }
 .masthead a:hover { color: var(--accent-ink); }
 .masthead .family { font-weight: 700; letter-spacing: .02em; color: var(--ink); }
 .masthead .spacer { flex: 1; }
-main { max-width: 76ch; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+main { width: min(1200px, 94vw); margin: 0 auto; padding: 1.5rem 0 4rem; }
 h1 { font-size: 2rem; line-height: 1.2; letter-spacing: -.01em;
   margin: 1.2rem 0 .6rem; }
 h2 { font-size: 1.35rem; margin: 2.2rem 0 .6rem; padding-top: 1rem;
@@ -112,7 +112,7 @@ abbr[title] { text-decoration: underline dotted var(--accent);
 hr { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
 .figure-card { background: #fff; border: 1px solid var(--rule);
   border-radius: 10px; margin: 1.4rem 0; overflow: hidden; }
-.figure-card iframe { display: block; width: 100%; height: 520px;
+.figure-card iframe { display: block; width: 100%; height: 560px;
   border: none; }
 .figure-card figcaption { padding: .55rem .9rem; font-size: .85rem;
   color: var(--ink-3); border-top: 1px solid var(--rule);
@@ -133,7 +133,7 @@ footer a { color: var(--ink-2); }
 .card p { margin: 0; font-size: .92rem; color: var(--ink-2); flex: 1; }
 .card .links { font-size: .88rem; }
 .hero { padding: 2.2rem 0 .6rem; }
-.hero p.deck { font-size: 1.12rem; color: var(--ink-2); max-width: 64ch; }
+.hero p.deck { font-size: 1.12rem; color: var(--ink-2); }
 """
 
 
@@ -186,6 +186,32 @@ def caption_from(stem: str) -> str:
     return s.replace("_", " ").capitalize()
 
 
+RESPONSIVE_SNIPPET = """<script>
+window.addEventListener("load", function () {
+  var gs = document.querySelectorAll(".plotly-graph-div");
+  function fit() { gs.forEach(function (g) {
+    Plotly.relayout(g, {autosize: true, width: null, height: null}); }); }
+  fit(); window.addEventListener("resize", fit);
+});
+</script>"""
+
+
+def make_figure_responsive(text: str) -> str:
+    """The studies' write_html output pins the outer div to the figure's
+    layout size (e.g. 900x620). Let the embedded copy fill its iframe and
+    follow resizes instead; the committed originals stay untouched."""
+    text = re.sub(r'style="height:\d+px; width:\d+px;"',
+                  'style="height:100%; width:100%;"', text, count=1)
+    text = text.replace("<head>",
+                        "<head><style>html,body{margin:0;height:100%}</style>",
+                        1)
+    if "</body>" in text:
+        text = text.replace("</body>", RESPONSIVE_SNIPPET + "</body>", 1)
+    else:
+        text += RESPONSIVE_SNIPPET
+    return text
+
+
 def figures_section(repo_dir: Path, docs: Path) -> str:
     """Copy each interactive figure into docs/figures and embed it."""
     figs = sorted(p for p in (repo_dir / "figures").rglob("*.html")
@@ -199,7 +225,7 @@ def figures_section(repo_dir: Path, docs: Path) -> str:
         rel = f.relative_to(repo_dir / "figures")
         dest = docs / "figures" / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(f, dest)
+        dest.write_text(make_figure_responsive(f.read_text()))
         season = f" ({rel.parts[0]})" if len(rel.parts) > 1 else ""
         out.append(
             f'<figure class="figure-card">'
