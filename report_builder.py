@@ -144,8 +144,10 @@ details.terms li { margin: .3rem 0; color: var(--ink-2); }
 """
 
 
-def page(title: str, body: str, deck: str = "") -> str:
+def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
     desc = f'<meta name="description" content="{deck}">' if deck else ""
+    gh_link = (f'<a href="{GH}/{repo}">Code on GitHub</a>' if repo
+               else f'<a href="{GH}/basketball-data-science">GitHub</a>')
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -159,8 +161,9 @@ def page(title: str, body: str, deck: str = "") -> str:
 <header class="masthead"><div class="inner">
   <a class="family" href="{PAGES}/basketball-data-science/">Basketball Data Science</a>
   <span class="spacer"></span>
+  <a href="{PAGES}/basketball-data-science/">All studies</a>
   <a href="{PAGES}/nba-scouting-onepagers/">Scouting one-pagers</a>
-  <a href="{GH}/basketball-data-science">GitHub</a>
+  {gh_link}
 </div></header>
 <main>
 {body}
@@ -331,7 +334,7 @@ def build_study(repo: str) -> None:
         html += "\n" + figures_section(repo_dir, docs)
     title = re.search(r"<h1>(.*?)</h1>", html, re.DOTALL)
     title_text = re.sub(r"<[^>]+>", "", title.group(1)) if title else repo
-    (docs / "index.html").write_text(page(title_text, html))
+    (docs / "index.html").write_text(page(title_text, html, repo=repo))
     print(f"built {repo}/docs/index.html")
 
 
@@ -470,7 +473,8 @@ copy matches byte-for-byte.</p>
 <p><a href="{GH}/nba-scouting-onepagers">How they're built →</a></p>"""
     (docs / "index.html").write_text(page(
         "NBA opponent scouting one-pagers, 2025-26", body,
-        "Auto-generated scouting reports for all 30 NBA teams."))
+        "Auto-generated scouting reports for all 30 NBA teams.",
+        repo="nba-scouting-onepagers"))
     print("built nba-scouting-onepagers/docs/index.html")
 
 
