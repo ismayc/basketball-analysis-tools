@@ -20,6 +20,7 @@ import shutil
 import sys
 from pathlib import Path
 
+import glossary
 import markdown
 
 REPO = Path(__file__).resolve().parent
@@ -121,6 +122,12 @@ footer { border-top: 1px solid var(--rule); margin-top: 3rem;
   padding: 1rem 1.25rem; font-size: .85rem; color: var(--ink-3);
   text-align: center; }
 footer a { color: var(--ink-2); }
+details.terms { margin: 1rem 0; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--surface-2); font-size: .9rem; }
+details.terms summary { padding: .55rem .9rem; cursor: pointer;
+  color: var(--ink-2); font-weight: 600; }
+details.terms ul { margin: 0; padding: .2rem 1.4rem .8rem; }
+details.terms li { margin: .3rem 0; color: var(--ink-2); }
 /* hub cards */
 .cards { display: grid; grid-template-columns:
   repeat(auto-fit, minmax(290px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
@@ -236,17 +243,95 @@ def figures_section(repo_dir: Path, docs: Path) -> str:
     return "\n".join(out)
 
 
+def tipify_html(body: str) -> str:
+    """Glossary hover tooltips on rendered HTML, outside tags and outside
+    any <details> terms panel."""
+    out, skip = [], 0
+    for part in re.split(r"(<details[\s\S]*?</details>|<[^>]+>)", body):
+        if part.startswith("<details"):
+            out.append(part)
+        elif part.startswith("<"):
+            out.append(part)
+        else:
+            out.append(glossary.wrap_terms(part))
+    return "".join(out)
+
+
+def figure_card(repo_dir: Path, docs: Path, ref: str, caption: str) -> str:
+    src = repo_dir / "figures" / f"{ref}.html"
+    rel = Path(ref + ".html")
+    dest = docs / "figures" / rel
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(make_figure_responsive(src.read_text()))
+    return (f'<figure class="figure-card">'
+            f'<iframe src="figures/{rel.as_posix()}" loading="lazy" '
+            f'title="{caption_from(Path(ref).stem)}"></iframe>'
+            f'<figcaption>{caption}</figcaption></figure>')
+
+
+def terms_panel(md_text: str) -> str:
+    keys = glossary.terms_for(md_text)
+    if not keys:
+        return ""
+    items = "".join(f"<li><strong>{k}</strong> — {glossary.TERMS[k][0]}</li>"
+                    for k in keys)
+    return ("<details class=\"terms\"><summary>Terms used in this "
+            "analysis</summary><ul>" + items + "</ul></details>")
+
+
 def build_study(repo: str) -> None:
     repo_dir = SIBLINGS / repo
     docs = repo_dir / "docs"
     docs.mkdir(exist_ok=True)
-    md_text = (repo_dir / "README.md").read_text()
-    html = markdown.markdown(md_text, extensions=["tables", "fenced_code"])
-    html = wrap_tables(absolutize_links(html, repo))
+    story = repo_dir / "docs" / "story.md"
+    if story.exists():
+        md_text = story.read_text()
+        used = re.findall(r"\{\{fig:([^|}]+)\|([^}]*)\}\}", md_text)
+        placeholders = {}
+        for i, (ref, cap) in enumerate(used):
+            key = f"FIGPLACEHOLDER{i}ENDFIG"
+            md_text = md_text.replace("{{fig:%s|%s}}" % (ref, cap), key, 1)
+            placeholders[key] = figure_card(repo_dir, docs, ref.strip(),
+                                            cap.strip())
+        html = markdown.markdown(md_text,
+                                 extensions=["tables", "fenced_code"])
+        html = wrap_tables(absolutize_links(html, repo))
+        for key, card in placeholders.items():
+            html = html.replace(f"<p>{key}</p>", card).replace(key, card)
+        # terms panel right after the lede paragraph
+        panel = terms_panel(story.read_text())
+        if panel:
+            html = html.replace("</p>", "</p>\n" + panel, 1)
+        html = tipify_html(html)
+        referenced = {r.strip() for r, _ in used}
+        leftovers = [f for f in sorted((repo_dir / "figures").rglob("*.html"))
+                     if not f.stem.endswith("_r")
+                     and f.relative_to(repo_dir / "figures"
+                                       ).with_suffix("").as_posix()
+                     not in referenced]
+        if leftovers:
+            html += "\n<h2>Additional figures</h2>"
+            for f in leftovers:
+                ref = f.relative_to(repo_dir / "figures"
+                                    ).with_suffix("").as_posix()
+                season = (f" ({ref.split('/')[0]})" if "/" in ref else "")
+                html += "\n" + figure_card(
+                    repo_dir, docs, ref, caption_from(f.stem) + season)
+        html += (f'\n<h2>Method, code, and verification</h2>'
+                 f'<p>The full technical write-up — data provenance, model '
+                 f'specification, validation gates, and stated limitations — '
+                 f'is the <a href="{GH}/{repo}#readme">README</a>. The '
+                 f'analysis is implemented independently in R and Python and '
+                 f'reconciled to numeric tolerance; <code>run_checks.sh</code> '
+                 f'replays every gate.</p>')
+    else:
+        md_text = (repo_dir / "README.md").read_text()
+        html = markdown.markdown(md_text, extensions=["tables", "fenced_code"])
+        html = wrap_tables(absolutize_links(html, repo))
+        html += "\n" + figures_section(repo_dir, docs)
     title = re.search(r"<h1>(.*?)</h1>", html, re.DOTALL)
     title_text = re.sub(r"<[^>]+>", "", title.group(1)) if title else repo
-    body = html + "\n" + figures_section(repo_dir, docs)
-    (docs / "index.html").write_text(page(title_text, body))
+    (docs / "index.html").write_text(page(title_text, html))
     print(f"built {repo}/docs/index.html")
 
 
@@ -288,11 +373,37 @@ def build_hub() -> None:
 </div>"""
     body = f"""<div class="hero">
 <h1>Basketball data science</h1>
-<p class="deck">Six studies and three layers on public NBA, WNBA, G League,
-and college data — each implemented twice (R and Python), reconciled to
-numeric tolerance, validated against independent data, and explicit about
-its limitations. Every number on every page is generated by a script.</p>
+<p class="deck">Six studies and three working layers on public NBA, WNBA,
+G League, and college data — written as narratives, run as pipelines, and
+gated like production code.</p>
 </div>
+<p>The studies build on each other deliberately. The first asks the
+smallest question — did NBA players really get shorter? — and finds the
+famous decline is mostly a measurement-rule change, a rehearsal for every
+"the metric moved" conversation that matters. From there the family works
+up the stack: a full season of play-by-play turns the 2-for-1 debate into
+a measured trade-off; seven million frames of raw tracking expose a
+scorer's-table clock latency that quietly fabricates findings when
+ignored; regularized lineup models put honest error bars on player value
+and then rebuild it from an independent unit of observation to prove the
+ordering isn't plumbing; a shot-pricing model splits shooting into the
+skill that repeats and the skill that doesn't, and turns that split into a
+projection rule that beats naive carry-forward out of sample; and the
+draft study reports the most useful kind of result — that public college
+stats add <em>nothing</em> beyond the pick — because knowing the ceiling
+of public information is itself an edge.</p>
+<p>One discipline runs through all of it. Every analysis is implemented
+twice, in R and in Python, and the two must reconcile to numeric tolerance
+before any finding is written. That gate is not ceremony — it caught a
+text-versus-numeric sort that corrupted every scoreboard number in the
+play-by-play study, and a dplyr masking bug that silently degraded a
+standard-error column while every sum still matched. Results are validated
+against independent external data before being believed, every number on
+every page is generated by a script, and each study states plainly what it
+cannot claim.</p>
+<p>Each card below opens the study as a narrative — the question, the
+evidence, and the specific figures that carry it — with the full technical
+write-up one link deeper.</p>
 <h2>The studies</h2>
 <div class="cards">
 {"".join(cards)}
@@ -334,11 +445,23 @@ def build_scouting_index() -> None:
                      f'one-pager →</a></span></div>')
     body = f"""<div class="hero">
 <h1>Opponent scouting one-pagers</h1>
-<p class="deck">One page per team for the full 2025-26 season, generated
-from public data by a gated pipeline: shot profile vs league, personnel
-split into diet and EB-shrunk making, most-used lineups, and rule-generated
-keys. The committed reports must reproduce byte-for-byte from the data.</p>
+<p class="deck">One page per team for the full 2025-26 season — the daily
+deliverable of a coaching-analytics seat, generated end-to-end from public
+data.</p>
 </div>
+<p>Each report reads the way a staff consumes it: the keys up top, then
+the evidence beneath them. The shot profile prices where a team shoots
+from using a model whose season-to-season transfer was validated by
+backtest; personnel is split into shot <em>diet</em> (the part that
+repeats year over year) and shot <em>making</em> (the part that is half
+noise) — and the making numbers are shrunk by empirical Bayes before any
+bullet is allowed to call someone a shot-maker, so a hot month cannot
+drive a game plan. Lineups come from the per-team files, player impact
+from the opponent-adjusted RAPM model, and every claim in the keys traces
+to a number in a table below it.</p>
+<p>The reports cannot silently drift: the pipeline regenerates the Phoenix
+report in memory on every family check run and fails unless the committed
+copy matches byte-for-byte.</p>
 <div class="cards">
 {"".join(cards)}
 </div>
