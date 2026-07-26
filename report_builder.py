@@ -113,8 +113,14 @@ th { text-align: left; color: var(--ink-2); font-weight: 600;
   border-bottom: 2px solid var(--rule); padding: .4rem .6rem; }
 td { border-bottom: 1px solid var(--rule); padding: .4rem .6rem;
   vertical-align: top; }
-abbr[title] { text-decoration: underline dotted var(--accent);
-  text-underline-offset: 2px; cursor: help; }
+abbr[data-tip] { text-decoration: underline dotted var(--accent);
+  text-underline-offset: 2px; cursor: help; position: relative; }
+abbr[data-tip]:hover::after { content: attr(data-tip); position: absolute;
+  left: 0; top: 1.5em; z-index: 40; background: var(--ink);
+  color: var(--surface); padding: .5rem .75rem; border-radius: 7px;
+  width: max-content; max-width: min(340px, 80vw); font-size: .82rem;
+  line-height: 1.45; font-weight: 400; white-space: normal;
+  box-shadow: 0 4px 16px rgba(0,0,0,.28); pointer-events: none; }
 hr { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
 .figure-card { background: #fff; border: 1px solid var(--rule);
   border-radius: 10px; margin: 1.4rem 0; overflow: hidden; }
@@ -353,6 +359,9 @@ def build_study(repo: str) -> None:
         html += "\n" + figures_section(repo_dir, docs)
     title = re.search(r"<h1>(.*?)</h1>", html, re.DOTALL)
     title_text = re.sub(r"<[^>]+>", "", title.group(1)) if title else repo
+    # instant styled tooltips on the published page; README keeps title=
+    # for GitHub's native rendering
+    html = html.replace('<abbr title="', '<abbr data-tip="')
     (docs / "index.html").write_text(page(title_text, html, repo=repo))
     print(f"built {repo}/docs/index.html")
 
