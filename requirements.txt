@@ -15,3 +15,7 @@ python-docx
 requests
 py7zr
 duckdb
+
+# page rendering for the Pages layer
+markdown
+duckdb
