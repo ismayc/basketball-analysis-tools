@@ -27,6 +27,11 @@ REPO = Path(__file__).resolve().parent
 SIBLINGS = REPO.parent
 GH = "https://github.com/ismayc"
 PAGES = "https://ismayc.github.io"
+OG_IMAGE = f"{PAGES}/basketball-data-science/og-image.png"
+FAVICON = ('<link rel="icon" href="data:image/svg+xml,'
+           '<svg xmlns=%22http://www.w3.org/2000/svg%22 '
+           'viewBox=%220 0 100 100%22>'
+           '<text y=%22.9em%22 font-size=%2290%22>🏀</text></svg>">')
 
 STUDIES = ["jersey-height-study", "playbyplay-study", "tracking-study",
            "lineup-valuation-study", "shot-quality-study", "draft-study"]
@@ -34,7 +39,7 @@ STUDIES = ["jersey-height-study", "playbyplay-study", "tracking-study",
 # Hub landing-page config: repo -> (kicker, one-line headline)
 HUB_CARDS = {
     "jersey-height-study": (
-        "45 seasons of rosters",
+        "46 seasons of rosters",
         "The “players are getting shorter” trend is ~70% a 2019 "
         "measurement-rule change."),
     "playbyplay-study": (
@@ -145,7 +150,10 @@ details.terms li { margin: .3rem 0; color: var(--ink-2); }
 
 
 def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
-    desc = f'<meta name="description" content="{deck}">' if deck else ""
+    fallback = ("Reconciled, validated basketball analytics on public data: "
+                "part of the basketball-data-science family.")
+    description = deck or fallback
+    og_url = f"{PAGES}/{repo or 'basketball-data-science'}/"
     gh_link = (f'<a href="{GH}/{repo}">Code on GitHub</a>' if repo
                else f'<a href="{GH}/basketball-data-science">GitHub</a>')
     return f"""<!doctype html>
@@ -154,7 +162,18 @@ def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
-{desc}
+<meta name="description" content="{description}">
+{FAVICON}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Basketball Data Science">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{description}">
+<meta property="og:url" content="{og_url}">
+<meta property="og:image" content="{OG_IMAGE}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{OG_IMAGE}">
 <style>{CSS}</style>
 </head>
 <body>
@@ -381,19 +400,19 @@ G League, and college data, written as narratives, run as pipelines, and
 gated like production code.</p>
 </div>
 <p>The studies build on each other deliberately. The first asks the
-smallest question (did NBA players really get shorter?) and finds the
-famous decline is mostly a measurement-rule change, a rehearsal for every
+smallest question: did NBA players really get shorter? The famous decline
+turns out to be mostly a measurement-rule change, a rehearsal for every
 "the metric moved" conversation that matters. From there the family works
-up the stack: a full season of play-by-play turns the 2-for-1 debate into
-a measured trade-off; seven million frames of raw tracking expose a
+up the stack. A full season of play-by-play turns the 2-for-1 debate into
+a measured trade-off. Seven million frames of raw tracking expose a
 scorer's-table clock latency that quietly fabricates findings when
-ignored; regularized lineup models put honest error bars on player value
-and then rebuild it from an independent unit of observation to prove the
-ordering isn't plumbing; a shot-pricing model splits shooting into the
-skill that repeats and the skill that doesn't, and turns that split into a
-projection rule that beats naive carry-forward out of sample; and the
-draft study reports the most useful kind of result (that public college
-stats add <em>nothing</em> beyond the pick) because knowing the ceiling
+ignored. Regularized lineup models put honest error bars on player value,
+then rebuild it from an independent unit of observation to prove the
+ordering isn't plumbing. A shot-pricing model splits shooting into the
+skill that repeats and the skill that doesn't, and turns that split into
+a projection rule that beats naive carry-forward out of sample. And the
+draft study reports the most useful kind of result, that public college
+stats add <em>nothing</em> beyond the pick, because knowing the ceiling
 of public information is itself an edge.</p>
 <p>One discipline runs through all of it. Every analysis is implemented
 twice, in R and in Python, and the two must reconcile to numeric tolerance
