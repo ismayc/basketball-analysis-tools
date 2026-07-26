@@ -424,6 +424,8 @@ between), the <a href="{PAGES}/nba-player-finder/">NBA Player Finder</a>,
 <p><a href="{GH}/basketball-data-science/blob/main/docs/glossary.md">Glossary</a> ·
 <a href="{GH}/basketball-data-science/blob/main/docs/analysis-audit.md">Analysis
 audit</a> ·
+<a href="{GH}/basketball-data-science/blob/main/docs/data-provenance.md">Data
+provenance (sources and seasons)</a> ·
 <a href="{GH}/basketball-data-science/blob/main/docs/public-data-availability.md">Public-data
 survey</a></p>"""
     (docs / "index.html").write_text(page(
