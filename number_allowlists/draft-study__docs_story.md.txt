@@ -1,0 +1,1 @@
+1e-13  # observed R-vs-Python reconciliation magnitude; verified live by 03_reconcile's gate, not stored as a CSV cell

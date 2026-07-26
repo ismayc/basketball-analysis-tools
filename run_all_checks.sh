@@ -24,6 +24,9 @@ echo "=================== basketball-analysis-tools"
 echo "=== glossary: terms blocks and hover annotations current ==="
 $PY glossary.py --check | tail -1
 echo
+echo "=== numbers: every prose number verified against committed outputs ==="
+$PY verify_numbers.py --check | tail -1
+echo
 echo "=== cross-study identity tests (pytest) ==="
 $PY -m pytest tests/python -q
 echo
