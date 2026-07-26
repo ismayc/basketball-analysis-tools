@@ -271,6 +271,49 @@ def figures_section(repo_dir: Path, docs: Path) -> str:
     return "\n".join(out)
 
 
+STUDY_MENTIONS = {
+    "shot-quality study": "shot-quality-study",
+    "shot quality study": "shot-quality-study",
+    "play-by-play study": "playbyplay-study",
+    "playbyplay study": "playbyplay-study",
+    "tracking study": "tracking-study",
+    "lineup-valuation study": "lineup-valuation-study",
+    "lineup valuation study": "lineup-valuation-study",
+    "draft study": "draft-study",
+    "jersey study": "jersey-height-study",
+    "jersey-height study": "jersey-height-study",
+}
+
+
+def link_study_mentions(html: str, self_repo: str = "") -> str:
+    """Auto-link prose mentions of sibling studies to their Pages sites,
+    the same way glossary terms get tooltips. Skips text already inside
+    an anchor, and never links a page's mentions of itself."""
+    phrases = {k: v for k, v in STUDY_MENTIONS.items() if v != self_repo}
+    if not phrases:
+        return html
+    pat = re.compile("(" + "|".join(re.escape(k) for k in
+                                    sorted(phrases, key=len, reverse=True))
+                     + ")", re.IGNORECASE)
+
+    def sub(m: re.Match) -> str:
+        target = phrases[m.group(1).lower()]
+        return f'<a href="{PAGES}/{target}/">{m.group(1)}</a>'
+
+    out, depth = [], 0
+    for seg in re.split(r"(<[^>]+>)", html):
+        if seg.startswith("<"):
+            low = seg.lower()
+            if low.startswith("<a ") or low == "<a>":
+                depth += 1
+            elif low.startswith("</a"):
+                depth = max(0, depth - 1)
+            out.append(seg)
+        else:
+            out.append(seg if depth else pat.sub(sub, seg))
+    return "".join(out)
+
+
 def tipify_html(body: str) -> str:
     """Glossary hover tooltips on rendered HTML, outside tags and outside
     any <details> terms panel."""
@@ -359,6 +402,7 @@ def build_study(repo: str) -> None:
         html += "\n" + figures_section(repo_dir, docs)
     title = re.search(r"<h1>(.*?)</h1>", html, re.DOTALL)
     title_text = re.sub(r"<[^>]+>", "", title.group(1)) if title else repo
+    html = link_study_mentions(html, self_repo=repo)
     # instant styled tooltips on the published page; README keeps title=
     # for GitHub's native rendering
     html = html.replace('<abbr title="', '<abbr data-tip="')
@@ -459,6 +503,7 @@ audit</a> ·
 provenance (sources and seasons)</a> ·
 <a href="{GH}/basketball-data-science/blob/main/docs/public-data-availability.md">Public-data
 survey</a></p>"""
+    body = link_study_mentions(body)
     (docs / "index.html").write_text(page(
         "Basketball Data Science: studies, tools, and standards", body,
         "Reconciled, validated basketball analytics on public data."))
