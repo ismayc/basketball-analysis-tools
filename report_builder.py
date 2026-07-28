@@ -7,8 +7,9 @@ The pages aim at the register of a professional analytics group or a data
 journalist's methods page: restrained neutral chrome, one accent, a wide
 readable measure, tables that scroll rather than overflow, the family's
 glossary tooltips carried through, and the interactive plotly figures
-embedded as cards. Light and dark are both first-class; figures stay on
-white cards in both (they are rendered on a white template).
+embedded as cards. Light and dark are both first-class; the embedded
+figures re-render through a light->dark palette map at view time, so
+they follow the reader's color scheme like every other surface.
 
 Run: python report_builder.py --all         every repo's docs/
      python report_builder.py <repo> ...    just those repos
@@ -20,6 +21,7 @@ import shutil
 import sys
 from pathlib import Path
 
+import family_fonts
 import glossary
 import markdown
 
@@ -36,12 +38,67 @@ FAVICON = ('<link rel="icon" href="data:image/svg+xml,'
 STUDIES = ["jersey-height-study", "playbyplay-study", "tracking-study",
            "lineup-valuation-study", "shot-quality-study", "draft-study"]
 
+# Display face for headings (family identity, shared with the mebounds
+# story), inlined as data URIs so it renders identically offline.
+FONTS = f"<style>{family_fonts.FONT_FACE_CSS}</style>"
+
+# The family SVG chart engine that replaces plotly in published figures.
+FAMPLOT_JS = (REPO / "famplot.js").read_text()
+
+# Resolve the theme before first paint: saved choice, else OS preference.
+THEME_BOOT = """<script>
+(function () {
+  try {
+    var t = localStorage.getItem("family:theme");
+    if (t === "dark" || t === "light") {
+      document.documentElement.dataset.theme = t;
+    }
+  } catch (e) {}
+})();
+</script>"""
+
+# Masthead toggle: cycles dark/light, persists, and rebroadcasts the theme
+# to every embedded figure iframe (their engines listen for famTheme).
+THEME_SCRIPT = """<script>
+(function () {
+  function current() {
+    var t = document.documentElement.dataset.theme;
+    if (t === "dark" || t === "light") { return t; }
+    return matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark" : "light";
+  }
+  function broadcast() {
+    var t = document.documentElement.dataset.theme || "auto";
+    document.querySelectorAll("iframe").forEach(function (f) {
+      try { f.contentWindow.postMessage({famTheme: t}, "*"); } catch (e) {}
+    });
+  }
+  var btn = document.querySelector(".themebtn");
+  if (btn) {
+    btn.addEventListener("click", function () {
+      var next = current() === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem("family:theme", next); } catch (e) {}
+      broadcast();
+    });
+  }
+  window.addEventListener("load", broadcast);
+  document.querySelectorAll("iframe").forEach(function (f) {
+    f.addEventListener("load", function () {
+      var t = document.documentElement.dataset.theme || "auto";
+      try { f.contentWindow.postMessage({famTheme: t}, "*"); } catch (e) {}
+    });
+  });
+})();
+</script>"""
+
 # Hub landing-page config: repo -> (kicker, one-line headline)
 HUB_CARDS = {
     "jersey-height-study": (
         "46 seasons of rosters",
         "The “players are getting shorter” trend is ~70% a 2019 "
-        "measurement-rule change."),
+        "measurement-rule change. The jersey numbers really did shrink: "
+        "the median nearly halved."),
     "playbyplay-study": (
         "Full 2023-24 play-by-play",
         "The 2-for-1 adds a real possession at no shot-quality cost, "
@@ -65,34 +122,80 @@ HUB_CARDS = {
         "pick: the scouts already priced them in."),
 }
 
+# Newer analyses get their own hub section; the original six stay put.
+# Add a repo here (kicker, headline) and rebuild to grow the section.
+NEW_CARDS = {
+    "mebounds": (
+        "2M play-by-play events, WNBA × NBA",
+        "Angel Reese's “mebound” is measurably earned: she recovers "
+        "her own misses at 3-4x the league rate, at league-leading rebound "
+        "volume no NBA player matches either."),
+}
+
 CSS = """
 :root {
-  --ink: #1a1d24; --ink-2: #4a4f5c; --ink-3: #767b88;
-  --surface: #ffffff; --surface-2: #f5f6f8; --rule: #e3e5ea;
-  --accent: #1452cc; --accent-ink: #1452cc;
+  --ink: #161512; --ink-2: #52514e; --ink-3: #898781;
+  --surface: #faf9f6; --surface-2: #f2f1ea; --rule: #e1e0d9;
+  --accent: #eb6834; --accent-ink: #a83f12; --fig-surface: #fcfcfb;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #e8eaf0; --ink-2: #b5bac6; --ink-3: #878d9c;
-    --surface: #14161c; --surface-2: #1d2029; --rule: #2c303c;
-    --accent: #6f9bff; --accent-ink: #8db0ff;
+  :root:not([data-theme="light"]) {
+    --ink: #f5f3ec; --ink-2: #c3c2b7; --ink-3: #898781;
+    --surface: #0f0e0d; --surface-2: #1a1a19; --rule: #2c2c2a;
+    --accent: #d95926; --accent-ink: #ea9066; --fig-surface: #1a1a19;
   }
+}
+:root[data-theme="dark"] {
+  --ink: #f5f3ec; --ink-2: #c3c2b7; --ink-3: #898781;
+  --surface: #0f0e0d; --surface-2: #1a1a19; --rule: #2c2c2a;
+  --accent: #d95926; --accent-ink: #ea9066; --fig-surface: #1a1a19;
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--surface); color: var(--ink);
-  font: 17px/1.65 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+  font: 17px/1.65 system-ui, -apple-system, "Segoe UI", Helvetica, Arial,
+  sans-serif; }
+.display, h1, h2, .masthead .family, .card h3 {
+  font-family: "Barlow Condensed", system-ui, sans-serif; }
 .masthead { border-bottom: 1px solid var(--rule); }
 .masthead .inner { width: min(1200px, 94vw); margin: 0 auto; padding: .8rem 0;
   display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
 .masthead a { color: var(--ink-2); text-decoration: none; font-size: .88rem; }
 .masthead a:hover { color: var(--accent-ink); }
-.masthead .family { font-weight: 700; letter-spacing: .02em; color: var(--ink); }
+.masthead .family { font-weight: 600; font-size: 1.05rem;
+  text-transform: uppercase; letter-spacing: .08em; color: var(--ink); }
 .masthead .spacer { flex: 1; }
+.themebtn { background: none; border: 1px solid var(--rule);
+  border-radius: 999px; width: 30px; height: 30px; cursor: pointer;
+  color: var(--ink-2); font-size: .95rem; line-height: 1;
+  align-self: center; }
+.themebtn:hover { border-color: var(--accent); color: var(--ink); }
+.eyebrow { font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 500; font-size: 1rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-3); margin-top: 1.6rem; }
+.eyebrow + h1 { margin-top: .3rem; }
+.eyebrow.beat { margin: 2.4rem 0 0; padding-top: 1.2rem;
+  border-top: 1px solid var(--rule); color: var(--accent-ink); }
+.eyebrow.beat + h2 { border-top: none; padding-top: 0; margin-top: .2rem; }
+.tiles { display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: .9rem; margin: 1.8rem 0; }
+.tile { background: var(--surface-2); border: 1px solid var(--rule);
+  border-radius: 8px; padding: 1rem 1.1rem .9rem; }
+.tile .label { font-size: .78rem; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-3); }
+.tile .value { font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 600; font-size: 2.7rem; line-height: 1.05; margin-top: .2rem;
+  color: var(--ink); }
+.tile .value small { font-size: 1.4rem; color: var(--ink-2);
+  font-weight: 500; }
+.tile .sub { font-size: .84rem; color: var(--ink-2); margin-top: .15rem; }
 main { width: min(1200px, 94vw); margin: 0 auto; padding: 1.5rem 0 4rem; }
-h1 { font-size: 2rem; line-height: 1.2; letter-spacing: -.01em;
+h1 { font-weight: 600; font-size: 2.7rem; line-height: 1.02;
+  text-transform: uppercase; letter-spacing: .01em; text-wrap: balance;
   margin: 1.2rem 0 .6rem; }
-h2 { font-size: 1.35rem; margin: 2.2rem 0 .6rem; padding-top: 1rem;
-  border-top: 1px solid var(--rule); }
+h2 { font-weight: 600; font-size: 1.75rem; line-height: 1.08;
+  text-transform: uppercase; letter-spacing: .02em; margin: 2.2rem 0 .6rem;
+  padding-top: 1rem; border-top: 1px solid var(--rule); }
 h3 { font-size: 1.08rem; margin: 1.6rem 0 .4rem; }
 a { color: var(--accent-ink); text-decoration-thickness: 1px;
   text-underline-offset: 2px; }
@@ -122,10 +225,11 @@ abbr[data-tip]:hover::after { content: attr(data-tip); position: absolute;
   line-height: 1.45; font-weight: 400; white-space: normal;
   box-shadow: 0 4px 16px rgba(0,0,0,.28); pointer-events: none; }
 hr { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
-.figure-card { background: #fff; border: 1px solid var(--rule);
+.figure-card { background: var(--fig-surface); border: 1px solid var(--rule);
   border-radius: 10px; margin: 1.4rem 0; overflow: hidden; }
 .figure-card iframe { display: block; width: 100%; height: 560px;
-  border: none; padding: .75rem 1rem 0 1.1rem; background: #fff; }
+  border: none; padding: .75rem 1rem 0 1.1rem;
+  background: var(--fig-surface); }
 .figure-card figcaption { padding: .55rem .9rem; font-size: .85rem;
   color: var(--ink-3); border-top: 1px solid var(--rule);
   background: var(--surface); }
@@ -146,12 +250,14 @@ details.terms li { margin: .3rem 0; color: var(--ink-2); }
   padding: 1rem 1.1rem; background: var(--surface-2);
   display: flex; flex-direction: column; gap: .45rem; }
 .card .kicker { font-size: .78rem; text-transform: uppercase;
-  letter-spacing: .06em; color: var(--ink-3); }
-.card h3 { margin: 0; font-size: 1.05rem; }
+  letter-spacing: .09em; color: var(--accent-ink); font-weight: 600; }
+.card h3 { margin: 0; font-weight: 600; font-size: 1.35rem;
+  text-transform: uppercase; letter-spacing: .02em; line-height: 1.05; }
 .card p { margin: 0; font-size: .92rem; color: var(--ink-2); flex: 1; }
 .card .links { font-size: .88rem; }
 .hero { padding: 2.2rem 0 .6rem; }
-.hero p.deck { font-size: 1.12rem; color: var(--ink-2); }
+.hero h1 { font-size: clamp(3rem, 7vw, 4.6rem); margin: .4rem 0 .5rem; }
+.hero p.deck { font-size: 1.15rem; color: var(--ink-2); max-width: 50rem; }
 """
 
 
@@ -180,6 +286,8 @@ def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{OG_IMAGE}">
+{FONTS}
+{THEME_BOOT}
 <style>{CSS}</style>
 </head>
 <body>
@@ -189,12 +297,14 @@ def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
   <a href="{PAGES}/basketball-data-science/">All studies</a>
   <a href="{PAGES}/nba-scouting-onepagers/">Scouting one-pagers</a>
   {gh_link}
+  <button class="themebtn" type="button" aria-label="Toggle color theme">◐</button>
 </div></header>
 <main>
 {body}
 </main>
 <footer>Public data · dual-implementation reconciled · every gate scripted ·
 <a href="{GH}/basketball-data-science">the family on GitHub</a></footer>
+{THEME_SCRIPT}
 </body>
 </html>
 """
@@ -222,24 +332,161 @@ def caption_from(stem: str) -> str:
 
 
 RESPONSIVE_SNIPPET = """<script>
-window.addEventListener("load", function () {
-  var gs = document.querySelectorAll(".plotly-graph-div");
-  function fit() { gs.forEach(function (g) {
-    Plotly.relayout(g, {autosize: true, width: null, height: null}); }); }
-  fit(); window.addEventListener("resize", fit);
-});
+(function () {
+  // Figures are authored on the light family palette; on a dark scheme the
+  // same spec is re-rendered through this light->dark map (chrome and series
+  // steps from the family palette). Each plot's light spec is remembered so
+  // theme flips are lossless in both directions.
+  var MAP = {"white": "#1a1a19", "#fff": "#1a1a19", "#fcfcfb": "#1a1a19",
+    "#ffffff": "#1a1a19",
+    "#f2f1ea": "#21201e", "#eceae2": "#262624", "#e1e0d9": "#2c2c2a",
+    "#c3c2b7": "#383835", "#52514e": "#c3c2b7", "#2a3f5f": "#c3c2b7",
+    "#0b0b0b": "#f5f3ec", "#161512": "#f5f3ec", "#2a78d6": "#3987e5",
+    "#eb6834": "#d95926", "#1baf7a": "#199e70"};
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  // The parent page's manual theme toggle overrides the OS preference; it
+  // arrives as a postMessage from the embedding page.
+  var override = null;
+  var themeFn = null;
+  function isDark() {
+    return override ? override === "dark" : mq.matches;
+  }
+  function stampBody() {
+    document.body.classList.toggle("fam-dark", override === "dark");
+    document.body.classList.toggle("fam-light", override === "light");
+  }
+  window.addEventListener("message", function (e) {
+    if (!e.data || !e.data.famTheme) { return; }
+    var t = e.data.famTheme;
+    override = (t === "dark" || t === "light") ? t : null;
+    stampBody();
+    if (themeFn) { themeFn(); }
+  });
+  function darken(o) {
+    if (typeof o === "string") { return MAP[o.toLowerCase()] || o; }
+    if (Array.isArray(o)) { return o.map(darken); }
+    if (o && typeof o === "object") {
+      var r = {}; for (var k in o) { r[k] = darken(o[k]); } return r;
+    }
+    return o;
+  }
+  function copy(o) { return JSON.parse(JSON.stringify(o)); }
+  // Hand-built figure pages (e.g. animated histograms) often omit chrome
+  // colors and inherit plotly's defaults; pin those to the family's light
+  // values so the dark map has something to map.
+  function withDefaults(layout) {
+    var L = layout ? copy(layout) : {};
+    L.paper_bgcolor = L.paper_bgcolor || "#fcfcfb";
+    L.plot_bgcolor = L.plot_bgcolor || "#fcfcfb";
+    L.font = L.font || {}; L.font.color = L.font.color || "#52514e";
+    ["xaxis", "yaxis"].forEach(function (a) {
+      L[a] = L[a] || {};
+      L[a].gridcolor = L[a].gridcolor || "#e1e0d9";
+      if (L[a].zeroline !== false) {
+        L[a].zerolinecolor = L[a].zerolinecolor || "#e1e0d9";
+      }
+    });
+    return L;
+  }
+  // Route every author-side render through the theme: remember the light
+  // spec, darken it when the scheme is dark.
+  var origReact = null;
+  function installWrapper() {
+    if (origReact || !window.Plotly) { return; }
+    origReact = Plotly.react;
+    Plotly.react = function (gd, data, layout, config) {
+      var el = typeof gd === "string" ? document.getElementById(gd) : gd;
+      var L = withDefaults(layout), D = copy(data || []);
+      if (el) { el._lightSpec = {data: copy(D), layout: copy(L),
+                                 config: config}; }
+      if (isDark()) { D = darken(D); L = darken(L); }
+      return origReact.call(Plotly, el || gd, D, L, config);
+    };
+  }
+  installWrapper();
+  window.addEventListener("load", function () {
+    installWrapper();
+    var gs = Array.prototype.slice.call(
+      document.querySelectorAll(".plotly-graph-div, .js-plotly-plot"));
+    // Plots rendered before the wrapper installed (write_html pages, or a
+    // hand-built page that drew during parse): their current spec is the
+    // light spec.
+    gs.forEach(function (g) {
+      if (!g._lightSpec) {
+        g._lightSpec = {data: copy(g.data),
+                        layout: withDefaults(g.layout)};
+      }
+    });
+    // Re-render each plot from its light spec, darkened when the scheme is
+    // dark. Sizing is plotly's own job: the layouts get autosize and every
+    // figure ships config {responsive: true}, which react() preserves.
+    function theme() {
+      gs.forEach(function (g) {
+        var src = g._lightSpec;
+        var D = copy(src.data), L = copy(src.layout);
+        delete L.width; delete L.height; L.autosize = true;
+        if (isDark()) { D = darken(D); L = darken(L); }
+        origReact.call(Plotly, g, D, L, src.config);
+      });
+    }
+    themeFn = theme;
+    stampBody();
+    theme();
+    if (mq.addEventListener) { mq.addEventListener("change", theme); }
+  });
+})();
 </script>"""
+
+# Dark styling for the figure page itself and for any hand-rolled HTML
+# controls a figure embeds (e.g. the jersey study's season buttons). The
+# media query covers the OS preference; the fam-dark/fam-light classes are
+# stamped by the runtime when the parent page's manual toggle overrides it.
+FIGURE_DARK_CSS = """<style>html,body{margin:0;height:100%}
+@media (prefers-color-scheme: dark){
+  body:not(.fam-light){background:#1a1a19;color:#c3c2b7}
+  body:not(.fam-light) .controls button{background:#1a1a19;color:#c3c2b7;border-color:#383835}
+  body:not(.fam-light) .controls button.on{background:#3987e5;color:#0f0e0d;border-color:#3987e5}
+  body:not(.fam-light) .seasonlab{color:#f5f3ec}
+}
+body.fam-dark{background:#1a1a19;color:#c3c2b7}
+body.fam-dark .controls button{background:#1a1a19;color:#c3c2b7;border-color:#383835}
+body.fam-dark .controls button.on{background:#3987e5;color:#0f0e0d;border-color:#3987e5}
+body.fam-dark .seasonlab{color:#f5f3ec}</style>"""
+
+
+# Bring embedded figures onto the family palette at publish time (the
+# committed pipeline outputs stay untouched). Maps the legacy navy/steel
+# series colors and plotly's default-template inks and grids to the family
+# equivalents; hexes chosen so no figure ends up with two identical series.
+FIGURE_COLOR_MAP = {
+    "#1E3A5F": "#2a78d6",   # legacy navy marks/buttons -> family blue
+    "#9AAFC9": "#9ec5f4",   # legacy steel pair -> family blue, light step
+    "#2a3f5f": "#52514e",   # plotly template ink -> family ink-2
+    "#C8D4E3": "#e1e0d9",   # plotly template axis lines -> family rule
+    "#EBF0F8": "#eceae2",   # plotly template grid -> warm hairline
+    "#E5ECF6": "#f2f1ea",   # plotly template plot bg -> family surface-2
+    '"paper_bgcolor":"white"': '"paper_bgcolor":"#fcfcfb"',
+    '"plot_bgcolor":"white"': '"plot_bgcolor":"#fcfcfb"',
+}
 
 
 def make_figure_responsive(text: str) -> str:
-    """The studies' write_html output pins the outer div to the figure's
-    layout size (e.g. 900x620). Let the embedded copy fill its iframe and
-    follow resizes instead; the committed originals stay untouched."""
+    """Publish-time rewrite of a study figure: swap the plotly CDN engine
+    for the family SVG engine (famplot), map any legacy colors onto the
+    family palette, let the copy fill its iframe and follow resizes, and
+    adapt it to the viewer's color scheme. The committed plotly originals
+    stay untouched and remain reproducible from each study's code."""
+    text = re.sub(
+        r'<script[^>]*src="https://cdn\.plot\.ly/[^"]*"[^>]*></script>',
+        lambda m: "<script>" + FAMPLOT_JS + "</script>", text, count=1)
+    for old, new in FIGURE_COLOR_MAP.items():
+        if old.startswith("#"):
+            text = re.sub(re.escape(old), new, text, flags=re.IGNORECASE)
+        else:
+            text = text.replace(old, new)
     text = re.sub(r'style="height:\d+px; width:\d+px;"',
                   'style="height:100%; width:100%;"', text, count=1)
-    text = text.replace("<head>",
-                        "<head><style>html,body{margin:0;height:100%}</style>",
-                        1)
+    text = text.replace("<head>", "<head>" + FIGURE_DARK_CSS, 1)
     if "</body>" in text:
         text = text.replace("</body>", RESPONSIVE_SNIPPET + "</body>", 1)
     else:
@@ -254,8 +501,11 @@ def figures_section(repo_dir: Path, docs: Path) -> str:
     if not figs:
         return ""
     out = ["<h2>Interactive figures</h2>",
-           "<p>Rendered by the Python implementation; hover for values. "
-           "Static R twins live in the repo.</p>"]
+           "<p>Drawn in the family chart style; hover for values. "
+           "Interactive plotly versions of every figure are available by "
+           "running the study's figure code on GitHub "
+           "(<code>python/</code> → <code>figures/</code>), and static R "
+           "twins live in the repo.</p>"]
     for f in figs:
         rel = f.relative_to(repo_dir / "figures")
         dest = docs / "figures" / rel
@@ -406,24 +656,33 @@ def build_study(repo: str) -> None:
     # instant styled tooltips on the published page; README keeps title=
     # for GitHub's native rendering
     html = html.replace('<abbr title="', '<abbr data-tip="')
+    kicker = HUB_CARDS.get(repo, ("", ""))[0]
+    if kicker:
+        html = html.replace(
+            "<h1>", f'<div class="eyebrow">{kicker}</div>\n<h1>', 1)
     (docs / "index.html").write_text(page(title_text, html, repo=repo))
     print(f"built {repo}/docs/index.html")
 
 
 def build_hub() -> None:
+    # The hub repo is cloned as "basketball-data-science" by clone_family.sh
+    # but lives as "hub" in this checkout; write wherever it actually is.
     repo_dir = SIBLINGS / "basketball-data-science"
+    if not (repo_dir / "docs").exists() and (SIBLINGS / "hub" / "docs").exists():
+        repo_dir = SIBLINGS / "hub"
     docs = repo_dir / "docs"
     docs.mkdir(exist_ok=True)
-    cards = []
-    for r in STUDIES:
-        kicker, headline = HUB_CARDS[r]
-        cards.append(f"""<div class="card">
+    def card(r, kicker, headline):
+        return f"""<div class="card">
   <span class="kicker">{kicker}</span>
   <h3>{r.replace("-", " ")}</h3>
   <p>{headline}</p>
   <span class="links"><a href="{PAGES}/{r}/">Read the analysis →</a> ·
   <a href="{GH}/{r}">code</a></span>
-</div>""")
+</div>"""
+
+    cards = [card(r, *HUB_CARDS[r]) for r in STUDIES]
+    new_cards = [card(r, *NEW_CARDS[r]) for r in NEW_CARDS]
     layers = f"""<div class="card">
   <span class="kicker">SQL layer</span>
   <h3>basketball sql layer</h3>
@@ -447,6 +706,7 @@ def build_hub() -> None:
   <span class="links"><a href="{GH}/basketball-analysis-tools">code</a></span>
 </div>"""
     body = f"""<div class="hero">
+<div class="eyebrow">Six studies &middot; three layers &middot; one discipline</div>
 <h1>Basketball data science</h1>
 <p class="deck">Six studies and three working layers on public NBA, WNBA,
 G League, and college data, written as narratives, run as pipelines, and
@@ -484,6 +744,10 @@ write-up one link deeper.</p>
 <h2>The studies</h2>
 <div class="cards">
 {"".join(cards)}
+</div>
+<h2>New analyses</h2>
+<div class="cards">
+{"".join(new_cards)}
 </div>
 <h2>The layers on top</h2>
 <div class="cards">
@@ -524,6 +788,7 @@ def build_scouting_index() -> None:
                      f'<span class="links"><a href="{abbr}.html">'
                      f'one-pager →</a></span></div>')
     body = f"""<div class="hero">
+<div class="eyebrow">The scouting layer &middot; 30 teams &middot; 2025-26</div>
 <h1>Opponent scouting one-pagers</h1>
 <p class="deck">One page per team for the full 2025-26 season: the daily
 deliverable of a coaching-analytics seat, generated end-to-end from public
