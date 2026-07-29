@@ -21,6 +21,7 @@ import shutil
 import sys
 from pathlib import Path
 
+import family_brand
 import family_fonts
 import glossary
 import markdown
@@ -29,11 +30,8 @@ REPO = Path(__file__).resolve().parent
 SIBLINGS = REPO.parent
 GH = "https://github.com/ismayc"
 PAGES = "https://ismayc.github.io"
-OG_IMAGE = f"{PAGES}/basketball-data-science/og-image.png"
-FAVICON = ('<link rel="icon" href="data:image/svg+xml,'
-           '<svg xmlns=%22http://www.w3.org/2000/svg%22 '
-           'viewBox=%220 0 100 100%22>'
-           '<text y=%22.9em%22 font-size=%2290%22>🏀</text></svg>">')
+OG_IMAGE = family_brand.OG_IMAGE
+FAVICON = family_brand.FAVICON
 
 STUDIES = ["jersey-height-study", "playbyplay-study", "tracking-study",
            "lineup-valuation-study", "shot-quality-study", "draft-study"]

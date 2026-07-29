@@ -21,6 +21,9 @@ $PY ../nba-scouting-onepagers/build_onepager.py --check | tail -1
 echo
 
 echo "=================== basketball-analysis-tools"
+echo "=== family brand: every published page has the family favicon + og ==="
+$PY check_family_brand.py | tail -1
+echo
 echo "=== glossary: terms blocks and hover annotations current ==="
 $PY glossary.py --check | tail -1
 echo
