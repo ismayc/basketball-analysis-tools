@@ -123,13 +123,27 @@ HUB_CARDS = {
 }
 
 # Newer analyses get their own hub section; the original six stay put.
-# Add a repo here (kicker, headline) and rebuild to grow the section.
+# Add a repo here and rebuild to grow the section. "href" overrides the
+# card's read link; "extra" appends an additional link. A repo listed here
+# that also has docs/story.md gets its page built like a study.
 NEW_CARDS = {
-    "mebounds": (
-        "2M play-by-play events, WNBA × NBA",
-        "Angel Reese's “mebound” is measurably earned: she recovers "
-        "her own misses at 3-4x the league rate, at league-leading rebound "
-        "volume no NBA player matches either."),
+    "mebounds": {
+        "kicker": "2M play-by-play events, WNBA × NBA",
+        "headline": (
+            "Angel Reese's “mebound” is measurably earned: she recovers "
+            "her own misses at 3-4x the league rate, at league-leading "
+            "rebound volume no NBA player matches either."),
+    },
+    "draft-potential-by-team": {
+        "kicker": "27 draft classes, priced by slot",
+        "headline": (
+            "OKC leads at +489 Win Shares above slot, but 27 of 30 "
+            "franchise intervals cross zero: provable draft skill is rare. "
+            "The era's biggest steal went first overall."),
+        "href": f"{PAGES}/draft-potential-by-team/analysis/",
+        "extra": (f'<a href="{PAGES}/draft-potential-by-team/">'
+                  "interactive viewer</a>"),
+    },
 }
 
 CSS = """
@@ -656,7 +670,8 @@ def build_study(repo: str) -> None:
     # instant styled tooltips on the published page; README keeps title=
     # for GitHub's native rendering
     html = html.replace('<abbr title="', '<abbr data-tip="')
-    kicker = HUB_CARDS.get(repo, ("", ""))[0]
+    kicker = (HUB_CARDS.get(repo, ("", ""))[0]
+              or NEW_CARDS.get(repo, {}).get("kicker", ""))
     if kicker:
         html = html.replace(
             "<h1>", f'<div class="eyebrow">{kicker}</div>\n<h1>', 1)
@@ -672,17 +687,21 @@ def build_hub() -> None:
         repo_dir = SIBLINGS / "hub"
     docs = repo_dir / "docs"
     docs.mkdir(exist_ok=True)
-    def card(r, kicker, headline):
+    def card(r, kicker, headline, href=None, extra=None):
+        links = f'<a href="{href or f"{PAGES}/{r}/"}">Read the analysis →</a>'
+        if extra:
+            links += f" ·\n  {extra}"
+        links += f' ·\n  <a href="{GH}/{r}">code</a>'
         return f"""<div class="card">
   <span class="kicker">{kicker}</span>
   <h3>{r.replace("-", " ")}</h3>
   <p>{headline}</p>
-  <span class="links"><a href="{PAGES}/{r}/">Read the analysis →</a> ·
-  <a href="{GH}/{r}">code</a></span>
+  <span class="links">{links}</span>
 </div>"""
 
     cards = [card(r, *HUB_CARDS[r]) for r in STUDIES]
-    new_cards = [card(r, *NEW_CARDS[r]) for r in NEW_CARDS]
+    new_cards = [card(r, c["kicker"], c["headline"], c.get("href"),
+                      c.get("extra")) for r, c in NEW_CARDS.items()]
     layers = f"""<div class="card">
   <span class="kicker">SQL layer</span>
   <h3>basketball sql layer</h3>
@@ -819,9 +838,12 @@ copy matches byte-for-byte.</p>
 
 
 def main(argv: list[str]) -> int:
-    targets = STUDIES if (not argv or argv[0] == "--all") else argv
+    storied_new = [r for r in NEW_CARDS
+                   if (SIBLINGS / r / "docs" / "story.md").exists()]
+    targets = (STUDIES + storied_new
+               if (not argv or argv[0] == "--all") else argv)
     for r in targets:
-        if r in STUDIES:
+        if r in STUDIES or r in storied_new:
             build_study(r)
     if not argv or argv[0] == "--all":
         build_hub()
