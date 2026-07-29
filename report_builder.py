@@ -698,13 +698,14 @@ def build_hub() -> None:
     docs = repo_dir / "docs"
     docs.mkdir(exist_ok=True)
     def card(r, kicker, headline, href=None, extra=None):
-        links = f'<a href="{href or f"{PAGES}/{r}/"}">Read the analysis →</a>'
+        read = href or f"{PAGES}/{r}/"
+        links = f'<a href="{read}">Read the analysis →</a>'
         if extra:
             links += f" ·\n  {extra}"
         links += f' ·\n  <a href="{GH}/{r}">code</a>'
         return f"""<div class="card">
   <span class="kicker">{kicker}</span>
-  <h3>{r.replace("-", " ")}</h3>
+  <h3><a href="{read}">{r.replace("-", " ")}</a></h3>
   <p>{headline}</p>
   <span class="links">{links}</span>
 </div>"""
@@ -721,7 +722,7 @@ def build_hub() -> None:
 </div>
 <div class="card">
   <span class="kicker">Scouting</span>
-  <h3>nba scouting onepagers</h3>
+  <h3><a href="{PAGES}/nba-scouting-onepagers/">nba scouting onepagers</a></h3>
   <p>Auto-generated opponent one-pagers for all 30 teams, full 2025-26
   season, gated byte-for-byte against the data.</p>
   <span class="links"><a href="{PAGES}/nba-scouting-onepagers/">Browse
