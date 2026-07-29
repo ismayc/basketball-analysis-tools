@@ -436,7 +436,7 @@ RESPONSIVE_SNIPPET = """<script>
       gs.forEach(function (g) {
         var src = g._lightSpec;
         var D = copy(src.data), L = copy(src.layout);
-        delete L.width; delete L.height; L.autosize = true;
+        delete L.width; L.autosize = true;
         if (isDark()) { D = darken(D); L = darken(L); }
         origReact.call(Plotly, g, D, L, src.config);
       });
@@ -522,11 +522,17 @@ def figures_section(repo_dir: Path, docs: Path) -> str:
         rel = f.relative_to(repo_dir / "figures")
         dest = docs / "figures" / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_text(make_figure_responsive(f.read_text()))
+        text = f.read_text()
+        dest.write_text(make_figure_responsive(text))
+        # Size each embed to its figure's authored height so compact charts
+        # don't float in a fixed-height frame and tall ones don't clip.
+        hm = re.search(r'"height":\s*(\d+)', text)
+        h = int(hm.group(1)) if hm else 500
         season = f" ({rel.parts[0]})" if len(rel.parts) > 1 else ""
         out.append(
             f'<figure class="figure-card">'
             f'<iframe src="figures/{rel.as_posix()}" loading="lazy" '
+            f'style="height:{h + 16}px" '
             f'title="{caption_from(f.stem)}"></iframe>'
             f'<figcaption>{caption_from(f.stem)}{season}</figcaption>'
             f'</figure>')
@@ -595,9 +601,15 @@ def figure_card(repo_dir: Path, docs: Path, ref: str, caption: str) -> str:
     rel = Path(ref + ".html")
     dest = docs / "figures" / rel
     dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_text(make_figure_responsive(src.read_text()))
+    text = src.read_text()
+    dest.write_text(make_figure_responsive(text))
+    # Size the embed to the figure's authored height so compact charts
+    # don't float in a fixed-height frame and tall ones don't clip.
+    hm = re.search(r'"height":\s*(\d+)', text)
+    h = int(hm.group(1)) if hm else 500
     return (f'<figure class="figure-card">'
             f'<iframe src="figures/{rel.as_posix()}" loading="lazy" '
+            f'style="height:{h + 16}px" '
             f'title="{caption_from(Path(ref).stem)}"></iframe>'
             f'<figcaption>{caption}</figcaption></figure>')
 

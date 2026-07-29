@@ -501,10 +501,16 @@
       });
     }
 
-    /* ---- horizontal bars ---- */
+    /* ---- horizontal bars (grouped like the vertical path) ---- */
+    var hGroups = barTraces.filter(function (t) {
+      return hbars.some(function (b) { return b.tr === t; });
+    });
+    var hN = layout.barmode === "group" ? hGroups.length : 1;
     hbars.forEach(function (b) {
-      var bh = Math.min(24, yBand - 8);
-      var cy = Y(b.cat) - bh / 2;
+      var bh = Math.min(24, (yBand - 8 - (hN - 1) * 2) / hN);
+      var gi = hN > 1 ? hGroups.indexOf(b.tr) : 0;
+      var cy = b.cat == null ? 0
+        : Y(b.cat) - (hN * bh + (hN - 1) * 2) / 2 + gi * (bh + 2);
       var x0 = X(Math.max(0, xd[0])), x1 = X(b.v);
       var left = Math.min(x0, x1), wid = Math.abs(x1 - x0);
       var r = Math.min(4, bh / 2, wid);
