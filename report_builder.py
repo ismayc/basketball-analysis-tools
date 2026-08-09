@@ -831,8 +831,8 @@ before any finding is written. That gate is not ceremony. It caught a
 text-versus-numeric sort that corrupted every scoreboard number in the
 play-by-play study, and a dplyr masking bug that silently degraded a
 standard-error column while every sum still matched. Results are validated
-against independent external data before being believed, every number on
-no analysis number in any README is typed by hand (findings scripts
+against independent external data before being believed, no analysis
+number in any README is typed by hand (findings scripts
 write them from committed outputs, with drift gates), every number in
 the narrative pages is machine-verified against those outputs on every
 check run, and each study states plainly what it cannot claim.</p>
