@@ -29,6 +29,8 @@ NEWPLOT = re.compile(
 
 # Trace types famplot has a rendering branch for.
 SUPPORTED_TYPES = {"scatter", "bar", "histogram"}
+# Axis types it has a scale for. A missing type means linear.
+SUPPORTED_AXIS_TYPES = {None, "linear", "log", "category"}
 # Scatter modes it understands (split on "+").
 SUPPORTED_MODES = {"lines", "markers"}
 # Per-trace keys famplot reads and honors.
@@ -131,6 +133,35 @@ def test_binary_arrays_are_only_where_famplot_decodes_them(spec):
                         f"{path.name} trace {i}: {key}.{ek} is packed"
                 continue
             assert not packed(val), f"{path.name} trace {i}: {key} is packed"
+
+
+@pytest.mark.parametrize("spec", ALL, ids=label)
+def test_axis_scales_are_implemented(spec):
+    """famplot picks a scale per axis from `type`. An unimplemented one is
+    not an error: the axis silently draws linear, which reads as a real
+    chart with the wrong geometry. That shipped as a cross-validation curve
+    labeled "log scale" whose log-spaced penalties bunched at the left."""
+    path, _, layout = spec
+    for axis in ("xaxis", "yaxis"):
+        kind = (layout.get(axis) or {}).get("type")
+        assert kind in SUPPORTED_AXIS_TYPES, f"{path.name} {axis}: {kind}"
+
+
+@pytest.mark.parametrize("spec", ALL, ids=label)
+def test_log_axes_carry_only_positive_scatter_data(spec):
+    """famplot's log branch scales scatter and line coordinates. Bars anchor
+    to zero, which has no position on a log axis, and a non-positive value
+    has none either; both come out NaN."""
+    path, data, layout = spec
+    for axis, key in (("xaxis", "x"), ("yaxis", "y")):
+        if (layout.get(axis) or {}).get("type") != "log":
+            continue
+        for i, tr in enumerate(data):
+            assert tr.get("type", "scatter") == "scatter", \
+                f"{path.name} trace {i}: {tr.get('type')} on a log {axis}"
+            bad = [v for v in (tr.get(key) or [])
+                   if isinstance(v, (int, float)) and v <= 0]
+            assert not bad, f"{path.name} trace {i}: {key}<=0 on a log axis"
 
 
 @pytest.mark.parametrize("spec", ALL, ids=label)
