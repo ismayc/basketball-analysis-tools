@@ -29,7 +29,21 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent
 SIBLINGS = REPO.parent          # the family's repos, checked out next door
-GLOSSARY_MD = SIBLINGS / "basketball-data-science" / "docs" / "glossary.md"
+
+
+def _hub_dir() -> Path:
+    """clone_family.sh names the hub checkout "basketball-data-science", but
+    it is checked out as "hub" in the development tree. Resolve to whichever
+    exists, the way report_builder.build_hub() does; without this the DOCS
+    loop below dies on the first entry and no repo gets annotated."""
+    named = SIBLINGS / "basketball-data-science"
+    if named.exists():
+        return named
+    return SIBLINGS / "hub" if (SIBLINGS / "hub").exists() else named
+
+
+HUB = _hub_dir()
+GLOSSARY_MD = HUB / "docs" / "glossary.md"
 HUB_GLOSSARY_URL = ("https://github.com/ismayc/basketball-data-science/"
                     "blob/main/docs/glossary.md")
 OPEN, CLOSE = "<!-- terms -->", "<!-- /terms -->"
@@ -302,9 +316,14 @@ block at the top of each analysis and wraps each use in a hover tooltip
 
 def main(argv: list[str]) -> int:
     check = "--check" in argv
-    stale = []
+    stale, missing = [], []
     for rel, glossary_rel in DOCS.items():
-        path = SIBLINGS / rel
+        path = (HUB / rel.split("/", 1)[1]
+                if rel.startswith("basketball-data-science/")
+                else SIBLINGS / rel)
+        if not path.exists():
+            missing.append(rel)
+            continue
         current = path.read_text()
         wanted = sync_text(current, glossary_rel)
         if current != wanted:
@@ -319,6 +338,11 @@ def main(argv: list[str]) -> int:
         if not check:
             GLOSSARY_MD.write_text(wanted_glossary)
 
+    if missing:
+        # A partial family checkout is normal; say which docs were skipped
+        # rather than annotating some repos and dying silently on the rest.
+        print(f"skipped {len(missing)} doc(s) not in this checkout: "
+              f"{', '.join(missing)}")
     if check:
         if stale:
             print(f"GLOSSARY CHECK FAILED: stale terms/annotations in "

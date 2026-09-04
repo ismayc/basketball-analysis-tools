@@ -153,10 +153,19 @@ def main(argv: list[str]) -> int:
     seasons_ints = {float(y) for y in range(1979, 2027)}
     pool -= set()  # keep as-is; years filtered at token level
     failures: list[str] = []
+    skipped: list[str] = []
     checked = files_n = 0
     for repo, rel in FILES:
-        path = SIBLINGS / repo / rel
+        # The hub is cloned as "basketball-data-science" but checked out as
+        # "hub" in the development tree; resolve to whichever exists, the way
+        # report_builder.build_hub() and glossary.py do. Without this the hub
+        # README silently fell out of the gate and its numbers went unchecked.
+        base = SIBLINGS / repo
+        if repo == "basketball-data-science" and not base.exists():
+            base = SIBLINGS / "hub"
+        path = base / rel
         if not path.exists():
+            skipped.append(f"{repo}/{rel}")
             continue
         files_n += 1
         allowed = allowlist_for(repo, rel)
@@ -172,6 +181,11 @@ def main(argv: list[str]) -> int:
         if unmatched:
             failures.append(f"{repo}/{rel}: " + ", ".join(
                 sorted(set(unmatched))))
+    if skipped:
+        # Say so out loud. A gate that quietly drops a target reads exactly
+        # like a gate that checked it.
+        print(f"skipped {len(skipped)} declared file(s) not in this "
+              f"checkout: {', '.join(skipped)}")
     if failures:
         print(f"NUMBER VERIFICATION FAILED "
               f"({len(failures)} files with unmatched tokens):")
