@@ -39,15 +39,13 @@ SUPPORTED_TRACE_KEYS = {
     "fill", "fillcolor", "orientation", "visible", "showlegend",
     "hoverinfo", "hovertemplate", "hovertext", "error_x", "error_y",
     "opacity", "width", "xbins", "nbinsx", "histnorm", "cliponaxis",
-    "legendgroup", "offsetgroup",
+    "legendgroup", "offsetgroup", "text", "textposition", "textfont",
 }
 # Keys famplot drops. Dropping them costs a label or a legend entry, never
-# a misplaced mark, so they are allowed through. In-bar value labels
-# (`text` on a bar trace) are the one live gap: tracking-study fig3 asks
-# for them and the published chart has none.
+# a misplaced mark, so they are allowed through.
 IGNORED_TRACE_KEYS = {
-    "text", "textfont", "textposition", "texttemplate", "textangle",
-    "insidetextanchor", "cliponaxis", "meta", "uid",
+    "texttemplate", "textangle", "insidetextanchor", "cliponaxis",
+    "meta", "uid",
 }
 
 
@@ -57,22 +55,48 @@ def figures() -> list[Path]:
                   if (repo / "docs" / "figures").is_dir())
 
 
+# Figures this gate cannot read statically, with the reason. These are
+# hand-authored interactive pages that build their traces from JS variables
+# and call Plotly.react, not plotly write_html exports with a literal spec.
+# famplot still renders them, so an engine change can still break them; they
+# just have to be checked by eye. Listed explicitly because a gate that
+# quietly drops a target reads exactly like a gate that checked it.
+UNPARSEABLE = {
+    "jersey-height-study/docs/figures/fig6_number_histogram.html",
+}
+
+
 def specs():
-    out = []
+    out, skipped = [], []
     for path in figures():
         m = NEWPLOT.search(path.read_text())
         if not m:
+            skipped.append(path)
             continue
         try:
             data = json.loads(m.group(1))
             layout = json.loads(m.group(2))
         except json.JSONDecodeError:
+            skipped.append(path)
             continue
         out.append((path, data, layout))
-    return out
+    return out, skipped
 
 
-ALL = specs()
+ALL, SKIPPED = specs()
+
+
+def test_every_figure_is_read_or_declared_unreadable():
+    """A new figure shape the regex cannot parse would drop out of every
+    assertion below without a word. Fail here instead, so the choice to
+    exempt it is deliberate and written down."""
+    undeclared = [str(p.relative_to(SIBLINGS)) for p in SKIPPED
+                  if str(p.relative_to(SIBLINGS)) not in UNPARSEABLE]
+    assert not undeclared, (
+        "figures the gate cannot parse and that are not in UNPARSEABLE: "
+        + ", ".join(undeclared))
+    gone = UNPARSEABLE - {str(p.relative_to(SIBLINGS)) for p in SKIPPED}
+    assert not gone, f"UNPARSEABLE lists figures that now parse: {sorted(gone)}"
 
 
 def label(item) -> str:
@@ -211,3 +235,35 @@ def test_every_string_coordinate_lands_in_a_band(spec):
             f"{path.name} trace {i}: unbanded x {sorted(loose_x - x_cats)}"
         assert not (loose_y - y_cats), \
             f"{path.name} trace {i}: unbanded y {sorted(loose_y - y_cats)}"
+
+
+# Hovertemplate fields famplot's hover() resolves. An unknown one is not an
+# error there either: it substitutes "" and the tooltip loses that piece.
+# Four figures shipped with "%{text}" leading their template and every
+# tooltip missing the player's name before this was caught.
+HOVER_PATHS = {"x", "y", "text", "hovertext", "fullData.name"}
+HOVER_FIELD = re.compile(r"%\{([^}:]+)(?::[^}]*)?\}")
+
+
+@pytest.mark.parametrize("spec", ALL, ids=label)
+def test_hovertemplate_fields_are_resolvable(spec):
+    path, data, _ = spec
+    for i, tr in enumerate(data):
+        for field in HOVER_FIELD.findall(tr.get("hovertemplate") or ""):
+            ok = field in HOVER_PATHS or field.startswith("customdata[")
+            assert ok, f"{path.name} trace {i}: %{{{field}}} unresolvable"
+
+
+@pytest.mark.parametrize("spec", ALL, ids=label)
+def test_drawn_text_labels_are_only_on_bars(spec):
+    """famplot draws `text` for bars. On a scatter, `text` is the hover
+    payload; plotly only draws it when the mode says "text", which famplot
+    has no branch for and which would stamp a label on every point."""
+    path, data, _ = spec
+    for i, tr in enumerate(data):
+        if tr.get("text") is None:
+            continue
+        kind = tr.get("type", "scatter")
+        if kind == "scatter":
+            assert "text" not in (tr.get("mode") or "lines"), \
+                f"{path.name} trace {i}: scatter asks for drawn text"
