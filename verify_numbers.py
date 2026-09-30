@@ -30,7 +30,8 @@ SIBLINGS = REPO.parent
 ALLOW_DIR = REPO / "number_allowlists"
 
 STUDIES = ["jersey-height-study", "playbyplay-study", "tracking-study",
-           "lineup-valuation-study", "shot-quality-study", "draft-study"]
+           "lineup-valuation-study", "shot-quality-study", "draft-study",
+           "contract-year-study"]
 
 # files verified, as (repo, relative path)
 FILES = ([(s, "docs/story.md") for s in STUDIES]

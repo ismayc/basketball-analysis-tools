@@ -186,6 +186,13 @@ NEW_CARDS = {
         "extra": (f'<a href="{PAGES}/draft-potential-by-team/">'
                   "interactive viewer</a>"),
     },
+    "contract-year-study": {
+        "kicker": "27 seasons of NBA free agency",
+        "headline": (
+            "Role players do a little better in contract years (+0.21 Box "
+            "Plus/Minus); stars do not (−0.25). The analysis plan was fixed "
+            "before any outcome was looked at."),
+    },
 }
 
 CSS = """
