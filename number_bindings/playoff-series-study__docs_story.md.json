@@ -1,0 +1,711 @@
+{
+ "bindings": [
+  {
+   "token": "0.03",
+   "sign": "-",
+   "before": "racy</div> <div class=\"value\">",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "630",
+   "sign": "",
+   "before": " Games # on, in points, across",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D_PCT"
+   },
+   "column": "N",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.87",
+   "sign": "-",
+   "before": ", across # series (#% interval",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D_PCT"
+   },
+   "column": "LO",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.82",
+   "sign": "+",
+   "before": "oss # series (#% interval # to",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D_PCT"
+   },
+   "column": "HI",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.26",
+   "sign": "+",
+   "before": "racy</div> <div class=\"value\">",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "all",
+    "METRIC": "D_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "170",
+   "sign": "",
+   "before": "ub\">The same comparison across",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "all",
+    "METRIC": "D_PCT"
+   },
+   "column": "N",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.14",
+   "sign": "-",
+   "before": "e comparison across # series (",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "all",
+    "METRIC": "D_PCT"
+   },
+   "column": "LO",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.67",
+   "sign": "+",
+   "before": "mparison across # series (# to",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "all",
+    "METRIC": "D_PCT"
+   },
+   "column": "HI",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.32",
+   "sign": "-",
+   "before": "lume</div> <div class=\"value\">",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.61",
+   "sign": "-",
+   "before": "e, Game # against Games # on (",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D_RATE"
+   },
+   "column": "LO",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.03",
+   "sign": "-",
+   "before": "ame # against Games # on (# to",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D_RATE"
+   },
+   "column": "HI",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.05",
+   "sign": "-",
+   "before": "me #</div> <div class=\"value\">",
+   "table": "output/profile_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "GAME_NO": 1,
+    "METRIC": "PF100"
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.00",
+   "sign": "-",
+   "before": "ainst the series average (WNBA",
+   "table": "output/profile_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "all",
+    "GAME_NO": 1,
+    "METRIC": "PF100"
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.03",
+   "sign": "-",
+   "before": "n both comparisons: the NBA is",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.32",
+   "sign": "-",
+   "before": "BA is # against Games # on and",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D2_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.26",
+   "sign": "+",
+   "before": "against Game # alone, the WNBA",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "all",
+    "METRIC": "D_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.64",
+   "sign": "+",
+   "before": "t Game # alone, the WNBA # and",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "all",
+    "METRIC": "D2_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.32",
+   "sign": "-",
+   "before": "in Game # on both comparisons,",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.02",
+   "sign": "-",
+   "before": "e # on both comparisons, # and",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "METRIC": "D2_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "35.11%",
+   "sign": "",
+   "before": "ittle better than later games:",
+   "table": "output/game1_pooled.csv",
+   "where": {
+    "LEAGUE": 0
+   },
+   "column": "G1_PCT",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "34.83%",
+   "sign": "",
+   "before": "r than later games: #% against",
+   "table": "output/game1_pooled.csv",
+   "where": {
+    "LEAGUE": 0
+   },
+   "column": "REST_PCT",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.07",
+   "sign": "-",
+   "before": "ame number. NBA Game # sits at",
+   "table": "output/profile_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "GAME_NO": 1,
+    "METRIC": "FG3A_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.01",
+   "sign": "+",
+   "before": "sits at # points and Game # at",
+   "table": "output/profile_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "GAME_NO": 7,
+    "METRIC": "FG3A_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.07",
+   "sign": "-",
+   "before": "wer threes than the leader, by",
+   "table": "output/profile_state.csv",
+   "where": {
+    "LEAGUE": 0
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.35",
+   "sign": "-",
+   "before": "ader, by # points in the NBA (",
+   "table": "output/profile_state.csv",
+   "where": {
+    "LEAGUE": 0
+   },
+   "column": "LO",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.80",
+   "sign": "-",
+   "before": ", by # points in the NBA (# to",
+   "table": "output/profile_state.csv",
+   "where": {
+    "LEAGUE": 0
+   },
+   "column": "HI",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "2.34",
+   "sign": "-",
+   "before": "points in the NBA (# to #) and",
+   "table": "output/profile_state.csv",
+   "where": {
+    "LEAGUE": 10
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.05",
+   "sign": "-",
+   "before": "low point in both leagues (NBA",
+   "table": "output/profile_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "GAME_NO": 1,
+    "METRIC": "PF100"
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.00",
+   "sign": "-",
+   "before": "nt in both leagues (NBA # WNBA",
+   "table": "output/profile_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "all",
+    "GAME_NO": 1,
+    "METRIC": "PF100"
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.23",
+   "sign": "-",
+   "before": " follows the same pattern (NBA",
+   "table": "output/profile_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "all",
+    "GAME_NO": 1,
+    "METRIC": "FTR"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "4.3%",
+   "sign": "",
+   "before": "ree: in that season's Game #s,",
+   "table": "output/game1_season.csv",
+   "where": {
+    "LEAGUE": 0,
+    "SEASON": 1985
+   },
+   "column": "G1_RATE",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "40.1%",
+   "sign": "",
+   "before": "m beyond the arc. By ## it was",
+   "table": "output/game1_season.csv",
+   "where": {
+    "LEAGUE": 0,
+    "SEASON": 2026
+   },
+   "column": "G1_RATE",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "6.55",
+   "sign": "-",
+   "before": "that clears zero is the #s, at",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "1990s",
+    "METRIC": "D_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "6",
+   "sign": "",
+   "before": "points, but that rests on just",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "1990s",
+    "METRIC": "D_PCT"
+   },
+   "column": "N",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.16",
+   "sign": "-",
+   "before": "NBA decade includes zero, from",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "1980s",
+    "METRIC": "D_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.82",
+   "sign": "+",
+   "before": "udes zero, from # in the #s to",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "2010s",
+    "METRIC": "D_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "6",
+   "sign": "",
+   "before": "The WNBA's #s point comes from",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "PANEL": "1990s",
+    "METRIC": "D_PCT"
+   },
+   "column": "N",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.43",
+   "sign": "-",
+   "before": "from ## through ## The gap was",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "1990s",
+    "METRIC": "D_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.79",
+   "sign": "-",
+   "before": "gap was # points in the #s and",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "2000s",
+    "METRIC": "D_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.30",
+   "sign": "-",
+   "before": "he #s. In the #s it shrinks to",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "2020s",
+    "METRIC": "D_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.14",
+   "sign": "-",
+   "before": "s. In the #s it shrinks to # (",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "2020s",
+    "METRIC": "D_RATE"
+   },
+   "column": "LO",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.54",
+   "sign": "+",
+   "before": "n the #s it shrinks to # (# to",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "2020s",
+    "METRIC": "D_RATE"
+   },
+   "column": "HI",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.79",
+   "sign": "-",
+   "before": "h #% intervals. The NBA gap is",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "2000s",
+    "METRIC": "D_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.30",
+   "sign": "-",
+   "before": " # points in the #s and #s and",
+   "table": "output/game1_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "2020s",
+    "METRIC": "D_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.60",
+   "sign": "-",
+   "before": "e appears in the first round (",
+   "table": "output/stakes_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "STAGE": 3,
+    "METRIC": "D_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.56",
+   "sign": "-",
+   "before": "d (#), the conference finals (",
+   "table": "output/stakes_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "STAGE": 1,
+    "METRIC": "D_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.65",
+   "sign": "-",
+   "before": "e finals (#), and the Finals (",
+   "table": "output/stakes_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "STAGE": 0,
+    "METRIC": "D_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "337",
+   "sign": "",
+   "before": "int of rust in the NBA: across",
+   "table": "output/rest_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "BIN": "any",
+    "METRIC": "CONTRAST_PCT"
+   },
+   "column": "N",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.49",
+   "sign": "",
+   "before": "hooting is relatively worse by",
+   "table": "output/rest_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "BIN": "any",
+    "METRIC": "CONTRAST_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": true
+  },
+  {
+   "token": "4.92",
+   "sign": "-",
+   "before": "relatively worse by # points (",
+   "table": "output/rest_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "BIN": "any",
+    "METRIC": "CONTRAST_PCT"
+   },
+   "column": "LO",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.06",
+   "sign": "-",
+   "before": "tively worse by # points (# to",
+   "table": "output/rest_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "BIN": "any",
+    "METRIC": "CONTRAST_PCT"
+   },
+   "column": "HI",
+   "scale": 100,
+   "abs": false
+  }
+ ]
+}

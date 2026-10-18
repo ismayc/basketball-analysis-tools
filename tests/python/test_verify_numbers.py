@@ -69,3 +69,61 @@ def test_git_tracked_lists_only_tracked_files(vn, tmp_path):
     (tmp_path / "output" / "local.csv").write_text("a\n2\n")
     subprocess.run(["git", "-C", str(tmp_path), "add", "output/kept.csv"], check=True)
     assert [p.name for p in vn.git_tracked(tmp_path, "output")] == ["kept.csv"]
+
+
+def test_labels_are_not_claims(vn):
+    text = ("By Game 7 only close series remain; Games 6 and 7 differ. "
+            "Question 4 asks about fouls per 100 possessions (95% interval) "
+            "and the 95% bootstrap CI, but 35.1% is a claim.")
+    assert vn.tokens_of(text) == ["35.1%"]
+
+
+def test_context_masks_neighboring_numbers(vn):
+    a = vn.occurrences("the NBA is −0.03 against Games 2 on and −0.32 against")
+    b = vn.occurrences("the NBA is +0.03 against Games 2 on and −0.32 against")
+    assert a[-1]["before"] == b[-1]["before"]
+    assert (a[0]["sign"], b[0]["sign"]) == ("-", "+")
+
+
+@pytest.fixture
+def bound(tmp_path):
+    (tmp_path / "output").mkdir()
+    (tmp_path / "output" / "s.csv").write_text(
+        "LEAGUE,PANEL,MEAN,N\n0,all,-0.000290,630\n10,all,0.0026,170\n")
+    return tmp_path
+
+
+def b(token, sign, where, column, scale=100, absflag=False):
+    return {"token": token, "sign": sign, "before": "x", "table": "output/s.csv",
+            "where": where, "column": column, "scale": scale, "abs": absflag}
+
+
+def test_binding_exact_match_and_sign(nbm, bound):
+    cache = {}
+    assert nbm.check(bound, b("0.03", "-", {"LEAGUE": 0}, "MEAN"), cache) is None
+    assert nbm.check(bound, b("0.26", "+", {"LEAGUE": 10}, "MEAN"), cache) is None
+    assert nbm.check(bound, b("630", "", {"LEAGUE": 0}, "N", 1), cache) is None
+    assert "cell gives" in nbm.check(bound, b("0.04", "-", {"LEAGUE": 0}, "MEAN"), cache)
+    assert "cell gives" in nbm.check(bound, b("631", "", {"LEAGUE": 0}, "N", 1), cache)
+    # An unsigned prose value for a negative cell needs abs, said out loud.
+    assert "set abs" in nbm.check(bound, b("0.03", "", {"LEAGUE": 0}, "MEAN"), cache)
+    assert nbm.check(bound, b("0.03", "", {"LEAGUE": 0}, "MEAN", absflag=True), cache) is None
+
+
+def test_binding_row_and_column_must_exist(nbm, bound):
+    cache = {}
+    assert "selects 2 rows" in nbm.check(bound, b("1", "", {"PANEL": "all"}, "N", 1), cache)
+    assert "no column" in nbm.check(bound, b("1", "", {"LEAGUE": 0}, "SD"), cache)
+    assert "missing" in nbm.check(bound, {**b("1", "", {}, "N"), "table": "output/gone.csv"}, cache)
+
+
+def test_propose_binds_only_unique_cells(nbm, tmp_path):
+    (tmp_path / "output").mkdir()
+    # -0.03 displays from two cells (MEAN of league 0, LO of league 10).
+    (tmp_path / "output" / "s.csv").write_text(
+        "LEAGUE,MEAN,LO,N\n0,-0.000290,-0.0010,630\n10,0.0026,-0.00031,170\n")
+    occs = [{"token": "630", "sign": "", "before": "a"}, {"token": "0.03", "sign": "-", "before": "b"}]
+    got, open_items = nbm.propose(tmp_path, ["output/s.csv"], occs, [], {})
+    assert [(g["token"], g["column"], g["where"]) for g in got] == [("630", "N", {"LEAGUE": 0})]
+    assert [o["token"] for o in open_items] == ["0.03"]
+    assert len(open_items[0]["candidates"]) == 2

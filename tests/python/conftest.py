@@ -31,6 +31,11 @@ def vn():
 
 
 @pytest.fixture(scope="session")
+def nbm():
+    return load_script(REPO / "number_bindings.py", "portfolio_number_bindings")
+
+
+@pytest.fixture(scope="session")
 def shotq():
     return load_script(SIBLINGS / "shot-quality-study/python/02_model.py",
                        "shotq_model")

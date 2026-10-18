@@ -8,7 +8,15 @@ hand-written parts of READMEs, the hub README): it extracts every numeric
 token from the prose and checks that it matches a value in the committed
 outputs (or a data-file row count), to the precision the prose displays.
 
-What a match proves is limited, and the tool says how limited. A study's
+A document with a bindings file (number_bindings/, see number_bindings.py)
+is checked exactly: every number in it is tied to one committed cell, and
+the cell must display as the prose does, sign included. A number with no
+binding fails. `python verify_numbers.py --propose <repo> <file>` drafts
+bindings. Labels ("Game 7", "Question 4", "per 100", "95% interval") are
+not claims and are not checked.
+
+Documents without a bindings file are pool-matched, and what a pool match
+proves is limited; the tool says how limited. A study's
 files are matched against that study's git-tracked output CSVs only; the
 hub and other non-study READMEs against every study's. A pool of
 thousands of values matches many wrong numbers by chance, so each run
@@ -28,6 +36,7 @@ Run:  python verify_numbers.py            report per file
 from __future__ import annotations
 
 import bisect
+import json
 import math
 import random
 import re
@@ -37,9 +46,13 @@ from pathlib import Path
 
 import polars as pl
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import number_bindings as nb  # noqa: E402
+
 REPO = Path(__file__).resolve().parent
 SIBLINGS = REPO.parent
 ALLOW_DIR = REPO / "number_allowlists"
+BIND_DIR = REPO / "number_bindings"
 
 STUDIES = ["jersey-height-study", "playbyplay-study", "tracking-study",
            "lineup-valuation-study", "shot-quality-study", "draft-study",
@@ -60,9 +73,16 @@ TOKEN = re.compile(r"(?<![\w./-])[+\-−±~≈]{0,2}(\d[\d,]*\.?\d*(?:e-?\d+)?)"
 # A year-shaped number followed by one of these is a count ("2000 series"),
 # not a year, and is checked like any other number.
 COUNT_NOUN = re.compile(
-    r"\s+(series|games?|players?|teams?|seasons?|shots?|possessions?|"
+    r"\s+(series|games?|players?|teams?|shots?|possessions?|"
     r"attempts?|rows?|lineups?|picks?|contracts?|minutes|points|"
     r"team-seasons?|player-seasons?|stints?)\b", re.I)
+# Numbers that name things rather than claim them: "Game 1", "Games 6 and
+# 7", "Question 4", "per 100 possessions", and an interval's confidence
+# level ("95% interval"). They have no cell to come from.
+LABEL_BEFORE = re.compile(
+    r"\b(Games?|Questions?|Amendments?|Figures?|Fig\.|Steps?|Parts?|Options?|"
+    r"Tables?|Sections?)\s+(\d+\s*(,|and|or|to|through|&)\s*)*$|\bper\s+$", re.I)
+LEVEL_AFTER = re.compile(r"%?\s+(bootstrap\s+)?(interval|CI|confidence|credible)", re.I)
 PERTURB_PER_TOKEN = 5
 
 
@@ -184,6 +204,15 @@ def tokens_of(text: str) -> list[str]:
 
 
 def tokens_of_prose(prose: str) -> list[str]:
+    return [o["token"] for o in occurrences_of_prose(prose)]
+
+
+def occurrences(text: str) -> list[dict]:
+    """Each checked number with its displayed sign and the prose before it."""
+    return occurrences_of_prose(strip_nonprose(text))
+
+
+def occurrences_of_prose(prose: str) -> list[dict]:
     out = []
     for m in TOKEN.finditer(prose):
         # "In 2010, ..." and "1,350." end in sentence punctuation, not digits.
@@ -194,8 +223,20 @@ def tokens_of_prose(prose: str) -> list[str]:
         ctx = prose[max(0, m.start() - 1):m.end() + 3]
         if SEASON.match(ctx.strip()):
             continue
-        out.append(raw)
+        lead = prose[m.start():m.start(1)]
+        if not lead and (LABEL_BEFORE.search(prose[max(0, m.start() - 40):m.start()])
+                         or (suffix == "%" and LEVEL_AFTER.match(prose, m.end()))):
+            continue
+        sign = "-" if ("−" in lead or "-" in lead) else "+" if "+" in lead else ""
+        out.append({"token": raw, "sign": sign, "before": context(prose[max(0, m.start() - 80):m.start()])})
     return out
+
+
+def context(before: str) -> str:
+    """The last 30 characters ahead of a number, numbers masked as #, so
+    editing one number does not orphan the binding of the next."""
+    masked = re.sub(r"[+\-−]?\d[\d,.]*", "#", " ".join(before.split()))
+    return masked[-30:]
 
 
 def matches(tok: str, pool: Pool) -> bool:
@@ -258,28 +299,102 @@ def allowlist_for(repo: str, rel: str) -> dict[str, str]:
     return allowed
 
 
+def repo_base(repo: str) -> Path:
+    # The hub is cloned as "basketball-data-science" but checked out as
+    # "hub" in the development tree; resolve to whichever exists, the way
+    # report_builder.build_hub() and glossary.py do. Without this the hub
+    # README silently fell out of the gate and its numbers went unchecked.
+    base = SIBLINGS / repo
+    if repo == "basketball-data-science" and not base.exists():
+        base = SIBLINGS / "hub"
+    return base
+
+
+def tracked_tables(base: Path) -> list[str]:
+    return [str(p.relative_to(base)) for p in git_tracked(base, "output") if p.suffix == ".csv"]
+
+
+def check_bound(repo: str, rel: str, text: str, allowed: dict,
+                unverified: list[str]) -> tuple[int, list[str]]:
+    """Strict check of a document with a bindings file: every number is
+    allowlisted or bound to a tracked cell that displays exactly as it does."""
+    base = repo_base(repo)
+    bindings = nb.load(nb.path_for(BIND_DIR, repo, rel))
+    tracked = set(tracked_tables(base))
+    cache: dict = {}
+    problems, bound = [], 0
+    for occ in occurrences(text):
+        if occ["token"] in allowed:
+            if "UNVERIFIED" in allowed[occ["token"]]:
+                unverified.append(f"{repo}/{rel}: {occ['token']}")
+            continue
+        b = nb.find(bindings, occ)
+        where = f"{occ['sign']}{occ['token']} after \"{occ['before']}\""
+        if b is None:
+            was = nb.find_by_context(bindings, occ)
+            if was is not None:
+                problems.append(f"{where}: changed; the cell bound here gives "
+                                f"{nb.expected(base, was, cache)} (prose had {was['sign']}{was['token']})")
+            else:
+                problems.append(f"unbound {where}")
+        elif b["table"] not in tracked:
+            problems.append(f"{where}: {b['table']} is not a tracked output")
+        elif (why := nb.check(base, b, cache)) is not None:
+            problems.append(f"{where}: {why}")
+        else:
+            bound += 1
+    return bound, problems
+
+
+def propose_cli(repo: str, rel: str) -> int:
+    base = repo_base(repo)
+    path = nb.path_for(BIND_DIR, repo, rel)
+    occs = occurrences((base / rel).read_text())
+    bound, open_items = nb.propose(base, tracked_tables(base), occs, nb.load(path),
+                                   allowlist_for(repo, rel))
+    BIND_DIR.mkdir(exist_ok=True)
+    nb.save(path, bound)
+    prop = path.with_suffix(".proposals.json")
+    if open_items:
+        prop.write_text(json.dumps(open_items, indent=1, ensure_ascii=False) + "\n")
+    elif prop.exists():
+        prop.unlink()
+    print(f"{repo}/{rel}: {len(bound)} bound, {len(open_items)} open"
+          f"{f' (see {prop.name})' if open_items else ''}")
+    return 0
+
+
 def main(argv: list[str]) -> int:
+    if argv[:1] == ["--propose"]:
+        if len(argv) != 3:
+            raise SystemExit("usage: verify_numbers.py --propose <repo> <file>")
+        return propose_cli(argv[1], argv[2])
     pools, union, unreadable = build_pools(STUDIES)
     failures: list[str] = []
     skipped: list[str] = []
     rates: list[tuple[float, str]] = []
     unverified: list[str] = []
-    checked = files_n = 0
+    checked = files_n = strict_n = bound_n = 0
     for repo, rel in FILES:
-        # The hub is cloned as "basketball-data-science" but checked out as
-        # "hub" in the development tree; resolve to whichever exists, the way
-        # report_builder.build_hub() and glossary.py do. Without this the hub
-        # README silently fell out of the gate and its numbers went unchecked.
-        base = SIBLINGS / repo
-        if repo == "basketball-data-science" and not base.exists():
-            base = SIBLINGS / "hub"
+        base = repo_base(repo)
         path = base / rel
         if not path.exists():
             skipped.append(f"{repo}/{rel}")
             continue
         files_n += 1
-        pool = pools.get(repo, union)
         allowed = allowlist_for(repo, rel)
+        name = f"{repo}/{rel}"
+        if nb.path_for(BIND_DIR, repo, rel).exists():
+            text = path.read_text()
+            n, problems = check_bound(repo, rel, text, allowed, unverified)
+            checked += len(occurrences(text))
+            strict_n += 1
+            bound_n += n
+            print(f"  {name}: {n} bound, exact check")
+            if problems:
+                failures.append(f"{name}:\n      " + "\n      ".join(problems))
+            continue
+        pool = pools.get(repo, union)
         toks = tokens_of(path.read_text())
         unmatched = []
         for tok in toks:
@@ -292,7 +407,6 @@ def main(argv: list[str]) -> int:
                 unmatched.append(tok)
         rate = wrong_pass_rate([t for t in toks if t not in allowed], pool,
                                f"{repo}/{rel}")
-        name = f"{repo}/{rel}"
         if rate is not None:
             rates.append((rate, name))
         gen = generator_owned(path.read_text())
@@ -325,9 +439,10 @@ def main(argv: list[str]) -> int:
     median = rates[len(rates) // 2][0] if rates else float("nan")
     worst = rates[-1] if rates else (float("nan"), "none")
     print(f"NUMBER CHECK PASSED ({checked} numeric tokens across {files_n} "
-          f"files match a committed output or a justified allowlist, "
-          f"{len(unverified)} of them allowlisted as UNVERIFIED). "
-          f"Weak evidence: a nearby wrong number would pass {median:.0%} of "
+          f"files; {strict_n} files bound exactly ({bound_n} numbers tied to "
+          f"one committed cell each); {len(unverified)} tokens allowlisted as "
+          f"UNVERIFIED). The other {files_n - strict_n} files are pool-matched, "
+          f"weak evidence: a nearby wrong number would pass {median:.0%} of "
           f"the time (median file), {worst[0]:.0%} in {worst[1]}.")
     return 0
 
