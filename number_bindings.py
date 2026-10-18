@@ -15,10 +15,11 @@ Bindings live in number_bindings/<repo>__<file>.json:
        "column": "G1_RATE", "scale": 100, "abs": false}
     ]}
 
-"before" is the last 30 characters of prose ahead of the number, which is
-how a binding finds its occurrence again after edits elsewhere. "abs" is
-true when the prose states a negative value without its sign ("smaller by
-2.49 points").
+"before" is the last 30 characters of prose ahead of the number, numbers
+masked as #, which is how a binding finds its occurrence again after edits
+elsewhere. "abs" is true when the prose states a negative value without its
+sign ("smaller by 2.49 points"); "complement" is true when the prose states
+1 minus the cell ("20% never played again" from a played-again share).
 
     python verify_numbers.py --propose <repo> <file>   draft bindings
 
@@ -78,6 +79,15 @@ def cell(df: pl.DataFrame, where: dict, column: str) -> list:
     return sub[column].to_list()
 
 
+def value_of(raw: float, b: dict) -> float:
+    """The cell as the prose states it: 1 minus the cell when "complement"
+    ("20% never played again" from a played-again share), then scaled,
+    then unsigned when "abs"."""
+    v = (1 - raw) if b.get("complement") else raw
+    v *= b.get("scale", 1)
+    return abs(v) if b.get("abs") else v
+
+
 def check(base: Path, b: dict, cache: dict) -> str | None:
     """None when the bound cell displays exactly as the prose does, else why not."""
     key = b["table"]
@@ -93,9 +103,7 @@ def check(base: Path, b: dict, cache: dict) -> str | None:
         return f"{key} {b['where']} selects {len(vals)} rows, not 1"
     if vals[0] is None:
         return f"{key} {b['where']} {b['column']} is blank"
-    v = float(vals[0]) * b.get("scale", 1)
-    if b.get("abs"):
-        v = abs(v)
+    v = value_of(float(vals[0]), b)
     want = shown(b["token"], b["sign"])
     got = fmt(v, decimals(b["token"]))
     if b["sign"] == "" and not b.get("abs") and v < 0 and float(got) != 0:
@@ -124,23 +132,26 @@ def expected(base: Path, b: dict, cache: dict) -> str:
     vals = cell(df, b["where"], b["column"]) if df is not None and b["column"] in df.columns else []
     if len(vals) != 1 or vals[0] is None:
         return "no single cell"
-    v = float(vals[0]) * b.get("scale", 1)
-    v = abs(v) if b.get("abs") else v
+    v = value_of(float(vals[0]), b)
     out = fmt(v, decimals(b["token"]))
     return ("+" + out if b["sign"] == "+" and v >= 0 else out) + ("%" if b["token"].endswith("%") else "")
 
 
 def row_key(df: pl.DataFrame, i: int) -> dict:
-    """The fewest non-float columns that pick out row i alone."""
-    cols = [c for c in df.columns if not df[c].dtype.is_float()]
-    cols.sort(key=lambda c: (KEY_PRIORITY.index(c) if c in KEY_PRIORITY else len(KEY_PRIORITY),
-                             df.columns.index(c)))
+    """The fewest columns that pick out row i alone: text columns first
+    (spec, era, tier), integer columns only when text cannot. An integer
+    such as a sample size makes a brittle key, since it moves with the data."""
+    def rank(c: str) -> tuple:
+        return (KEY_PRIORITY.index(c) if c in KEY_PRIORITY else len(KEY_PRIORITY), df.columns.index(c))
+    text = sorted((c for c in df.columns if df[c].dtype == pl.Utf8), key=rank)
+    ints = sorted((c for c in df.columns if df[c].dtype.is_integer()), key=rank)
     row = df.row(i, named=True)
-    for size in range(1, 4):
-        for combo in itertools.combinations(cols, size):
-            where = {c: row[c] for c in combo}
-            if len(cell(df, where, df.columns[0])) == 1:
-                return where
+    for pool in (text, text + ints):
+        for size in range(1, min(4, len(pool)) + 1):
+            for combo in itertools.combinations(pool, size):
+                where = {c: row[c] for c in combo}
+                if len(cell(df, where, df.columns[0])) == 1:
+                    return where
     return {"__row__": i}
 
 

@@ -392,6 +392,9 @@ def main(argv: list[str]) -> int:
             bound_n += n
             print(f"  {name}: {n} bound, exact check")
             if problems:
+                problems.append(f"to rebind after an intended edit: python verify_numbers.py "
+                                f"--propose {repo} {rel}, then settle number_bindings/"
+                                f"{nb.path_for(BIND_DIR, repo, rel).with_suffix('.proposals.json').name}")
                 failures.append(f"{name}:\n      " + "\n      ".join(problems))
             continue
         pool = pools.get(repo, union)

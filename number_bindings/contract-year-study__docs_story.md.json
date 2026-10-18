@@ -1,0 +1,370 @@
+{
+ "bindings": [
+  {
+   "token": "0.21",
+   "sign": "+",
+   "before": "yers</div> <div class=\"value\">",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "role"
+   },
+   "column": "diff",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.06",
+   "sign": "+",
+   "before": "n a contract year (#% interval",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "role"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.36",
+   "sign": "+",
+   "before": "ontract year (#% interval # to",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "role"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.25",
+   "sign": "-",
+   "before": "tars</div> <div class=\"value\">",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "star"
+   },
+   "column": "diff",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.54",
+   "sign": "-",
+   "before": " boost. The interval runs from",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "star"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.05",
+   "sign": "+",
+   "before": "t. The interval runs from # to",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "star"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2,921",
+   "sign": "",
+   "before": "ears</div> <div class=\"value\">",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "all"
+   },
+   "column": "n_cy",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "3,185",
+   "sign": "",
+   "before": "sons</div> <div class=\"value\">",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "all"
+   },
+   "column": "n_nc",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.21",
+   "sign": "+",
+   "before": "yers land above zero in both (",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "role"
+   },
+   "column": "diff",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.37",
+   "sign": "+",
+   "before": "land above zero in both (# and",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "role"
+   },
+   "column": "fe_coef",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.25",
+   "sign": "-",
+   "before": "and at or below zero in both (",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "star"
+   },
+   "column": "diff",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.34",
+   "sign": "-",
+   "before": "t or below zero in both (# and",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "star"
+   },
+   "column": "fe_coef",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.06",
+   "sign": "-",
+   "before": "it: the all-tier difference is",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "all"
+   },
+   "column": "diff",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.15",
+   "sign": "-",
+   "before": "the all-tier difference is # (",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "all"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.03",
+   "sign": "+",
+   "before": "all-tier difference is # (# to",
+   "table": "output/effect_primary_python.csv",
+   "where": {
+    "spec": "strict",
+    "era": "2000-2026",
+    "tier": "all"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.19",
+   "sign": "+",
+   "before": "ve zero in every version, from",
+   "table": "output/effect_sensitivity_python.csv",
+   "where": {
+    "spec": "broad",
+    "era": "2000-2026",
+    "tier": "role"
+   },
+   "column": "diff",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.29",
+   "sign": "+",
+   "before": "ro in every version, from # to",
+   "table": "output/effect_sensitivity_python.csv",
+   "where": {
+    "spec": "strict_high_conf",
+    "era": "2000-2026",
+    "tier": "role"
+   },
+   "column": "diff",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.39",
+   "sign": "-",
+   "before": "ned by honors fall further, to",
+   "table": "output/effect_sensitivity_python.csv",
+   "where": {
+    "spec": "strict_honors_tier",
+    "era": "2000-2026",
+    "tier": "star"
+   },
+   "column": "diff",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.71",
+   "sign": "-",
+   "before": "by honors fall further, to # (",
+   "table": "output/effect_sensitivity_python.csv",
+   "where": {
+    "spec": "strict_honors_tier",
+    "era": "2000-2026",
+    "tier": "star"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.08",
+   "sign": "-",
+   "before": "onors fall further, to # (# to",
+   "table": "output/effect_sensitivity_python.csv",
+   "where": {
+    "spec": "strict_honors_tier",
+    "era": "2000-2026",
+    "tier": "star"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.73",
+   "sign": "+",
+   "before": "s all tiers: players appear in",
+   "table": "output/effect_secondary_python.csv",
+   "where": {
+    "outcome": "games",
+    "era": "2000-2026",
+    "tier": "all"
+   },
+   "column": "diff",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.32",
+   "sign": "+",
+   "before": "d their true shooting rises by",
+   "table": "output/effect_secondary_python.csv",
+   "where": {
+    "outcome": "ts_pct",
+    "era": "2000-2026",
+    "tier": "all"
+   },
+   "column": "diff",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "20%",
+   "sign": "",
+   "before": "he contract-year role players,",
+   "table": "output/effect_post_python.csv",
+   "where": {
+    "era": "2000-2026",
+    "tier": "role",
+    "group": "contract_year"
+   },
+   "column": "share_played_next",
+   "scale": 100,
+   "abs": false,
+   "complement": true
+  },
+  {
+   "token": "10%",
+   "sign": "",
+   "before": "yed another NBA season (stars:",
+   "table": "output/effect_post_python.csv",
+   "where": {
+    "era": "2000-2026",
+    "tier": "star",
+    "group": "contract_year"
+   },
+   "column": "share_played_next",
+   "scale": 100,
+   "abs": false,
+   "complement": true
+  },
+  {
+   "token": "0.02",
+   "sign": "-",
+   "before": "guaranteed year (role players:",
+   "table": "output/effect_post_python.csv",
+   "where": {
+    "era": "2000-2026",
+    "tier": "role",
+    "group": "contract_year"
+   },
+   "column": "resid_next",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.11",
+   "sign": "+",
+   "before": " year (role players: # against",
+   "table": "output/effect_post_python.csv",
+   "where": {
+    "era": "2000-2026",
+    "tier": "role",
+    "group": "comparison"
+   },
+   "column": "resid_next",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

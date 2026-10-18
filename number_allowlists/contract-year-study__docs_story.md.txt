@@ -1,0 +1,2 @@
+1,000  # the original regression-minutes constant of the expectation model, a setting named in the design (output/effect_primary_fixed1000_* is the run that uses it)
+250  # the next-season minutes cutoff for the season-after comparison, a setting (column n_next_250)

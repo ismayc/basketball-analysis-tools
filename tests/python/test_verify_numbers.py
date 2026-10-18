@@ -127,3 +127,22 @@ def test_propose_binds_only_unique_cells(nbm, tmp_path):
     assert [(g["token"], g["column"], g["where"]) for g in got] == [("630", "N", {"LEAGUE": 0})]
     assert [o["token"] for o in open_items] == ["0.03"]
     assert len(open_items[0]["candidates"]) == 2
+
+
+def test_binding_complement(nbm, tmp_path):
+    # "20% never played another season" comes from a played-again share.
+    (tmp_path / "output").mkdir()
+    (tmp_path / "output" / "s.csv").write_text("tier,share_played_next\nrole,0.799277\n")
+    one = {"token": "20%", "sign": "", "before": "x", "table": "output/s.csv",
+           "where": {"tier": "role"}, "column": "share_played_next", "scale": 100,
+           "abs": False, "complement": True}
+    assert nbm.check(tmp_path, one, {}) is None
+    assert "cell gives" in nbm.check(tmp_path, {**one, "token": "25%"}, {})
+    assert "cell gives" in nbm.check(tmp_path, {**one, "complement": False}, {})
+
+
+def test_row_key_prefers_text_columns(nbm):
+    import polars as pl
+    df = pl.DataFrame({"spec": ["strict", "strict"], "tier": ["role", "star"],
+                       "n_cy": [1123, 246], "diff": [0.21, -0.25]})
+    assert nbm.row_key(df, 0) == {"tier": "role"}
