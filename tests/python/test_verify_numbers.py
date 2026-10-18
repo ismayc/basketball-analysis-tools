@@ -234,6 +234,10 @@ def test_ranges_never_split_a_number(vn):
     assert toks("the 2015-16 season") == []
     assert toks("CI [0.23,1.20] here") == ["0.23", "1.20"]
     assert toks("rows (~16,000–19,500 lineups") == ["16,000", "19,500"]
+    assert toks("selection r .91/.87, n=215/207 at") == [".91", ".87", "215", "207"]
+    assert toks("by 11.4%/10.0% MAE") == ["11.4%", "10.0%"]
+    assert toks("worth 2.2 pts/100 here") == ["2.2"]
+    assert toks("tau ≈ 6.7-7.4/100") == ["6.7", "7.4", "100"]
 
 
 def test_min_max_aggregates_and_product_round_ops(nbm, tmp_path):

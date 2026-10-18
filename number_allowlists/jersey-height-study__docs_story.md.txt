@@ -7,3 +7,5 @@
 10 @ nd switch the bin size (# # or  # a histogram bin-size option, a setting
 0 @ er right tail thin out and the  # jersey number 0 in the bucket name 0/00, a label
 50 @ peak in ## (#% in ##). Numbers  # the 50+ number bucket's name, a label
+00 @ ver any season for the #/  # jersey number 00 in the bucket name 0/00, a label
+00 @ right tail thin out and the #/  # jersey number 00 in the bucket name 0/00, a label

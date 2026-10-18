@@ -1,0 +1,71 @@
+{
+ "bindings": [
+  {
+   "token": "218,701",
+   "sign": "",
+   "before": "ction type, clock, make/miss |",
+   "nth": 0,
+   "table": "output/backtest_metrics.csv",
+   "where": {
+    "season": "2023-24"
+   },
+   "column": "n",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.2%",
+   "sign": "",
+   "before": "dependent play-by-play feed to",
+   "nth": 0,
+   "table": "output/validation.csv",
+   "where": {
+    "check": "FGA matches play-by-play count (relative)"
+   },
+   "column": "threshold",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.01",
+   "sign": "",
+   "before": "cile calibration</abbr> within",
+   "nth": 0,
+   "table": "output/validation.csv",
+   "where": {
+    "check": "max decile |predicted - actual| make rate"
+   },
+   "column": "threshold",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.9",
+   "sign": "",
+   "before": "is close to a fixed trait (r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "xpps"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.6",
+   "sign": "",
+   "before": "on is roughly half signal (r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "making_100"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

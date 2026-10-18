@@ -1,0 +1,391 @@
+{
+ "bindings": [
+  {
+   "token": "0.9",
+   "sign": "",
+   "before": "st perfectly year to year (r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "xpps"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.6",
+   "sign": "",
+   "before": "ctation only half-repeats (r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "making_100"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "10%",
+   "sign": "",
+   "before": "son's scoring efficiency about",
+   "nth": 0,
+   "table": "output/projection_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "min",
+    "args": [
+     {
+      "op": "1-",
+      "args": [
+       {
+        "table": "output/projection_validation.csv",
+        "where": {
+         "check": "EB beats naive carry-forward, 2023-24 to 2024-25 (MAE ratio)"
+        },
+        "column": "value"
+       }
+      ]
+     },
+     {
+      "op": "1-",
+      "args": [
+       {
+        "table": "output/projection_validation.csv",
+        "where": {
+         "check": "EB beats naive carry-forward, 2024-25 to 2025-26 (MAE ratio)"
+        },
+        "column": "value"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "218,701",
+   "sign": "",
+   "before": "cs peers Logistic xMake on all",
+   "nth": 0,
+   "table": "output/backtest_metrics.csv",
+   "where": {
+    "season": "2023-24"
+   },
+   "column": "n",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "17",
+   "sign": "",
+   "before": "e residual: final#s shots lose",
+   "nth": 0,
+   "table": "output/clock_decomposition.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": true,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "table": "output/clock_decomposition.csv",
+      "where": {
+       "bucket": "00-04s (rush)"
+      },
+      "column": "xpps"
+     },
+     {
+      "table": "output/clock_decomposition.csv",
+      "where": {
+       "bucket": "37s+"
+      },
+      "column": "xpps"
+     }
+    ]
+   }
+  },
+  {
+   "token": "22",
+   "sign": "",
+   "before": "S/# to selection and a further",
+   "nth": 0,
+   "table": "output/clock_decomposition.csv",
+   "where": {
+    "bucket": "00-04s (rush)"
+   },
+   "column": "execution_100",
+   "scale": 1,
+   "abs": true
+  },
+  {
+   "token": "0.01",
+   "sign": "",
+   "before": "eed (#%), decile calibration ≤",
+   "nth": 0,
+   "table": "output/validation.csv",
+   "where": {
+    "check": "max decile |predicted - actual| make rate"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.014",
+   "sign": "",
+   "before": "on ## and ## (worst OOS decile",
+   "nth": 0,
+   "table": "output/backtest_validation.csv",
+   "where": {
+    "check": "worst OUT-OF-SEASON decile gap (2023-24 model)"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".91",
+   "sign": "",
+   "before": "skill persistence (selection r",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "xpps"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".87",
+   "sign": "",
+   "before": "l persistence (selection r .#/",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2024-25 to 2025-26",
+    "metric": "xpps"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".60",
+   "sign": "",
+   "before": "ce (selection r .#/.# making r",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "making_100"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".59",
+   "sign": "",
+   "before": "selection r .#/.# making r .#/",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2024-25 to 2025-26",
+    "metric": "making_100"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "215",
+   "sign": "",
+   "before": "tion r .#/.# making r .#/.# n=",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "xpps"
+   },
+   "column": "n",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "207",
+   "sign": "",
+   "before": "on r .#/.# making r .#/.# n=#/",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2024-25 to 2025-26",
+    "metric": "xpps"
+   },
+   "column": "n",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "50",
+   "sign": "",
+   "before": "ame ordering in the WNBA at n=",
+   "nth": 0,
+   "table": "output/wnba_persistence.csv",
+   "where": {
+    "metric": "xpps"
+   },
+   "column": "n",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "6.7",
+   "sign": "",
+   "before": "g with method-of-moments tau ≈",
+   "nth": 0,
+   "table": "output/projection_hyperparams.csv",
+   "where": {
+    "season": "2023-24"
+   },
+   "column": "tau",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "7.4",
+   "sign": "",
+   "before": "ith method-of-moments tau ≈ #-",
+   "nth": 0,
+   "table": "output/projection_hyperparams.csv",
+   "where": {
+    "season": "2024-25"
+   },
+   "column": "tau",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "11.4%",
+   "sign": "",
+   "before": "ats naive PPS carry-forward by",
+   "nth": 0,
+   "table": "output/projection_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "1-",
+    "args": [
+     {
+      "table": "output/projection_validation.csv",
+      "where": {
+       "check": "EB beats naive carry-forward, 2023-24 to 2024-25 (MAE ratio)"
+      },
+      "column": "value"
+     }
+    ]
+   }
+  },
+  {
+   "token": "10.0%",
+   "sign": "",
+   "before": "naive PPS carry-forward by #%/",
+   "nth": 0,
+   "table": "output/projection_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "1-",
+    "args": [
+     {
+      "table": "output/projection_validation.csv",
+      "where": {
+       "check": "EB beats naive carry-forward, 2024-25 to 2025-26 (MAE ratio)"
+      },
+      "column": "value"
+     }
+    ]
+   }
+  },
+  {
+   "token": "0.9",
+   "sign": "",
+   "before": "ly repeats year over year (r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "xpps"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.6",
+   "sign": "",
+   "before": "ats year over year (r ≈ # vs ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "making_100"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "10%",
+   "sign": "",
+   "before": "e beats naive carry-forward by",
+   "nth": 0,
+   "table": "output/projection_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "min",
+    "args": [
+     {
+      "op": "1-",
+      "args": [
+       {
+        "table": "output/projection_validation.csv",
+        "where": {
+         "check": "EB beats naive carry-forward, 2023-24 to 2024-25 (MAE ratio)"
+        },
+        "column": "value"
+       }
+      ]
+     },
+     {
+      "op": "1-",
+      "args": [
+       {
+        "table": "output/projection_validation.csv",
+        "where": {
+         "check": "EB beats naive carry-forward, 2024-25 to 2025-26 (MAE ratio)"
+        },
+        "column": "value"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

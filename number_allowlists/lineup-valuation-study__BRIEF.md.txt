@@ -7,3 +7,4 @@
 500  # bootstrap resamples, a setting
 1  # the +1/-1 design encoding, a label
 82  # games in a season, a schedule fact
+100  # the per-100-possessions unit in "+2.2/100", a label

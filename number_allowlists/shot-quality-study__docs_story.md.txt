@@ -1,0 +1,4 @@
+25  # the 2-for-1 window's start (25-36 seconds), a label
+36  # the 2-for-1 window's end (25-36 seconds), a label
+1  # the weight-1 corner (naive carry-forward), a label
+0  # the weight-0 corner (diet-only), a label

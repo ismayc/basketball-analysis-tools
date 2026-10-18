@@ -74,10 +74,11 @@ SEASON = re.compile(r"^\d{4}-\d{2}$")
 # never starts mid-number, inside a thousands group: "8,200-8,900" once
 # yielded "900", which an allowlist entry for an unrelated 900 then covered
 # ("0.23,1.20" still yields 1.20). The end of a hyphen range is a token when
-# it has thousands commas; a short one after a hyphen ("2015-16") stays a
-# season label.
+# it has thousands commas or a decimal point ("tau 6.7-7.4"); a short whole
+# number after a hyphen ("2015-16") stays a season label. A number after "number/" is a token too: ".91/.87" and
+# "n=215/207" once checked only their first half.
 TOKEN = re.compile(r"(?:(?<![\w./,-])|(?<=,)(?<!\d,)|(?<=\d,)(?!\d{3}(?![\d.]))"
-                   r"|(?<=\d-)(?=\d{1,3},\d{3}))"
+                   r"|(?<=\d-)(?=\d{1,3},\d{3}|\d+\.\d)|(?<=[\d%]/)(?=\.?\d))"
                    r"[+\-−±~≈]{0,2}(\.\d+|\d[\d,]*\.?\d*(?:e-?\d+)?)"
                    r"(%|×|x\b)?")
 # A year-shaped number followed by one of these is a count ("2000 series"),

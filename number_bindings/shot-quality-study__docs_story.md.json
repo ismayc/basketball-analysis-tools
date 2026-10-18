@@ -1,0 +1,398 @@
+{
+ "bindings": [
+  {
+   "token": "218,701",
+   "sign": "",
+   "before": " streak. This study prices all",
+   "nth": 0,
+   "table": "output/backtest_metrics.csv",
+   "where": {
+    "season": "2023-24"
+   },
+   "column": "n",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "218,701",
+   "sign": "",
+   "before": "iced</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/backtest_metrics.csv",
+   "where": {
+    "season": "2023-24"
+   },
+   "column": "n",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".91",
+   "sign": "",
+   "before": "eats</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "xpps"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".60",
+   "sign": "",
+   "before": "s=\"value\">.# <small>vs</small>",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "making_100"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "11.4",
+   "sign": "",
+   "before": "gain</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/projection_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "1-",
+    "args": [
+     {
+      "table": "output/projection_validation.csv",
+      "where": {
+       "check": "EB beats naive carry-forward, 2023-24 to 2024-25 (MAE ratio)"
+      },
+      "column": "value"
+     }
+    ]
+   }
+  },
+  {
+   "token": "10.0%",
+   "sign": "",
+   "before": "rward in mean absolute error (",
+   "nth": 0,
+   "table": "output/projection_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "1-",
+    "args": [
+     {
+      "table": "output/projection_validation.csv",
+      "where": {
+       "check": "EB beats naive carry-forward, 2024-25 to 2025-26 (MAE ratio)"
+      },
+      "column": "value"
+     }
+    ]
+   }
+  },
+  {
+   "token": "25.5%",
+   "sign": "",
+   "before": "rees</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/wnba_league_structure.csv",
+   "where": {
+    "league": "NBA 2024-25"
+   },
+   "column": "corner_share_of_3s",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "12.9%",
+   "sign": "",
+   "before": "> <div class=\"value\">#% &rarr;",
+   "nth": 0,
+   "table": "output/wnba_league_structure.csv",
+   "where": {
+    "league": "WNBA 2025"
+   },
+   "column": "corner_share_of_3s",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.014",
+   "sign": "",
+   "before": "r saw (worst out-of-season gap",
+   "nth": 0,
+   "table": "output/backtest_validation.csv",
+   "where": {
+    "check": "worst OUT-OF-SEASON decile gap (2023-24 model)"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "17",
+   "sign": "-",
+   "before": "econd heaves are worse shots (",
+   "nth": 0,
+   "table": "output/clock_decomposition.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "table": "output/clock_decomposition.csv",
+      "where": {
+       "bucket": "00-04s (rush)"
+      },
+      "column": "xpps"
+     },
+     {
+      "table": "output/clock_decomposition.csv",
+      "where": {
+       "bucket": "37s+"
+      },
+      "column": "xpps"
+     }
+    ]
+   }
+  },
+  {
+   "token": "22",
+   "sign": "-",
+   "before": "orse-executed shots (a further",
+   "nth": 0,
+   "table": "output/clock_decomposition.csv",
+   "where": {
+    "bucket": "00-04s (rush)"
+   },
+   "column": "execution_100",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.8",
+   "sign": "-",
+   "before": "nwhile, costs almost nothing (",
+   "nth": 0,
+   "table": "output/clock_decomposition.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "table": "output/clock_decomposition.csv",
+      "where": {
+       "bucket": "25-36s (2-for-1 window)"
+      },
+      "column": "xpps"
+     },
+     {
+      "table": "output/clock_decomposition.csv",
+      "where": {
+       "bucket": "37s+"
+      },
+      "column": "xpps"
+     }
+    ]
+   }
+  },
+  {
+   "token": ".91",
+   "sign": "",
+   "before": "ot selection correlates at r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "xpps"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".87",
+   "sign": "",
+   "before": "election correlates at r ≈ .#/",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2024-25 to 2025-26",
+    "metric": "xpps"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".60",
+   "sign": "",
+   "before": "-making correlates at only r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "making_100"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".59",
+   "sign": "",
+   "before": "ing correlates at only r ≈ .#/",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2024-25 to 2025-26",
+    "metric": "making_100"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".60",
+   "sign": "",
+   "before": " making only half-repeats (r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "making_100"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".91",
+   "sign": "",
+   "before": " plot is a tight diagonal (r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {
+    "pair": "2023-24 to 2024-25",
+    "metric": "xpps"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "11.4%",
+   "sign": "",
+   "before": "e beats naive carry-forward by",
+   "nth": 0,
+   "table": "output/projection_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "1-",
+    "args": [
+     {
+      "table": "output/projection_validation.csv",
+      "where": {
+       "check": "EB beats naive carry-forward, 2023-24 to 2024-25 (MAE ratio)"
+      },
+      "column": "value"
+     }
+    ]
+   }
+  },
+  {
+   "token": "10.0%",
+   "sign": "",
+   "before": " naive carry-forward by #% and",
+   "nth": 0,
+   "table": "output/projection_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "1-",
+    "args": [
+     {
+      "table": "output/projection_validation.csv",
+      "where": {
+       "check": "EB beats naive carry-forward, 2024-25 to 2025-26 (MAE ratio)"
+      },
+      "column": "value"
+     }
+    ]
+   }
+  },
+  {
+   "token": "12.9%",
+   "sign": "",
+   "before": "exists), and corner threes are",
+   "nth": 0,
+   "table": "output/wnba_league_structure.csv",
+   "where": {
+    "league": "WNBA 2025"
+   },
+   "column": "corner_share_of_3s",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "25.5%",
+   "sign": "",
+   "before": "s are #% of WNBA threes versus",
+   "nth": 0,
+   "table": "output/wnba_league_structure.csv",
+   "where": {
+    "league": "NBA 2024-25"
+   },
+   "column": "corner_share_of_3s",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": ".80",
+   "sign": "",
+   "before": "sistence ordering (selection ≈",
+   "nth": 0,
+   "table": "output/wnba_persistence.csv",
+   "where": {
+    "metric": "xpps"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".66",
+   "sign": "",
+   "before": "ering (selection ≈ .# making ≈",
+   "nth": 0,
+   "table": "output/wnba_persistence.csv",
+   "where": {
+    "metric": "making_100"
+   },
+   "column": "r",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}
