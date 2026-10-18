@@ -193,6 +193,13 @@ NEW_CARDS = {
             "Plus/Minus); stars do not (−0.25). The analysis plan was fixed "
             "before any outcome was looked at."),
     },
+    "playoff-series-study": {
+        "kicker": "Every NBA and WNBA playoff series",
+        "headline": (
+            "Game 1 three-point accuracy is not worse than the rest of the "
+            "series (NBA −0.03 points). NBA teams just take fewer threes in "
+            "Game 1, and the share climbs through Game 7."),
+    },
 }
 
 CSS = """

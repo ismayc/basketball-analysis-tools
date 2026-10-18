@@ -203,6 +203,7 @@ DOCS: dict[str, str] = {
     "shot-quality-study/README.md": HUB_GLOSSARY_URL,
     "draft-study/README.md": HUB_GLOSSARY_URL,
     "contract-year-study/README.md": HUB_GLOSSARY_URL,
+    "playoff-series-study/README.md": HUB_GLOSSARY_URL,
     "basketball-sql-layer/README.md": HUB_GLOSSARY_URL,
     "nba-scouting-onepagers/README.md": HUB_GLOSSARY_URL,
 }
