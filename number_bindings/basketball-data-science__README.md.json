@@ -1,0 +1,317 @@
+{
+ "bindings": [
+  {
+   "token": "46",
+   "sign": "",
+   "before": "---| | [jersey-height-study] |",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/number_by_season.csv",
+    "where": {},
+    "column": "__rows__",
+    "repo": "jersey-height-study"
+   }
+  },
+  {
+   "token": "0.2",
+   "sign": "+",
+   "before": " the comparable-sample edge is",
+   "nth": 0,
+   "table": "output/bootstrap_net_restricted.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/bootstrap_net_restricted.csv",
+    "where": {},
+    "column": "estimate",
+    "repo": "playbyplay-study"
+   }
+  },
+  {
+   "token": "97.6%",
+   "sign": "",
+   "before": "session heuristic validated at",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_agree",
+      "repo": "tracking-study"
+     },
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_checked",
+      "repo": "tracking-study"
+     }
+    ]
+   }
+  },
+  {
+   "token": "94.0%",
+   "sign": "",
+   "before": "ion heuristic validated at #%/",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "to_agree",
+      "repo": "tracking-study"
+     },
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "to_checked",
+      "repo": "tracking-study"
+     }
+    ]
+   }
+  },
+  {
+   "token": "2.5",
+   "sign": "",
+   "before": "d at #%/#% after discovering a",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "min",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s",
+    "repo": "tracking-study"
+   }
+  },
+  {
+   "token": "6",
+   "sign": "",
+   "before": "t #%/#% after discovering a #–",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s",
+    "repo": "tracking-study"
+   }
+  },
+  {
+   "token": "69,767",
+   "sign": "",
+   "before": "ry five-man lineup, ## and ##;",
+   "nth": 0,
+   "table": "output/2023-24/stint_scale.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/2023-24/stint_scale.csv",
+    "where": {},
+    "column": "stints_parsed",
+    "repo": "lineup-valuation-study"
+   }
+  },
+  {
+   "token": "218,701",
+   "sign": "",
+   "before": "| | [shot-quality-study] | All",
+   "nth": 0,
+   "table": "output/backtest_metrics.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/backtest_metrics.csv",
+    "where": {
+     "season": "2023-24"
+    },
+    "column": "n",
+    "repo": "shot-quality-study"
+   }
+  },
+  {
+   "token": ".9",
+   "sign": "",
+   "before": "king**; selection repeats (r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/persistence.csv",
+    "where": {
+     "pair": "2023-24 to 2024-25",
+     "metric": "xpps"
+    },
+    "column": "r",
+    "repo": "shot-quality-study"
+   }
+  },
+  {
+   "token": ".6",
+   "sign": "",
+   "before": " .#), making half-repeats (r ≈",
+   "nth": 0,
+   "table": "output/persistence.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/persistence.csv",
+    "where": {
+     "pair": "2023-24 to 2024-25",
+     "metric": "making_100"
+    },
+    "column": "r",
+    "repo": "shot-quality-study"
+   }
+  },
+  {
+   "token": "10%",
+   "sign": "",
+   "before": "t beats naive carry-forward by",
+   "nth": 0,
+   "table": "output/projection_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "min",
+    "args": [
+     {
+      "op": "1-",
+      "args": [
+       {
+        "table": "output/projection_validation.csv",
+        "where": {
+         "check": "EB beats naive carry-forward, 2023-24 to 2024-25 (MAE ratio)"
+        },
+        "column": "value",
+        "repo": "shot-quality-study"
+       }
+      ]
+     },
+     {
+      "op": "1-",
+      "args": [
+       {
+        "table": "output/projection_validation.csv",
+        "where": {
+         "check": "EB beats naive carry-forward, 2024-25 to 2025-26 (MAE ratio)"
+        },
+        "column": "value",
+        "repo": "shot-quality-study"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "56,781",
+   "sign": "",
+   "before": " of sample | | [draft-study] |",
+   "nth": 0,
+   "table": "data/torvik_2011_2022.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "data/torvik_2011_2022.csv",
+    "where": {},
+    "column": "__rows__",
+    "repo": "draft-study"
+   }
+  },
+  {
+   "token": "12",
+   "sign": "",
+   "before": "] | # college player-seasons +",
+   "nth": 0,
+   "table": "output/model_frame.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "agg": "max",
+      "table": "output/model_frame.csv",
+      "column": "SEASON",
+      "repo": "draft-study"
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "agg": "min",
+        "table": "output/model_frame.csv",
+        "column": "SEASON",
+        "repo": "draft-study"
+       },
+       1
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "0.0",
+   "sign": "",
+   "before": "outputs (observed diff exactly",
+   "nth": 0,
+   "table": "output/sql_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/sql_validation.csv",
+    "column": "value",
+    "where_not": {
+     "check": "05 stint summary: max relative |diff| vs polars re-derivation"
+    },
+    "repo": "basketball-sql-layer"
+   }
+  }
+ ]
+}

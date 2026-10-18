@@ -572,12 +572,14 @@ def main(argv: list[str]) -> int:
     rates.sort()
     median = rates[len(rates) // 2][0] if rates else float("nan")
     worst = rates[-1] if rates else (float("nan"), "none")
+    pool_note = (f" The other {files_n - strict_n} files are pool-matched, "
+                 f"weak evidence: a nearby wrong number would pass {median:.0%} of "
+                 f"the time (median file), {worst[0]:.0%} in {worst[1]}."
+                 if rates else " No file is pool-matched.")
     print(f"NUMBER CHECK PASSED ({checked} numeric tokens across {files_n} "
           f"files; {strict_n} files bound exactly ({bound_n} numbers tied to "
           f"one committed cell each); {len(unverified)} tokens allowlisted as "
-          f"UNVERIFIED). The other {files_n - strict_n} files are pool-matched, "
-          f"weak evidence: a nearby wrong number would pass {median:.0%} of "
-          f"the time (median file), {worst[0]:.0%} in {worst[1]}.")
+          f"UNVERIFIED).{pool_note}")
     return 0
 
 

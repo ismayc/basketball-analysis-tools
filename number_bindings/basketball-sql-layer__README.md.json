@@ -1,0 +1,113 @@
+{
+ "bindings": [
+  {
+   "token": "218,701",
+   "sign": "",
+   "before": "ctions | |---|---|---|---| | |",
+   "nth": 0,
+   "table": "output/01_player_shot_table.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/01_player_shot_table.csv",
+    "column": "fga"
+   }
+  },
+  {
+   "token": "13",
+   "sign": "",
+   "before": "+ WNBA #/# shot detail | , all",
+   "nth": 0,
+   "table": "output/03_league_structure.csv",
+   "where": {},
+   "column": "__columns__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "69,767",
+   "sign": "",
+   "before": "nced) | | + for the top# | | |",
+   "nth": 0,
+   "table": "output/05_stint_summary.csv",
+   "where": {},
+   "column": "n_stints",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.25",
+   "sign": "+",
+   "before": "re-derivation (raw home margin",
+   "nth": 0,
+   "table": "output/05_stint_summary.csv",
+   "where": {},
+   "column": "home_margin_100",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.2",
+   "sign": "+",
+   "before": "s the ridge</abbr> intercept's",
+   "nth": 0,
+   "table": "output/2023-24/stint_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/2023-24/stint_validation.csv",
+    "where": {
+     "check": "home-court advantage in plausible range (pts/100)"
+    },
+    "column": "value",
+    "repo": "lineup-valuation-study"
+   }
+  },
+  {
+   "token": "29",
+   "sign": "",
+   "before": "ve (empirical coin flip ≈ pick",
+   "nth": 0,
+   "table": "output/06_draft_pick_curve.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "min",
+    "table": "output/06_draft_pick_curve.csv",
+    "column": "pick",
+    "range": {
+     "hit_rate_9pick": [
+      0,
+      0.4999999999
+     ]
+    }
+   }
+  },
+  {
+   "token": "0.0",
+   "sign": "",
+   "before": "olumn (observed diffs: exactly",
+   "nth": 0,
+   "table": "output/sql_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/sql_validation.csv",
+    "column": "value",
+    "where_not": {
+     "check": "05 stint summary: max relative |diff| vs polars re-derivation"
+    }
+   }
+  }
+ ]
+}

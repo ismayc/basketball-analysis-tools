@@ -134,7 +134,7 @@ def sources_tracked(b: dict, tracked: set, tracked_in=None) -> bool:
         walk(b["expr"])
     def tracked_ok(r):
         if r.get("repo"):
-            return tracked_in is not None and r["table"] in tracked_in(r["repo"])
+            return (tracked_in is not None and r["table"] in tracked_in(r["repo"])) or local_count(r)
         return r["table"] in tracked or local_count(r)
     ok = all(tracked_ok(r) for r in refs)
     return ok and ("table" not in b.get("minus", {}) or b["minus"]["table"] in tracked)

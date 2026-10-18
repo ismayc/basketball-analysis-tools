@@ -228,6 +228,14 @@ def test_cross_repo_reference_and_range_mean(nbm, tmp_path):
     assert nbm.check(here, band, {}) is None
 
 
+def test_cross_repo_row_count_of_a_data_file_is_allowed(nbm):
+    none = lambda repo: set()
+    count = {"expr": {"repo": "b", "table": "data/raw.csv", "where": {}, "column": "__rows__"}}
+    cell = {"expr": {"repo": "b", "table": "data/raw.csv", "where": {}, "column": "pts"}}
+    assert nbm.sources_tracked(count, set(), none)
+    assert not nbm.sources_tracked(cell, set(), none)
+
+
 def test_ranges_never_split_a_number(vn):
     toks = lambda s: [o["token"] for o in vn.occurrences(s)]
     assert toks("sums land at 8,200-8,900, matching") == ["8,200", "8,900"]

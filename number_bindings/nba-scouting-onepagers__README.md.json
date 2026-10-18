@@ -1,0 +1,23 @@
+{
+ "bindings": [
+  {
+   "token": "0.014",
+   "sign": "",
+   "before": "ut-of-season decile</abbr> gap",
+   "nth": 0,
+   "table": "output/backtest_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/backtest_validation.csv",
+    "where": {
+     "check": "worst OUT-OF-SEASON decile gap (2023-24 model)"
+    },
+    "column": "value",
+    "repo": "shot-quality-study"
+   }
+  }
+ ]
+}
