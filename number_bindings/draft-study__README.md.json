@@ -88,30 +88,6 @@
   {
    "token": "567",
    "sign": "",
-   "before": "this is written. ### The setup",
-   "nth": 0,
-   "table": "output/model_frame.csv",
-   "where": {},
-   "column": "__rows__",
-   "scale": 1,
-   "abs": false
-  },
-  {
-   "token": "1",
-   "sign": "",
-   "before": "| actual | |---|---|---|---| |",
-   "nth": 0,
-   "table": "output/calibration_test.csv",
-   "where": {
-    "quintile": 1
-   },
-   "column": "quintile",
-   "scale": 1,
-   "abs": false
-  },
-  {
-   "token": "567",
-   "sign": "",
    "before": "ver logged a college minute. -",
    "nth": 0,
    "table": "output/model_frame.csv",

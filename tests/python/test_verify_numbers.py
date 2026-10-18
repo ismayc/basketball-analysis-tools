@@ -206,3 +206,23 @@ def test_expression_binding(nbm, tmp_path):
              "expr": {"op": "/", "args": [{"op": "abs", "args": [step]}, {"op": "abs", "args": [prev]}]}}
     assert nbm.check(tmp_path, ratio, {}) is None
     assert "cell gives" in nbm.check(tmp_path, {**ratio, "token": "1.8"}, {})
+
+
+def test_template_percent_format_keeps_its_sign(vn, tmp_path):
+    gen = tmp_path / "gen.py"
+    gen.write_text('def build():\n    return f"""falls from {p1:.1%} at pick 1 and on."""\n')
+    assert any(tok == "1" and ctx.endswith("#% at pick") for tok, ctx in vn.template_literals(gen))
+
+
+def test_cross_repo_reference_and_range_mean(nbm, tmp_path):
+    here, sib = tmp_path / "a", tmp_path / "b"
+    (here / "output").mkdir(parents=True); (sib / "output").mkdir(parents=True)
+    (sib / "output" / "c.csv").write_text("bucket,xpps\nwin,1.0893\nbase,1.0970\n")
+    (here / "output" / "t.csv").write_text("bucket,n\n30,1\n31,200\n32,201\n33,202\n34,9\n")
+    ref = lambda b: {"repo": "b", "table": "output/c.csv", "where": {"bucket": b}, "column": "xpps"}
+    cross = {"token": "0.8", "sign": "-", "before": "x", "scale": 100, "abs": False,
+             "expr": {"op": "-", "args": [ref("win"), ref("base")]}}
+    assert nbm.check(here, cross, {}) is None
+    band = {"token": "201", "sign": "", "before": "x", "scale": 1, "abs": False,
+            "expr": {"agg": "mean", "table": "output/t.csv", "column": "n", "range": {"bucket": [31, 33]}}}
+    assert nbm.check(here, band, {}) is None

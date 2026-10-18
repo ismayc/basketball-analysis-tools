@@ -226,6 +226,9 @@ def occurrences_of_prose(prose: str) -> list[dict]:
         num, suffix = m.group(1).rstrip(",."), m.group(2) or ""
         if YEAR.match(num) and not suffix and not COUNT_NOUN.match(prose, m.end()):
             continue
+        # "2-for-1" names a strategy; its 2 is not a count.
+        if prose[m.end():m.end() + 5] == "-for-":
+            continue
         # A number glued to letters ("3PA", "12th") is part of a name. Checked
         # here, not in TOKEN: a regex lookahead backtracks "1990s" to "199".
         if not suffix and prose[m.end():m.end() + 1].isalpha():
@@ -280,7 +283,10 @@ def template_literals(generator: Path) -> set[tuple[str, str]]:
     "1." does not cover a computed count that happens to be 1."""
     lits: set[tuple[str, str]] = set()
     for m in re.finditer(r'f?"""(.*?)"""', generator.read_text(), re.S):
-        body = strip_nonprose(re.sub(r"\{[^{}]*\}", PLACEHOLDER, m.group(1)))
+        # A percent format ("{p1:.1%}") prints its own "%"; keep it so the
+        # context reads "#% at pick" as the README does.
+        body = strip_nonprose(re.sub(r"\{[^{}]*\}", lambda b: PLACEHOLDER + ("%" if b.group(0).endswith("%}") else ""),
+                                     m.group(1)))
         lits |= {(o["token"], o["before"]) for o in occurrences_of_prose(body)
                  if o["token"] != PLACEHOLDER}
     return lits
@@ -430,7 +436,7 @@ def check_bound(repo: str, rel: str, text: str, allowed: dict,
         elif b.get("auto"):
             problems.append(f"{where}: drafted by --propose and not yet reviewed; confirm "
                             f"{b['table']} {b['where']} {b['column']} and delete \"auto\"")
-        elif not nb.sources_tracked(b, tracked):
+        elif not nb.sources_tracked(b, tracked, lambda r: set(tracked_tables(SIBLINGS / r))):
             problems.append(f"{where}: {nb.tables_of(b)} not all tracked outputs")
         elif (why := nb.check(base, b, cache)) is not None:
             problems.append(f"{where}: {why}")

@@ -1,0 +1,472 @@
+{
+ "bindings": [
+  {
+   "token": "0.6",
+   "sign": "+",
+   "before": " in the final minute (about **",
+   "nth": 0,
+   "table": "output/bootstrap_points_diff.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.9",
+   "sign": "+",
+   "before": "ows up right where it should (",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "table": "output/two_for_one_summary.csv",
+      "where": {
+       "two_for_one": "true"
+      },
+      "column": "mean_fga"
+     },
+     {
+      "table": "output/two_for_one_summary.csv",
+      "where": {
+       "two_for_one": "false"
+      },
+      "column": "mean_fga"
+     }
+    ]
+   }
+  },
+  {
+   "token": "55%",
+   "sign": "",
+   "before": "hot is a normal-quality shot (",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "agg": "wmean",
+    "table": "output/efg_by_seconds_left.csv",
+    "column": "efg",
+    "weight": "n",
+    "range": {
+     "bucket": [
+      32,
+      999
+     ]
+    }
+   }
+  },
+  {
+   "token": "35%",
+   "sign": "",
+   "before": "beater everyone takes anyway (",
+   "nth": 0,
+   "table": "output/efg_by_seconds_left.csv",
+   "where": {
+    "bucket": 0
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.2",
+   "sign": "+",
+   "before": "make, the net edge is about **",
+   "nth": 0,
+   "table": "output/bootstrap_net_restricted.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "24",
+   "sign": "",
+   "before": "ssessions are nearly extinct (",
+   "nth": 0,
+   "table": "output/decision_summary.csv",
+   "where": {
+    "behavior": "hold"
+   },
+   "column": "n",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.1",
+   "sign": "",
+   "before": "oes get the extra possession (",
+   "nth": 0,
+   "table": "output/decision_summary.csv",
+   "where": {
+    "behavior": "quick"
+   },
+   "column": "mean_later_poss",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.2",
+   "sign": "",
+   "before": "get the extra possession (# vs",
+   "nth": 0,
+   "table": "output/decision_summary.csv",
+   "where": {
+    "behavior": "hold"
+   },
+   "column": "mean_later_poss",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4,000",
+   "sign": "",
+   "before": "tas (FT-safe). Bootstrap CIs (",
+   "nth": 0,
+   "table": "output/bootstrap_points_diff.csv",
+   "where": {},
+   "column": "reps",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.36",
+   "sign": "+",
+   "before": "son. Own-points gap survives (",
+   "nth": 0,
+   "table": "output/bootstrap_restricted.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.22",
+   "sign": "+",
+   "before": ". Own-points gap survives (# [",
+   "nth": 0,
+   "table": "output/bootstrap_restricted.csv",
+   "where": {},
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.51",
+   "sign": "+",
+   "before": " Own-points gap survives (# [#",
+   "nth": 0,
+   "table": "output/bootstrap_restricted.csv",
+   "where": {},
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.19",
+   "sign": "+",
+   "before": " (# [# #]), net gap does not (",
+   "nth": 0,
+   "table": "output/bootstrap_net_restricted.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.00",
+   "sign": "-",
+   "before": " [# #]), net gap does not (# [",
+   "nth": 0,
+   "table": "output/bootstrap_net_restricted.csv",
+   "where": {},
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.38",
+   "sign": "+",
+   "before": "[# #]), net gap does not (# [#",
+   "nth": 0,
+   "table": "output/bootstrap_net_restricted.csv",
+   "where": {},
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "84.5%",
+   "sign": "",
+   "before": "lits by observed choice: quick",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "table": "output/decision_summary.csv",
+      "where": {
+       "behavior": "quick"
+      },
+      "column": "n"
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "op": "-",
+        "args": [
+         {
+          "table": "output/decision_summary.csv",
+          "where": {
+           "behavior": "quick"
+          },
+          "column": "n"
+         },
+         {
+          "op": "-",
+          "args": [
+           0,
+           {
+            "table": "output/decision_summary.csv",
+            "where": {
+             "behavior": "normal"
+            },
+            "column": "n"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "op": "-",
+        "args": [
+         0,
+         {
+          "table": "output/decision_summary.csv",
+          "where": {
+           "behavior": "hold"
+          },
+          "column": "n"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "14.9%",
+   "sign": "",
+   "before": "rved choice: quick #% / normal",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "table": "output/decision_summary.csv",
+      "where": {
+       "behavior": "normal"
+      },
+      "column": "n"
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "op": "-",
+        "args": [
+         {
+          "table": "output/decision_summary.csv",
+          "where": {
+           "behavior": "quick"
+          },
+          "column": "n"
+         },
+         {
+          "op": "-",
+          "args": [
+           0,
+           {
+            "table": "output/decision_summary.csv",
+            "where": {
+             "behavior": "normal"
+            },
+            "column": "n"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "op": "-",
+        "args": [
+         0,
+         {
+          "table": "output/decision_summary.csv",
+          "where": {
+           "behavior": "hold"
+          },
+          "column": "n"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "0.7%",
+   "sign": "",
+   "before": "e: quick #% / normal #% / hold",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "table": "output/decision_summary.csv",
+      "where": {
+       "behavior": "hold"
+      },
+      "column": "n"
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "op": "-",
+        "args": [
+         {
+          "table": "output/decision_summary.csv",
+          "where": {
+           "behavior": "quick"
+          },
+          "column": "n"
+         },
+         {
+          "op": "-",
+          "args": [
+           0,
+           {
+            "table": "output/decision_summary.csv",
+            "where": {
+             "behavior": "normal"
+            },
+            "column": "n"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "op": "-",
+        "args": [
+         0,
+         {
+          "table": "output/decision_summary.csv",
+          "where": {
+           "behavior": "hold"
+          },
+          "column": "n"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "0.69",
+   "sign": "+",
+   "before": "k minus hold net from the mark",
+   "nth": 0,
+   "table": "output/bootstrap_decision_quick_vs_hold.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.23",
+   "sign": "+",
+   "before": "nus hold net from the mark # [",
+   "nth": 0,
+   "table": "output/bootstrap_decision_quick_vs_hold.csv",
+   "where": {},
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.20",
+   "sign": "+",
+   "before": "us hold net from the mark # [#",
+   "nth": 0,
+   "table": "output/bootstrap_decision_quick_vs_hold.csv",
+   "where": {},
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "82%",
+   "sign": "",
+   "before": "st; the first-shot proxy flags",
+   "nth": 0,
+   "table": "output/proxy_vs_possession.csv",
+   "where": {},
+   "column": "quick_correctly_flagged",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.58",
+   "sign": "+",
+   "before": "ted the headline gap from # to",
+   "nth": 0,
+   "table": "output/bootstrap_points_diff.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.2",
+   "sign": "+",
+   "before": "ck much of the value: net edge",
+   "nth": 0,
+   "table": "output/bootstrap_net_restricted.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

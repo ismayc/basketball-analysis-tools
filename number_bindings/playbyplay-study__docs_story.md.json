@@ -1,0 +1,605 @@
+{
+ "bindings": [
+  {
+   "token": "78%",
+   "sign": "",
+   "before": "onds</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "table": "output/two_for_one_summary.csv",
+      "where": {
+       "two_for_one": "true"
+      },
+      "column": "team_periods_n"
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/two_for_one_summary.csv",
+        "where": {
+         "two_for_one": "true"
+        },
+        "column": "team_periods_n"
+       },
+       {
+        "op": "-",
+        "args": [
+         0,
+         {
+          "table": "output/two_for_one_summary.csv",
+          "where": {
+           "two_for_one": "false"
+          },
+          "column": "team_periods_n"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "7,221",
+   "sign": "",
+   "before": "\">#%</div> <div class=\"sub\">Of",
+   "nth": 0,
+   "table": "output/team_period_windows.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.37",
+   "sign": "",
+   "before": "h;#s</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "mean",
+      "table": "output/first_shot_timing.csv",
+      "column": "n",
+      "range": {
+       "bucket": [
+        31,
+        33
+       ]
+      }
+     },
+     {
+      "agg": "mean",
+      "table": "output/first_shot_timing.csv",
+      "column": "n",
+      "range": {
+       "bucket": [
+        36,
+        40
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "token": "201",
+   "sign": "",
+   "before": "times;</div> <div class=\"sub\">",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "mean",
+    "table": "output/first_shot_timing.csv",
+    "column": "n",
+    "range": {
+     "bucket": [
+      31,
+      33
+     ]
+    }
+   }
+  },
+  {
+   "token": "147",
+   "sign": "",
+   "before": "eam-periods per second, versus",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "mean",
+    "table": "output/first_shot_timing.csv",
+    "column": "n",
+    "range": {
+     "bucket": [
+      36,
+      40
+     ]
+    }
+   }
+  },
+  {
+   "token": "0.58",
+   "sign": "+",
+   "before": "edge</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/bootstrap_points_diff.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.2",
+   "sign": "+",
+   "before": "net points it shrinks to about",
+   "nth": 0,
+   "table": "output/bootstrap_net_restricted.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.58",
+   "sign": "+",
+   "before": "v> <div class=\"value\"># &rarr;",
+   "nth": 0,
+   "table": "output/bootstrap_points_diff.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "7,221",
+   "sign": "",
+   "before": "rather than an average. Of the",
+   "nth": 0,
+   "table": "output/team_period_windows.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "78%",
+   "sign": "",
+   "before": "of quarters one through three,",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "table": "output/two_for_one_summary.csv",
+      "where": {
+       "two_for_one": "true"
+      },
+      "column": "team_periods_n"
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/two_for_one_summary.csv",
+        "where": {
+         "two_for_one": "true"
+        },
+        "column": "team_periods_n"
+       },
+       {
+        "op": "-",
+        "args": [
+         0,
+         {
+          "table": "output/two_for_one_summary.csv",
+          "where": {
+           "two_for_one": "false"
+          },
+          "column": "team_periods_n"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "201",
+   "sign": "",
+   "before": "teams launch at #–# seconds at",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "mean",
+    "table": "output/first_shot_timing.csv",
+    "column": "n",
+    "range": {
+     "bucket": [
+      31,
+      33
+     ]
+    }
+   }
+  },
+  {
+   "token": "147",
+   "sign": "",
+   "before": "eam-periods per second, versus",
+   "nth": 1,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "mean",
+    "table": "output/first_shot_timing.csv",
+    "column": "n",
+    "range": {
+     "bucket": [
+      36,
+      40
+     ]
+    }
+   }
+  },
+  {
+   "token": "1.37×",
+   "sign": "",
+   "before": "n the #–# second band. That is",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "mean",
+      "table": "output/first_shot_timing.csv",
+      "column": "n",
+      "range": {
+       "bucket": [
+        31,
+        33
+       ]
+      }
+     },
+     {
+      "agg": "mean",
+      "table": "output/first_shot_timing.csv",
+      "column": "n",
+      "range": {
+       "bucket": [
+        36,
+        40
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "token": "78%",
+   "sign": "",
+   "before": "re. The discontinuity, not the",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "table": "output/two_for_one_summary.csv",
+      "where": {
+       "two_for_one": "true"
+      },
+      "column": "team_periods_n"
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/two_for_one_summary.csv",
+        "where": {
+         "two_for_one": "true"
+        },
+        "column": "team_periods_n"
+       },
+       {
+        "op": "-",
+        "args": [
+         0,
+         {
+          "table": "output/two_for_one_summary.csv",
+          "where": {
+           "two_for_one": "false"
+          },
+          "column": "team_periods_n"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "0.58",
+   "sign": "+",
+   "before": "points, #-for# windows produce",
+   "nth": 0,
+   "table": "output/bootstrap_points_diff.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.48",
+   "sign": "+",
+   "before": " than holds (#% bootstrap CI [",
+   "nth": 0,
+   "table": "output/bootstrap_points_diff.csv",
+   "where": {},
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.68",
+   "sign": "+",
+   "before": "than holds (#% bootstrap CI [#",
+   "nth": 0,
+   "table": "output/bootstrap_points_diff.csv",
+   "where": {},
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.94",
+   "sign": "+",
+   "before": "ly where it should, as roughly",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "table": "output/two_for_one_summary.csv",
+      "where": {
+       "two_for_one": "true"
+      },
+      "column": "mean_fga"
+     },
+     {
+      "table": "output/two_for_one_summary.csv",
+      "where": {
+       "two_for_one": "false"
+      },
+      "column": "mean_fga"
+     }
+    ]
+   }
+  },
+  {
+   "token": "0.2",
+   "sign": "+",
+   "before": "s, the edge shrinks to roughly",
+   "nth": 0,
+   "table": "output/bootstrap_net_restricted.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.8",
+   "sign": "-",
+   "before": " model and confirmed it: about",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "repo": "shot-quality-study",
+      "table": "output/clock_decomposition.csv",
+      "where": {
+       "bucket": "25-36s (2-for-1 window)"
+      },
+      "column": "xpps"
+     },
+     {
+      "repo": "shot-quality-study",
+      "table": "output/clock_decomposition.csv",
+      "where": {
+       "bucket": "37s+"
+      },
+      "column": "xpps"
+     }
+    ]
+   }
+  },
+  {
+   "token": "85%",
+   "sign": "",
+   "before": "ut modest: Sacramento leads at",
+   "nth": 0,
+   "table": "output/team_2for1.csv",
+   "where": {
+    "teamTricode": "SAC"
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "73%",
+   "sign": "",
+   "before": "ute windows, Chicago trails at",
+   "nth": 0,
+   "table": "output/team_2for1.csv",
+   "where": {
+    "teamTricode": "CHI"
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "85%",
+   "sign": "",
+   "before": ": the spread from Sacramento (",
+   "nth": 0,
+   "table": "output/team_2for1.csv",
+   "where": {
+    "teamTricode": "SAC"
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "73%",
+   "sign": "",
+   "before": "m Sacramento (#%) to Chicago (",
+   "nth": 0,
+   "table": "output/team_2for1.csv",
+   "where": {
+    "teamTricode": "CHI"
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "12",
+   "sign": "",
+   "before": " (#%) to Chicago (#%) is about",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "table": "output/team_2for1.csv",
+      "where": {
+       "teamTricode": "SAC"
+      },
+      "column": "rate"
+     },
+     {
+      "table": "output/team_2for1.csv",
+      "where": {
+       "teamTricode": "CHI"
+      },
+      "column": "rate"
+     }
+    ]
+   }
+  },
+  {
+   "token": "78.4%",
+   "sign": "",
+   "before": "not at all. The #-for# rate is",
+   "nth": 0,
+   "table": "output/quarter_2for1.csv",
+   "where": {
+    "period": 1
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "78.0%",
+   "sign": "",
+   "before": "te is #% in the first quarter,",
+   "nth": 0,
+   "table": "output/quarter_2for1.csv",
+   "where": {
+    "period": 2
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "76.8%",
+   "sign": "",
+   "before": "quarter, #% in the second, and",
+   "nth": 0,
+   "table": "output/quarter_2for1.csv",
+   "where": {
+    "period": 3
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.58",
+   "sign": "+",
+   "before": "ive and corrected numbers (# →",
+   "nth": 0,
+   "table": "output/bootstrap_points_diff.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

@@ -1,4 +1,19 @@
-0.94  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.
-1.37  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.
-1.37×  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.
-147  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.
+1,230  # games in a 30-team, 82-game season (30 x 82 / 2), a schedule fact
+32 @ iv class="label">First shot at  # a clock threshold, band, or window that defines the comparison, a setting
+31 @ s="label">Launch-rate spike at  # a clock threshold, band, or window that defines the comparison, a setting
+36 @ ds per second, versus # in the  # a clock threshold, band, or window that defines the comparison, a setting
+40 @ cond, versus # in the #&ndash;  # a clock threshold, band, or window that defines the comparison, a setting
+31 @ ingerprint</div> ## A spike at  # a clock threshold, band, or window that defines the comparison, a setting
+32 @ #% took their first shot with  # a clock threshold, band, or window that defines the comparison, a setting
+31 @ e shots bunch: teams launch at  # a clock threshold, band, or window that defines the comparison, a setting
+33 @ hots bunch: teams launch at #–  # a clock threshold, band, or window that defines the comparison, a setting
+40 @ per second, versus # in the #–  # a clock threshold, band, or window that defines the comparison, a setting
+31 @ oral fingerprint: the spike at  # a clock threshold, band, or window that defines the comparison, a setting
+33 @ l fingerprint: the spike at #–  # a clock threshold, band, or window that defines the comparison, a setting
+25 @ figure shows efficiency in the  # a clock threshold, band, or window that defines the comparison, a setting
+36 @ ure shows efficiency in the #–  # a clock threshold, band, or window that defines the comparison, a setting
+70% @ #%, and every team sits above  # a round floor under every team's rate (the lowest is Chicago's 73%), a bound not a cell
+100 @ ent numbers as text, putting "  # an example of text sorting ("100" before "2"), not a result
+2 @ as text, putting "#" before "  # an example of text sorting ("100" before "2"), not a result
+0.36 @ gate</div> <div class="value">  # UNVERIFIED: the naive estimate from the run before the text-sort fix; no committed output keeps it (it equals the restricted-sample estimate only by coincidence)
+0.36 @ naive and corrected numbers (  # UNVERIFIED: the naive estimate from the run before the text-sort fix; no committed output keeps it (it equals the restricted-sample estimate only by coincidence)

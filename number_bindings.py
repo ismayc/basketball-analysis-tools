@@ -82,10 +82,14 @@ def cell(df: pl.DataFrame, where: dict, column: str) -> list:
     return sub[column].to_list()
 
 
-def load_cached(base: Path, table: str, cache: dict) -> pl.DataFrame | None:
-    if table not in cache:
-        cache[table] = read_table(base, table) if (base / table).exists() else None
-    return cache[table]
+def load_cached(base: Path, table: str, cache: dict, repo: str | None = None) -> pl.DataFrame | None:
+    """A table of this repo, or of a sibling repo when a reference names one
+    (a story citing another study's result)."""
+    root = base.parent / repo if repo else base
+    key = (repo, table) if repo else table
+    if key not in cache:
+        cache[key] = read_table(root, table) if (root / table).exists() else None
+    return cache[key]
 
 
 def one_cell(df: pl.DataFrame, where: dict, column: str) -> float | str:
@@ -114,9 +118,10 @@ def tables_of(b: dict) -> list[str]:
     return [b["table"]] + ([b["minus"]["table"]] if "table" in b.get("minus", {}) else [])
 
 
-def sources_tracked(b: dict, tracked: set) -> bool:
-    """Every table read is a tracked output, or a local data/ file whose
-    row or column count is all that is claimed."""
+def sources_tracked(b: dict, tracked: set, tracked_in=None) -> bool:
+    """Every table read is a tracked output (of its own repo when a
+    reference names one), or a local data/ file whose row or column count
+    is all that is claimed."""
     refs = [b] if "expr" not in b else []
     def walk(e):
         if isinstance(e, dict):
@@ -127,7 +132,11 @@ def sources_tracked(b: dict, tracked: set) -> bool:
                 refs.append(e)
     if "expr" in b:
         walk(b["expr"])
-    ok = all(r["table"] in tracked or local_count(r) for r in refs)
+    def tracked_ok(r):
+        if r.get("repo"):
+            return tracked_in is not None and r["table"] in tracked_in(r["repo"])
+        return r["table"] in tracked or local_count(r)
+    ok = all(tracked_ok(r) for r in refs)
     return ok and ("table" not in b.get("minus", {}) or b["minus"]["table"] in tracked)
 
 
@@ -146,9 +155,10 @@ def eval_expr(e, load) -> float | str:
     if isinstance(e, (int, float)):
         return float(e)
     if "agg" in e:
-        # {"agg": "median" | "mean", "table", "column", "where": {}, "where_not": {}}:
-        # "a typical offseason" is a median over rows, some rows left out.
-        df = load(e["table"])
+        # {"agg": "median" | "mean" | "sum" | "wmean" (+ "weight"), "table", "column", "where": {},
+        # "where_not": {}, "range": {col: [lo, hi]}}: "a typical offseason" is a
+        # median with rows left out; "201 per second at 31-33s" a mean over a range.
+        df = load(e["table"], e.get("repo"))
         if df is None:
             return f"{e['table']} missing"
         sub = df
@@ -156,12 +166,18 @@ def eval_expr(e, load) -> float | str:
             sub = sub.filter(pl.col(k).cast(pl.Utf8) == str(val))
         for k, val in e.get("where_not", {}).items():
             sub = sub.filter(pl.col(k).cast(pl.Utf8) != str(val))
+        for k, (lo, hi) in e.get("range", {}).items():
+            sub = sub.filter(pl.col(k).is_between(lo, hi))
         if sub.height == 0 or e["column"] not in sub.columns:
             return f"{e['table']} agg selects nothing"
         col = sub[e["column"]].cast(pl.Float64)
-        return float(col.median() if e["agg"] == "median" else col.mean())
+        if e["agg"] == "wmean":
+            # weighted by another column: shot-weighted eFG across clock buckets
+            w = sub[e["weight"]].cast(pl.Float64)
+            return float((col * w).sum() / w.sum())
+        return float({"median": col.median, "mean": col.mean, "sum": col.sum}[e["agg"]]())
     if "op" not in e:
-        df = load(e["table"])
+        df = load(e["table"], e.get("repo"))
         return f"{e['table']} missing" if df is None else raw_value(df, {**e, "where": e.get("where", {})})
     vals = [eval_expr(a, load) for a in e["args"]]
     bad = [x for x in vals if isinstance(x, str)]
@@ -212,7 +228,7 @@ def value_of(raw: float, b: dict) -> float:
 def check(base: Path, b: dict, cache: dict) -> str | None:
     """None when the bound cell displays exactly as the prose does, else why not."""
     if "expr" in b:
-        raw = eval_expr(b["expr"], lambda tb: load_cached(base, tb, cache))
+        raw = eval_expr(b["expr"], lambda tb, repo=None: load_cached(base, tb, cache, repo))
         if isinstance(raw, str):
             return raw
         return compare(value_of(raw, b), b)
@@ -222,7 +238,7 @@ def check(base: Path, b: dict, cache: dict) -> str | None:
     df = cache[key]
     if df is None:
         return f"{key} missing"
-    raw = raw_value(df, b, lambda tb: load_cached(base, tb, cache))
+    raw = raw_value(df, b, lambda tb, repo=None: load_cached(base, tb, cache, repo))
     if isinstance(raw, str):
         return f"{key} {raw}"
     return compare(value_of(raw, b), b)
@@ -253,7 +269,7 @@ def find_by_context(bindings: list[dict], occ: dict) -> dict | None:
 def expected(base: Path, b: dict, cache: dict) -> str:
     """The bound cell as the prose should show it."""
     if "expr" in b:
-        raw = eval_expr(b["expr"], lambda tb: load_cached(base, tb, cache))
+        raw = eval_expr(b["expr"], lambda tb, repo=None: load_cached(base, tb, cache, repo))
         if isinstance(raw, str):
             return "no single value"
         v = value_of(raw, b)
@@ -262,7 +278,7 @@ def expected(base: Path, b: dict, cache: dict) -> str:
     if b["table"] not in cache:
         cache[b["table"]] = read_table(base, b["table"]) if (base / b["table"]).exists() else None
     df = cache[b["table"]]
-    raw = raw_value(df, b, lambda tb: load_cached(base, tb, cache)) if df is not None else "missing"
+    raw = raw_value(df, b, lambda tb, repo=None: load_cached(base, tb, cache, repo)) if df is not None else "missing"
     if isinstance(raw, str):
         return "no single cell"
     v = value_of(raw, b)
