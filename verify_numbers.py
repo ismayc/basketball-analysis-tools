@@ -70,7 +70,8 @@ FILES = ([(s, "docs/story.md") for s in STUDIES]
 
 YEAR = re.compile(r"^(19|20)\d{2}$")
 SEASON = re.compile(r"^\d{4}-\d{2}$")
-TOKEN = re.compile(r"(?<![\w./-])[+\-−±~≈]{0,2}(\d[\d,]*\.?\d*(?:e-?\d+)?)"
+# ".44" (no leading zero) is a number too; it once went unchecked.
+TOKEN = re.compile(r"(?<![\w./-])[+\-−±~≈]{0,2}(\.\d+|\d[\d,]*\.?\d*(?:e-?\d+)?)"
                    r"(%|×|x\b)?")
 # A year-shaped number followed by one of these is a count ("2000 series"),
 # not a year, and is checked like any other number.
@@ -83,8 +84,11 @@ COUNT_NOUN = re.compile(
 # confidence level ("95% interval"). They have no cell to come from.
 LABEL_BEFORE = re.compile(
     r"\b(Games?|Questions?|Amendments?|Figures?|Fig\.|Steps?|Parts?|Options?|"
-    r"Tables?|Sections?)\s+(\d+\s*(,|and|or|to|through|&)\s*)*$|\bper\s+$|#$", re.I)
-LEVEL_AFTER = re.compile(r"%?\s+(bootstrap\s+)?(interval|CI|confidence|credible)", re.I)
+    r"Tables?|Sections?|Findings?|Limitations?|Models?)\s+(\d+\s*(,|and|or|to|through|&)\s*)*$"
+    r"|\bper\s+$|#$", re.I)
+# A markdown list or heading number: "1. ", "### 2) " at the start of a line.
+LIST_PREFIX = re.compile(r"[#>*\s-]*")
+LEVEL_AFTER = re.compile(r"%?\s+(bootstrap\s+|percentile\s+)?(interval|CI|confidence|credible)", re.I)
 PERTURB_PER_TOKEN = 5
 
 
@@ -210,7 +214,8 @@ def tokens_of_prose(prose: str) -> list[str]:
 
 
 def occurrences(text: str) -> list[dict]:
-    """Each checked number with its displayed sign and the prose before it."""
+    """Each checked number with its displayed sign, the prose before it, and
+    (internal, "_pos") its offset in the stripped prose."""
     return occurrences_of_prose(strip_nonprose(text))
 
 
@@ -230,11 +235,17 @@ def occurrences_of_prose(prose: str) -> list[dict]:
         if SEASON.match(ctx.strip()):
             continue
         lead = prose[m.start():m.start(1)]
+        line = prose[prose.rfind("\n", 0, m.start()) + 1:m.start()]
+        if (not lead and m.group(1).endswith(".") and LIST_PREFIX.fullmatch(line)
+                and prose[m.end():m.end() + 1] in (" ", "")) or (
+                not lead and LIST_PREFIX.fullmatch(line) and prose[m.end():m.end() + 2] == ") "):
+            continue
         if not lead and (LABEL_BEFORE.search(prose[max(0, m.start() - 40):m.start()])
                          or (suffix == "%" and LEVEL_AFTER.match(prose, m.end()))):
             continue
         sign = "-" if ("−" in lead or "-" in lead) else "+" if "+" in lead else ""
-        out.append({"token": raw, "sign": sign, "before": context(prose[max(0, m.start() - 80):m.start()])})
+        out.append({"token": raw, "sign": sign, "before": context(prose[max(0, m.start() - 80):m.start()]),
+                    "_pos": m.start()})
     # Table cells can share token and masked context ("38" in three rows);
     # nth numbers the repeats in reading order so each gets its own binding.
     seen: dict = {}
@@ -243,6 +254,54 @@ def occurrences_of_prose(prose: str) -> list[dict]:
         o["nth"] = seen.get(k, 0)
         seen[k] = o["nth"] + 1
     return out
+
+
+FINDINGS_MARKER = "## Findings"
+GATE_LINE = re.compile(r"python/(\S*findings\S*\.py) --check")
+
+
+def gated_generator(base: Path) -> Path | None:
+    """The findings generator whose --check run_checks.sh runs, if any. Its
+    README section from "## Findings" on is written from outputs and gated
+    exactly, except numbers typed into its template."""
+    rc = base / "run_checks.sh"
+    m = GATE_LINE.search(rc.read_text()) if rc.exists() else None
+    return base / "python" / m.group(1) if m else None
+
+
+# Stands in for each {...} of a template so contexts mask as the README's do.
+PLACEHOLDER = "9.87654321"
+
+
+def template_literals(generator: Path) -> set[tuple[str, str]]:
+    """(token, masked context) of numbers typed into a generator's
+    triple-quoted templates outside {...}: a --check passes them whether or
+    not they are true. Context is part of the key, so a typed list marker
+    "1." does not cover a computed count that happens to be 1."""
+    lits: set[tuple[str, str]] = set()
+    for m in re.finditer(r'f?"""(.*?)"""', generator.read_text(), re.S):
+        body = strip_nonprose(re.sub(r"\{[^{}]*\}", PLACEHOLDER, m.group(1)))
+        lits |= {(o["token"], o["before"]) for o in occurrences_of_prose(body)
+                 if o["token"] != PLACEHOLDER}
+    return lits
+
+
+def checked_occurrences(base: Path, rel: str, text: str) -> tuple[list[dict], int]:
+    """The occurrences this gate must check, and how many it leaves to a
+    gated generator. In a README whose Findings section a generator --check
+    covers, computed Findings numbers are left to it; template literals and
+    everything before the section stay here."""
+    occ = occurrences(text)
+    skipped = 0
+    gen = gated_generator(base) if rel == "README.md" else None
+    if gen is not None and gen.exists():
+        cut = strip_nonprose(text).find(FINDINGS_MARKER)
+        if cut >= 0:
+            lits = template_literals(gen)
+            kept = [o for o in occ if o["_pos"] < cut or (o["token"], o["before"]) in lits]
+            skipped = len(occ) - len(kept)
+            occ = kept
+    return [{k: v for k, v in o.items() if k != "_pos"} for o in occ], skipped
 
 
 def context(before: str) -> str:
@@ -352,7 +411,8 @@ def check_bound(repo: str, rel: str, text: str, allowed: dict,
     tracked = set(tracked_tables(base))
     cache: dict = {}
     problems, bound = [], 0
-    for occ in occurrences(text):
+    occs, _ = checked_occurrences(base, rel, text)
+    for occ in occs:
         reason = allowed_reason(occ, allowed)
         if reason is not None:
             if "UNVERIFIED" in reason:
@@ -370,8 +430,8 @@ def check_bound(repo: str, rel: str, text: str, allowed: dict,
         elif b.get("auto"):
             problems.append(f"{where}: drafted by --propose and not yet reviewed; confirm "
                             f"{b['table']} {b['where']} {b['column']} and delete \"auto\"")
-        elif b["table"] not in tracked and not nb.local_count(b):
-            problems.append(f"{where}: {b['table']} is not a tracked output")
+        elif not nb.sources_tracked(b, tracked):
+            problems.append(f"{where}: {nb.tables_of(b)} not all tracked outputs")
         elif (why := nb.check(base, b, cache)) is not None:
             problems.append(f"{where}: {why}")
         else:
@@ -382,7 +442,7 @@ def check_bound(repo: str, rel: str, text: str, allowed: dict,
 def propose_cli(repo: str, rel: str) -> int:
     base = repo_base(repo)
     path = nb.path_for(BIND_DIR, repo, rel)
-    occs = occurrences((base / rel).read_text())
+    occs, _ = checked_occurrences(base, rel, (base / rel).read_text())
     bound, open_items = nb.propose(base, tracked_tables(base), occs, nb.load(path),
                                    allowlist_for(repo, rel), allowed_reason)
     BIND_DIR.mkdir(exist_ok=True)
@@ -395,6 +455,23 @@ def propose_cli(repo: str, rel: str) -> int:
     print(f"{repo}/{rel}: {len(bound)} bound, {len(open_items)} open"
           f"{f' (see {prop.name})' if open_items else ''}")
     return 0
+
+
+def unused_entries() -> list[str]:
+    """Allowlist entries and bindings that no checked number uses."""
+    out = []
+    for repo, rel in FILES:
+        base = repo_base(repo)
+        if not (base / rel).exists():
+            continue
+        occs, _ = checked_occurrences(base, rel, (base / rel).read_text())
+        for key, line in allowlist_for(repo, rel).items():
+            if not any(allowed_reason(o, {key: line}) for o in occs):
+                out.append(f"{repo}/{rel} allowlist {key}")
+        for b in nb.load(nb.path_for(BIND_DIR, repo, rel)):
+            if not any(nb.find([b], o) for o in occs):
+                out.append(f"{repo}/{rel} binding {b['sign']}{b['token']}")
+    return out
 
 
 def main(argv: list[str]) -> int:
@@ -420,7 +497,7 @@ def main(argv: list[str]) -> int:
         if nb.path_for(BIND_DIR, repo, rel).exists():
             text = path.read_text()
             n, problems = check_bound(repo, rel, text, allowed, unverified)
-            checked += len(occurrences(text))
+            checked += len(checked_occurrences(base, rel, text)[0])
             strict_n += 1
             bound_n += n
             print(f"  {name}: {n} bound, exact check")
@@ -431,7 +508,8 @@ def main(argv: list[str]) -> int:
                 failures.append(f"{name}:\n      " + "\n      ".join(problems))
             continue
         pool = pools.get(repo, union)
-        toks = tokens_of(path.read_text())
+        occs, gen_skipped = checked_occurrences(base, rel, path.read_text())
+        toks = [o["token"] for o in occs]
         unmatched = []
         for tok in toks:
             checked += 1
@@ -445,7 +523,7 @@ def main(argv: list[str]) -> int:
                                f"{repo}/{rel}")
         if rate is not None:
             rates.append((rate, name))
-        gen = generator_owned(path.read_text())
+        gen = generator_owned(path.read_text()) + gen_skipped
         print(f"  {name}: {len(toks)} tokens"
               f"{f' (+{gen} in generator regions, gated by the generator)' if gen else ''}, "
               f"pool {len(pool):,} values, "
@@ -461,6 +539,12 @@ def main(argv: list[str]) -> int:
     if unreadable:
         print(f"could not read {len(unreadable)} tracked output file(s); "
               f"their values are not in the pool: {', '.join(unreadable)}")
+    stale = unused_entries()
+    if stale:
+        # Not a failure: an entry that covers nothing hides nothing, but it
+        # misstates what the allowlist or bindings vouch for.
+        print(f"{len(stale)} allowlist or binding entr(ies) match no number any more: "
+              f"{'; '.join(stale)}")
     if unverified:
         # Allowlisted with an UNVERIFIED reason: passed, but checked by nobody.
         print(f"{len(unverified)} allowlisted token(s) are marked UNVERIFIED "

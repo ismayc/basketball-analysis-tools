@@ -1,0 +1,395 @@
+{
+ "bindings": [
+  {
+   "token": "75%",
+   "sign": "",
+   "before": "e change accounts for about **",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2019
+        },
+        "column": "value"
+       },
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2018
+        },
+        "column": "value"
+       }
+      ]
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2025
+        },
+        "column": "value"
+       },
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2002
+        },
+        "column": "value"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "388",
+   "sign": "",
+   "before": "e league: we tracked the *same",
+   "nth": 0,
+   "table": "output/within_player_python.csv",
+   "where": {
+    "pair_start": 2018
+   },
+   "column": "n_matched",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "55%",
+   "sign": "",
+   "before": "oss that one offseason, and **",
+   "nth": 0,
+   "table": "output/within_player_python.csv",
+   "where": {
+    "pair_start": 2018
+   },
+   "column": "share_shrunk",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "2%",
+   "sign": "",
+   "before": ". In a typical offseason about",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "1-",
+    "args": [
+     {
+      "agg": "median",
+      "table": "output/within_player_python.csv",
+      "column": "share_same",
+      "where_not": {
+       "pair_start": 2018
+      }
+     }
+    ]
+   }
+  },
+  {
+   "token": "2",
+   "sign": "",
+   "before": "ted pattern: a decline to just",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "num6_count",
+    "season_start": 2024
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "46",
+   "sign": "",
+   "before": "ers (methods in one paragraph)",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "18,947",
+   "sign": "",
+   "before": " one paragraph) # seasons of (",
+   "nth": 0,
+   "table": "data/nba_rosters.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.62",
+   "sign": "-",
+   "before": "asurement break directly at **",
+   "nth": 0,
+   "table": "output/models_python.csv",
+   "where": {
+    "model": "height_regime",
+    "term": "shift2019"
+   },
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.79",
+   "sign": "-",
+   "before": "ent break directly at **# in [",
+   "nth": 0,
+   "table": "output/models_python.csv",
+   "where": {
+    "model": "height_regime",
+    "term": "shift2019"
+   },
+   "column": "conf.low",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.46",
+   "sign": "-",
+   "before": "nt break directly at **# in [#",
+   "nth": 0,
+   "table": "output/models_python.csv",
+   "where": {
+    "model": "height_regime",
+    "term": "shift2019"
+   },
+   "column": "conf.high",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.84",
+   "sign": "",
+   "before": "ctly at **# in [# #]** with R²",
+   "nth": 0,
+   "table": "output/models_fit_python.csv",
+   "where": {
+    "model": "height_regime"
+   },
+   "column": "r_squared",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.33",
+   "sign": "",
+   "before": "at **# in [# #]** with R² # vs",
+   "nth": 0,
+   "table": "output/models_fit_python.csv",
+   "where": {
+    "model": "height_piecewise"
+   },
+   "column": "r_squared",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.44",
+   "sign": "+",
+   "before": "Jersey/height correlation fell",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 1980
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.12",
+   "sign": "+",
+   "before": "ey/height correlation fell # →",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 2024
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.30",
+   "sign": "-",
+   "before": "ve vs last-five season change:",
+   "nth": 0,
+   "table": "output/bootstrap_python.csv",
+   "where": {},
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.35",
+   "sign": "-",
+   "before": "s last-five season change: # [",
+   "nth": 0,
+   "table": "output/bootstrap_python.csv",
+   "where": {},
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.25",
+   "sign": "-",
+   "before": " last-five season change: # [#",
+   "nth": 0,
+   "table": "output/bootstrap_python.csv",
+   "where": {},
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "75%",
+   "sign": "",
+   "before": "ported post# height decline is",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2019
+        },
+        "column": "value"
+       },
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2018
+        },
+        "column": "value"
+       }
+      ]
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2025
+        },
+        "column": "value"
+       },
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2002
+        },
+        "column": "value"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "0.35",
+   "sign": "",
+   "before": " basketball; the true drift is",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "table": "output/results_python.csv",
+      "where": {
+       "metric": "mean_height_in",
+       "season_start": 2002
+      },
+      "column": "value"
+     },
+     {
+      "table": "output/results_python.csv",
+      "where": {
+       "metric": "mean_height_in",
+       "season_start": 2018
+      },
+      "column": "value"
+     }
+    ]
+   }
+  },
+  {
+   "token": "0.44",
+   "sign": "+",
+   "before": "lved since the #s (correlation",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 1980
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.12",
+   "sign": "+",
+   "before": " since the #s (correlation # →",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 2024
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

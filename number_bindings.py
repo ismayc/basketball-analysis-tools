@@ -100,10 +100,83 @@ def one_cell(df: pl.DataFrame, where: dict, column: str) -> float | str:
     return float(vals[0])
 
 
+def tables_of(b: dict) -> list[str]:
+    """Every table a binding reads."""
+    def walk(e):
+        if isinstance(e, dict):
+            if "op" in e:
+                return [t for a in e["args"] for t in walk(a)]
+            return [e["table"]]
+        return []
+    # (an "agg" node names its table like a cell reference does)
+    if "expr" in b:
+        return walk(b["expr"])
+    return [b["table"]] + ([b["minus"]["table"]] if "table" in b.get("minus", {}) else [])
+
+
+def sources_tracked(b: dict, tracked: set) -> bool:
+    """Every table read is a tracked output, or a local data/ file whose
+    row or column count is all that is claimed."""
+    refs = [b] if "expr" not in b else []
+    def walk(e):
+        if isinstance(e, dict):
+            if "op" in e:
+                for a in e["args"]:
+                    walk(a)
+            else:
+                refs.append(e)
+    if "expr" in b:
+        walk(b["expr"])
+    ok = all(r["table"] in tracked or local_count(r) for r in refs)
+    return ok and ("table" not in b.get("minus", {}) or b["minus"]["table"] in tracked)
+
+
 def local_count(b: dict) -> bool:
     """A row or column count of a local data/ file. Such a file may be a
     gitignored download (licensed source data); only its size is claimed."""
     return b["table"].startswith("data/") and b["column"] in ("__rows__", "__columns__")
+
+
+def eval_expr(e, load) -> float | str:
+    """An expression over cells: a number, a cell reference {"table",
+    "where", "column"} (column may be __rows__ or __columns__), an
+    aggregate {"agg": "median" | "mean", ...}, or {"op": "-" | "/" | "abs"
+    | "1-", "args": [...]}. "2.3 times the next-largest drop" is
+    abs(step) / abs(next drop)."""
+    if isinstance(e, (int, float)):
+        return float(e)
+    if "agg" in e:
+        # {"agg": "median" | "mean", "table", "column", "where": {}, "where_not": {}}:
+        # "a typical offseason" is a median over rows, some rows left out.
+        df = load(e["table"])
+        if df is None:
+            return f"{e['table']} missing"
+        sub = df
+        for k, val in e.get("where", {}).items():
+            sub = sub.filter(pl.col(k).cast(pl.Utf8) == str(val))
+        for k, val in e.get("where_not", {}).items():
+            sub = sub.filter(pl.col(k).cast(pl.Utf8) != str(val))
+        if sub.height == 0 or e["column"] not in sub.columns:
+            return f"{e['table']} agg selects nothing"
+        col = sub[e["column"]].cast(pl.Float64)
+        return float(col.median() if e["agg"] == "median" else col.mean())
+    if "op" not in e:
+        df = load(e["table"])
+        return f"{e['table']} missing" if df is None else raw_value(df, {**e, "where": e.get("where", {})})
+    vals = [eval_expr(a, load) for a in e["args"]]
+    bad = [x for x in vals if isinstance(x, str)]
+    if bad:
+        return bad[0]
+    op = e["op"]
+    if op == "-":
+        return vals[0] - vals[1]
+    if op == "/":
+        return "division by zero" if vals[1] == 0 else vals[0] / vals[1]
+    if op == "abs":
+        return abs(vals[0])
+    if op == "1-":
+        return 1 - vals[0]
+    return f"unknown op {op}"
 
 
 def raw_value(df: pl.DataFrame, b: dict, load=None) -> float | str:
@@ -138,6 +211,11 @@ def value_of(raw: float, b: dict) -> float:
 
 def check(base: Path, b: dict, cache: dict) -> str | None:
     """None when the bound cell displays exactly as the prose does, else why not."""
+    if "expr" in b:
+        raw = eval_expr(b["expr"], lambda tb: load_cached(base, tb, cache))
+        if isinstance(raw, str):
+            return raw
+        return compare(value_of(raw, b), b)
     key = b["table"]
     if key not in cache:
         cache[key] = read_table(base, key) if (base / key).exists() else None
@@ -147,7 +225,10 @@ def check(base: Path, b: dict, cache: dict) -> str | None:
     raw = raw_value(df, b, lambda tb: load_cached(base, tb, cache))
     if isinstance(raw, str):
         return f"{key} {raw}"
-    v = value_of(raw, b)
+    return compare(value_of(raw, b), b)
+
+
+def compare(v: float, b: dict) -> str | None:
     want = shown(b["token"], b["sign"])
     got = fmt(v, decimals(b["token"]))
     if b["sign"] == "" and not b.get("abs") and v < 0 and float(got) != 0:
@@ -171,6 +252,13 @@ def find_by_context(bindings: list[dict], occ: dict) -> dict | None:
 
 def expected(base: Path, b: dict, cache: dict) -> str:
     """The bound cell as the prose should show it."""
+    if "expr" in b:
+        raw = eval_expr(b["expr"], lambda tb: load_cached(base, tb, cache))
+        if isinstance(raw, str):
+            return "no single value"
+        v = value_of(raw, b)
+        out = fmt(v, decimals(b["token"]))
+        return ("+" + out if b["sign"] == "+" and v >= 0 else out) + ("%" if b["token"].endswith("%") else "")
     if b["table"] not in cache:
         cache[b["table"]] = read_table(base, b["table"]) if (base / b["table"]).exists() else None
     df = cache[b["table"]]

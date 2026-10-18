@@ -1,3 +1,4 @@
-0.80  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.
-18,399  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.
-1e-6  # a reconciliation or convergence tolerance, a setting not a result
+1e-9  # the reconcile tolerance on season metrics (04_reconcile.py TOL_METRICS), a setting
+1e-6  # the reconcile tolerance on model coefficients (04_reconcile.py TOL_MODELS), a setting
+16 @ third of an inch across  # the span from 2002-03 to 2018-19 in seasons, a calendar fact
+16 @ the true drift is ~# in over  # the span from 2002-03 to 2018-19 in seasons, a calendar fact

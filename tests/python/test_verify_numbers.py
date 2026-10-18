@@ -177,3 +177,32 @@ def test_rows_and_cross_table_minus(nbm, tmp_path):
             "minus": {"table": "output/m0.csv", "column": "__rows__"}}
     assert nbm.check(tmp_path, feat, {}) is None
     assert "cell gives" in nbm.check(tmp_path, {**feat, "token": "16"}, {})
+
+
+def test_list_markers_and_section_references_are_labels(vn):
+    text = "## Models\n\n1. Height trend.\n2) Regime model.\n### 3. Bootstrap\n\nSee Finding 1 and limitation 5; 35.1% is a claim.\n"
+    assert vn.tokens_of(text) == ["35.1%"]
+
+
+def test_leading_dot_decimal_is_a_number(vn):
+    assert vn.tokens_of("correlation .44 → .12") == [".44", ".12"]
+
+
+def test_template_literal_needs_matching_context(vn, tmp_path):
+    gen = tmp_path / "gen.py"
+    gen.write_text('def build():\n    return f"""## Findings\n\nThe sample is 567 players; count {n} then 1.\n"""\n')
+    lits = vn.template_literals(gen)
+    assert ("567", "## Findings The sample is") in lits
+    assert not any(tok == "1" and "count" not in ctx for tok, ctx in lits)
+
+
+def test_expression_binding(nbm, tmp_path):
+    (tmp_path / "output").mkdir()
+    (tmp_path / "output" / "h.csv").write_text("season,h\n2016,79.2804\n2017,79.0220\n2018,79.0221\n2019,78.4157\n")
+    ref = lambda y: {"table": "output/h.csv", "where": {"season": y}, "column": "h"}
+    step = {"op": "-", "args": [ref(2019), ref(2018)]}
+    prev = {"op": "-", "args": [ref(2017), ref(2016)]}
+    ratio = {"token": "2.3", "sign": "", "before": "x", "scale": 1, "abs": False,
+             "expr": {"op": "/", "args": [{"op": "abs", "args": [step]}, {"op": "abs", "args": [prev]}]}}
+    assert nbm.check(tmp_path, ratio, {}) is None
+    assert "cell gives" in nbm.check(tmp_path, {**ratio, "token": "1.8"}, {})

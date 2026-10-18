@@ -1,2 +1,9 @@
-0.61  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.
-0.80  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.
+0 @ explorable views below (  # jersey numbers 0 and 00 named as the pooled bucket, a label
+00 @ explorable views below (# and  # jersey numbers 0 and 00 named as the pooled bucket, a label
+0 @ ver any season for the  # jersey number 0 in the bucket name 0/00, a label
+50 @ ver any season for the #/# and  # the 50+ number bucket's name, a label
+1 @ ons, and switch the bin size (  # a histogram bin-size option, a setting
+5 @ ns, and switch the bin size (#  # a histogram bin-size option, a setting
+10 @ nd switch the bin size (# # or  # a histogram bin-size option, a setting
+0 @ er right tail thin out and the  # jersey number 0 in the bucket name 0/00, a label
+50 @ peak in ## (#% in ##). Numbers  # the 50+ number bucket's name, a label

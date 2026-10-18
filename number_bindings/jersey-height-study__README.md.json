@@ -1,0 +1,15 @@
+{
+ "bindings": [
+  {
+   "token": "2,000",
+   "sign": "",
+   "before": " roster size. # **Bootstrap**:",
+   "nth": 0,
+   "table": "output/bootstrap_python.csv",
+   "where": {},
+   "column": "reps",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

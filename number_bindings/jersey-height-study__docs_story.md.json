@@ -1,0 +1,521 @@
+{
+ "bindings": [
+  {
+   "token": "18,947",
+   "sign": "",
+   "before": "y-six seasons of roster data (",
+   "nth": 0,
+   "table": "data/nba_rosters.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.61",
+   "sign": "",
+   "before": "iv> <div class=\"value\">&minus;",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 1,
+   "abs": true,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "table": "output/results_python.csv",
+      "where": {
+       "metric": "mean_height_in",
+       "season_start": 2019
+      },
+      "column": "value"
+     },
+     {
+      "table": "output/results_python.csv",
+      "where": {
+       "metric": "mean_height_in",
+       "season_start": 2018
+      },
+      "column": "value"
+     }
+    ]
+   }
+  },
+  {
+   "token": "45",
+   "sign": "",
+   "before": "est year-over-year move in the",
+   "nth": 0,
+   "table": "output/within_player_python.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".44",
+   "sign": "",
+   "before": "tion</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 1980
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": ".12",
+   "sign": "",
+   "before": "> <div class=\"value\">.# &rarr;",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 2024
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "25",
+   "sign": "",
+   "before": "mber</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {
+    "season_start": 1980
+   },
+   "column": "median_number",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "14",
+   "sign": "",
+   "before": "v> <div class=\"value\"># &rarr;",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {
+    "season_start": 2025
+   },
+   "column": "median_number",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "18,947",
+   "sign": "",
+   "before": "mple</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "data/nba_rosters.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "46",
+   "sign": "",
+   "before": "ss=\"sub\">Player-seasons across",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "79.4",
+   "sign": "",
+   "before": "se for two decades, peaking at",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "mean_height_in",
+    "season_start": 2002
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.61",
+   "sign": "",
+   "before": "iff**: a single-season drop of",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 1,
+   "abs": true,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "table": "output/results_python.csv",
+      "where": {
+       "metric": "mean_height_in",
+       "season_start": 2019
+      },
+      "column": "value"
+     },
+     {
+      "table": "output/results_python.csv",
+      "where": {
+       "metric": "mean_height_in",
+       "season_start": 2018
+      },
+      "column": "value"
+     }
+    ]
+   }
+  },
+  {
+   "token": "45",
+   "sign": "",
+   "before": "r-over-year move in the entire",
+   "nth": 0,
+   "table": "output/within_player_python.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.3",
+   "sign": "",
+   "before": "the entire #-season record and",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "op": "abs",
+      "args": [
+       {
+        "op": "-",
+        "args": [
+         {
+          "table": "output/results_python.csv",
+          "where": {
+           "metric": "mean_height_in",
+           "season_start": 2019
+          },
+          "column": "value"
+         },
+         {
+          "table": "output/results_python.csv",
+          "where": {
+           "metric": "mean_height_in",
+           "season_start": 2018
+          },
+          "column": "value"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "op": "abs",
+      "args": [
+       {
+        "op": "-",
+        "args": [
+         {
+          "table": "output/results_python.csv",
+          "where": {
+           "metric": "mean_height_in",
+           "season_start": 2017
+          },
+          "column": "value"
+         },
+         {
+          "table": "output/results_python.csv",
+          "where": {
+           "metric": "mean_height_in",
+           "season_start": 2016
+          },
+          "column": "value"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "token": "0.62",
+   "sign": "-",
+   "before": "imates the rule-change step at",
+   "nth": 0,
+   "table": "output/models_python.csv",
+   "where": {
+    "model": "height_regime",
+    "term": "shift2019"
+   },
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.79",
+   "sign": "-",
+   "before": "ange step at # inches (#% CI [",
+   "nth": 0,
+   "table": "output/models_python.csv",
+   "where": {
+    "model": "height_regime",
+    "term": "shift2019"
+   },
+   "column": "conf.low",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.46",
+   "sign": "-",
+   "before": "nge step at # inches (#% CI [#",
+   "nth": 0,
+   "table": "output/models_python.csv",
+   "where": {
+    "model": "height_regime",
+    "term": "shift2019"
+   },
+   "column": "conf.high",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "388",
+   "sign": "",
+   "before": " on either side. And among the",
+   "nth": 0,
+   "table": "output/within_player_python.csv",
+   "where": {
+    "pair_start": 2018
+   },
+   "column": "n_matched",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.44",
+   "sign": "+",
+   "before": "er and height, by season: from",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 1980
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.12",
+   "sign": "+",
+   "before": "d height, by season: from # to",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 2024
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.44",
+   "sign": "+",
+   "before": "er and his height fell from **",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 1980
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.17",
+   "sign": "+",
+   "before": "nd his height fell from **# to",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 2025
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.12",
+   "sign": "+",
+   "before": "s the sample (its ## floor was",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {
+    "metric": "jersey_height_cor",
+    "season_start": 2024
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "46",
+   "sign": "",
+   "before": "be. <div class=\"eyebrow beat\">",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "25",
+   "sign": "",
+   "before": "sey number nearly halved, from",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {
+    "season_start": 1980
+   },
+   "column": "median_number",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "14",
+   "sign": "",
+   "before": "nearly halved, from # in ## to",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {
+    "season_start": 2025
+   },
+   "column": "median_number",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "13",
+   "sign": "",
+   "before": "ved, from # in ## to # in ## (",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {
+    "season_start": 2024
+   },
+   "column": "median_number",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "46",
+   "sign": "",
+   "before": "the median nearly halving over",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "46",
+   "sign": "",
+   "before": "e slider or press play to walk",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.1%",
+   "sign": "",
+   "before": " (first bar, pooled) grow from",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {
+    "season_start": 1980
+   },
+   "column": "share_0_00",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "6.8%",
+   "sign": "",
+   "before": " #% of the league in ## to its",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {
+    "season_start": 2024
+   },
+   "column": "share_0_00",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "5.6%",
+   "sign": "",
+   "before": "o its #% all-time peak in ## (",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {
+    "season_start": 2025
+   },
+   "column": "share_0_00",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "7.7%",
+   "sign": "",
+   "before": "#). Numbers # and up went from",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {
+    "season_start": 1980
+   },
+   "column": "share_50_plus",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "4.8%",
+   "sign": "",
+   "before": " up went from #% of players to",
+   "nth": 0,
+   "table": "output/number_by_season.csv",
+   "where": {
+    "season_start": 2025
+   },
+   "column": "share_50_plus",
+   "scale": 100,
+   "abs": false
+  }
+ ]
+}
