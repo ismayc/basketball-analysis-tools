@@ -1,0 +1,400 @@
+{
+ "bindings": [
+  {
+   "token": "7.5",
+   "sign": "",
+   "before": "with the raw ## SportVU feed (",
+   "nth": 0,
+   "table": "output/player_workload.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "op": "*",
+      "args": [
+       {
+        "agg": "sum",
+        "table": "output/player_workload.csv",
+        "column": "frames"
+       },
+       1.1
+      ]
+     },
+     1000000.0
+    ]
+   }
+  },
+  {
+   "token": "2.5",
+   "sign": "",
+   "before": " lag</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "min",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s"
+   }
+  },
+  {
+   "token": "6.0",
+   "sign": "",
+   "before": "v> <div class=\"value\">#&ndash;",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s"
+   }
+  },
+  {
+   "token": "97.6%",
+   "sign": "",
+   "before": "> <div class=\"value\">#% &rarr;",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_agree"
+     },
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_checked"
+     }
+    ]
+   }
+  },
+  {
+   "token": "1,622",
+   "sign": "",
+   "before": " versus the calibrated join on",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/possession_validation.csv",
+    "column": "fga_checked"
+   }
+  },
+  {
+   "token": "7.5",
+   "sign": "",
+   "before": "mple</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/player_workload.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "op": "*",
+      "args": [
+       {
+        "agg": "sum",
+        "table": "output/player_workload.csv",
+        "column": "frames"
+       },
+       1.1
+      ]
+     },
+     1000000.0
+    ]
+   }
+  },
+  {
+   "token": "2.5",
+   "sign": "",
+   "before": "y a per-game scorer latency of",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "min",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s"
+   }
+  },
+  {
+   "token": "6.0",
+   "sign": "",
+   "before": "er-game scorer latency of # to",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s"
+   }
+  },
+  {
+   "token": "97.6%",
+   "sign": "",
+   "before": "-out check, agreement rises to",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_agree"
+     },
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_checked"
+     }
+    ]
+   }
+  },
+  {
+   "token": "1,622",
+   "sign": "",
+   "before": "heck, agreement rises to #% on",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/possession_validation.csv",
+    "column": "fga_checked"
+   }
+  },
+  {
+   "token": "94.0%",
+   "sign": "",
+   "before": "ses to #% on # shot events and",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "to_agree"
+     },
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "to_checked"
+     }
+    ]
+   }
+  },
+  {
+   "token": "232",
+   "sign": "",
+   "before": "on # shot events and #% on the",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/possession_validation.csv",
+    "column": "to_checked"
+   }
+  },
+  {
+   "token": "50.0%",
+   "sign": "",
+   "before": "ing quartiles is nearly flat (",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles.csv",
+   "where": {
+    "quartile": "Q1 (tightest)"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "45.0%",
+   "sign": "",
+   "before": " quartiles is nearly flat (#%,",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles.csv",
+   "where": {
+    "quartile": "Q2"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "45.7%",
+   "sign": "",
+   "before": "rtiles is nearly flat (#%, #%,",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles.csv",
+   "where": {
+    "quartile": "Q3"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "47.2%",
+   "sign": "",
+   "before": "es is nearly flat (#%, #%, #%,",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles.csv",
+   "where": {
+    "quartile": "Q4 (widest)"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "23.5%",
+   "sign": "",
+   "before": "are of threes rises steadily (",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles.csv",
+   "where": {
+    "quartile": "Q1 (tightest)"
+   },
+   "column": "share_3pt",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "29.8%",
+   "sign": "",
+   "before": "f threes rises steadily (#% to",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles.csv",
+   "where": {
+    "quartile": "Q4 (widest)"
+   },
+   "column": "share_3pt",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "6%",
+   "sign": "",
+   "before": "> ## Today's teams cover about",
+   "nth": 0,
+   "table": "output/modern_movement_trend.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "op": "/",
+      "args": [
+       {
+        "table": "output/modern_movement_trend.csv",
+        "where": {
+         "season": "2025-26"
+        },
+        "column": "miles_per_team_game"
+       },
+       {
+        "table": "output/modern_movement_trend.csv",
+        "where": {
+         "season": "2015-16"
+        },
+        "column": "miles_per_team_game"
+       }
+      ]
+     },
+     1
+    ]
+   }
+  },
+  {
+   "token": "6%",
+   "sign": "",
+   "before": "est: today's teams cover about",
+   "nth": 0,
+   "table": "output/modern_movement_trend.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "-",
+    "args": [
+     {
+      "op": "/",
+      "args": [
+       {
+        "table": "output/modern_movement_trend.csv",
+        "where": {
+         "season": "2025-26"
+        },
+        "column": "miles_per_team_game"
+       },
+       {
+        "table": "output/modern_movement_trend.csv",
+        "where": {
+         "season": "2015-16"
+        },
+        "column": "miles_per_team_game"
+       }
+      ]
+     },
+     1
+    ]
+   }
+  }
+ ]
+}

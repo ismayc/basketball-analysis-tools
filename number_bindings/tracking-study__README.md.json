@@ -1,0 +1,15 @@
+{
+ "bindings": [
+  {
+   "token": "10",
+   "sign": "",
+   "before": "al events. Measured across the",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

@@ -149,15 +149,17 @@ def local_count(b: dict) -> bool:
 def eval_expr(e, load) -> float | str:
     """An expression over cells: a number, a cell reference {"table",
     "where", "column"} (column may be __rows__ or __columns__), an
-    aggregate {"agg": "median" | "mean", ...}, or {"op": "-" | "/" | "abs"
-    | "1-", "args": [...]}. "2.3 times the next-largest drop" is
-    abs(step) / abs(next drop)."""
+    aggregate {"agg": "median" | "mean", ...}, or {"op": "-" | "/" | "*" | "abs"
+    | "1-" | "round", "args": [...]}. "2.3 times the next-largest drop" is
+    abs(step) / abs(next drop); "a maximum over ~40,000 frames" is
+    round(median frames, -4)."""
     if isinstance(e, (int, float)):
         return float(e)
     if "agg" in e:
-        # {"agg": "median" | "mean" | "sum" | "wmean" (+ "weight"), "table", "column", "where": {},
-        # "where_not": {}, "range": {col: [lo, hi]}}: "a typical offseason" is a
-        # median with rows left out; "201 per second at 31-33s" a mean over a range.
+        # {"agg": "median" | "mean" | "sum" | "min" | "max" | "wmean" (+ "weight"), "table",
+        # "column", "where": {}, "where_not": {}, "range": {col: [lo, hi]}}: "a typical
+        # offseason" is a median with rows left out; "201 per second at 31-33s" a mean over
+        # a range; "a latency of 2.5-6.0 s" the min and max across games.
         df = load(e["table"], e.get("repo"))
         if df is None:
             return f"{e['table']} missing"
@@ -175,7 +177,8 @@ def eval_expr(e, load) -> float | str:
             # weighted by another column: shot-weighted eFG across clock buckets
             w = sub[e["weight"]].cast(pl.Float64)
             return float((col * w).sum() / w.sum())
-        return float({"median": col.median, "mean": col.mean, "sum": col.sum}[e["agg"]]())
+        return float({"median": col.median, "mean": col.mean, "sum": col.sum,
+                      "min": col.min, "max": col.max}[e["agg"]]())
     if "op" not in e:
         df = load(e["table"], e.get("repo"))
         return f"{e['table']} missing" if df is None else raw_value(df, {**e, "where": e.get("where", {})})
@@ -188,6 +191,10 @@ def eval_expr(e, load) -> float | str:
         return vals[0] - vals[1]
     if op == "/":
         return "division by zero" if vals[1] == 0 else vals[0] / vals[1]
+    if op == "*":
+        return vals[0] * vals[1]
+    if op == "round":
+        return float(round(vals[0], int(vals[1])))
     if op == "abs":
         return abs(vals[0])
     if op == "1-":

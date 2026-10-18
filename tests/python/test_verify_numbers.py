@@ -226,3 +226,17 @@ def test_cross_repo_reference_and_range_mean(nbm, tmp_path):
     band = {"token": "201", "sign": "", "before": "x", "scale": 1, "abs": False,
             "expr": {"agg": "mean", "table": "output/t.csv", "column": "n", "range": {"bucket": [31, 33]}}}
     assert nbm.check(here, band, {}) is None
+
+
+def test_min_max_aggregates_and_product_round_ops(nbm, tmp_path):
+    (tmp_path / "output").mkdir()
+    (tmp_path / "output" / "g.csv").write_text("game,lead,frames\na,6.0,38000\nb,2.5,41466\nc,4.0,52000\n")
+    agg = lambda a, c: {"agg": a, "table": "output/g.csv", "column": c}
+    b = lambda tok, expr: {"token": tok, "sign": "", "before": "x", "scale": 1, "abs": False, "expr": expr}
+    assert nbm.check(tmp_path, b("2.5", agg("min", "lead")), {}) is None
+    assert nbm.check(tmp_path, b("6.0", agg("max", "lead")), {}) is None
+    assert "cell gives" in nbm.check(tmp_path, b("6.5", agg("max", "lead")), {})
+    rounded = {"op": "round", "args": [agg("median", "frames"), -4]}
+    assert nbm.check(tmp_path, b("40,000", rounded), {}) is None
+    assert "cell gives" in nbm.check(tmp_path, b("41,466", rounded), {})
+    assert nbm.check(tmp_path, b("12.0", {"op": "*", "args": [agg("max", "lead"), 2]}), {}) is None

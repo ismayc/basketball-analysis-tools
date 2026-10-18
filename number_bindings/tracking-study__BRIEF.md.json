@@ -1,0 +1,335 @@
+{
+ "bindings": [
+  {
+   "token": "10",
+   "sign": "",
+   "before": "-per-second camera data across",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2",
+   "sign": "",
+   "before": "otation player covers about **",
+   "nth": 0,
+   "table": "output/validation_vs_official.csv",
+   "where": {
+    "metric": "median distance per game (miles)"
+   },
+   "column": "local",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4.2",
+   "sign": "",
+   "before": "an average moving speed around",
+   "nth": 0,
+   "table": "output/validation_vs_official.csv",
+   "where": {
+    "metric": "median average speed (mph)"
+   },
+   "column": "local",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "40,000",
+   "sign": "",
+   "before": "een frames, and a maximum over",
+   "nth": 0,
+   "table": "output/player_workload.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "round",
+    "args": [
+     {
+      "agg": "median",
+      "table": "output/player_workload.csv",
+      "column": "frames",
+      "range": {
+       "live_minutes": [
+        20,
+        1000000000.0
+       ]
+      }
+     },
+     -4
+    ]
+   }
+  },
+  {
+   "token": "10",
+   "sign": "",
+   "before": "#th-percentile speed instead (",
+   "nth": 0,
+   "table": "output/player_workload.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "*",
+    "args": [
+     {
+      "agg": "median",
+      "table": "output/player_workload.csv",
+      "column": "p95_speed",
+      "range": {
+       "live_minutes": [
+        20,
+        1000000000.0
+       ]
+      }
+     },
+     0.6818181818181818
+    ]
+   }
+  },
+  {
+   "token": "530",
+   "sign": "",
+   "before": "yers typically occupy about **",
+   "nth": 0,
+   "table": "output/spacing_frames.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "round",
+    "args": [
+     {
+      "agg": "median",
+      "table": "output/spacing_frames.csv",
+      "column": "hull_area"
+     },
+     -1
+    ]
+   }
+  },
+  {
+   "token": "10",
+   "sign": "",
+   "before": "ot mix toward threes; in these",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.00",
+   "sign": "",
+   "before": "l validation against medians (",
+   "nth": 0,
+   "table": "output/validation_vs_official.csv",
+   "where": {
+    "metric": "median distance per game (miles)"
+   },
+   "column": "local",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.00",
+   "sign": "",
+   "before": "lidation against medians (# vs",
+   "nth": 0,
+   "table": "output/validation_vs_official.csv",
+   "where": {
+    "metric": "median distance per game (miles)"
+   },
+   "column": "official",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.5",
+   "sign": "",
+   "before": "a **per-game scorer latency of",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "min",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s"
+   }
+  },
+  {
+   "token": "6.0",
+   "sign": "",
+   "before": "*per-game scorer latency of #–",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s"
+   }
+  },
+  {
+   "token": "97.6%",
+   "sign": "",
+   "before": "th turnovers held out gives **",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_agree"
+     },
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_checked"
+     }
+    ]
+   }
+  },
+  {
+   "token": "94.0%",
+   "sign": "",
+   "before": "urnovers held out gives **#% /",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "to_agree"
+     },
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "to_checked"
+     }
+    ]
+   }
+  },
+  {
+   "token": "10",
+   "sign": "",
+   "before": "ata (nothing newer is public),",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.5",
+   "sign": "",
+   "before": "d: #× frame duplication, and a",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "min",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s"
+   }
+  },
+  {
+   "token": "6",
+   "sign": "",
+   "before": "#× frame duplication, and a #–",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s"
+   }
+  },
+  {
+   "token": "94",
+   "sign": "",
+   "before": "m raw coordinates validated at",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "to_agree"
+     },
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "to_checked"
+     }
+    ]
+   }
+  },
+  {
+   "token": "98%",
+   "sign": "",
+   "before": "aw coordinates validated at #–",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_agree"
+     },
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_checked"
+     }
+    ]
+   }
+  }
+ ]
+}
