@@ -129,6 +129,7 @@ def main() -> None:
         page.write_text(HTML)
         subprocess.run(
             [CHROME, "--headless", "--disable-gpu", "--hide-scrollbars",
+             f"--user-data-dir={td}/profile",
              f"--screenshot={out}", f"--window-size={WIDTH},{HEIGHT}",
              "--default-background-color=0f0e0dff", str(page)],
             check=True, capture_output=True)
