@@ -89,6 +89,72 @@
    "abs": false
   },
   {
+   "token": "84%",
+   "sign": "",
+   "before": "eady decided: they go quick **",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "table": "output/decision_summary.csv",
+      "where": {
+       "behavior": "quick"
+      },
+      "column": "n"
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "op": "-",
+        "args": [
+         {
+          "table": "output/decision_summary.csv",
+          "where": {
+           "behavior": "quick"
+          },
+          "column": "n"
+         },
+         {
+          "op": "-",
+          "args": [
+           0,
+           {
+            "table": "output/decision_summary.csv",
+            "where": {
+             "behavior": "normal"
+            },
+            "column": "n"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "op": "-",
+        "args": [
+         0,
+         {
+          "table": "output/decision_summary.csv",
+          "where": {
+           "behavior": "hold"
+          },
+          "column": "n"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
    "token": "24",
    "sign": "",
    "before": "ssessions are nearly extinct (",

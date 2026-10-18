@@ -5,4 +5,3 @@
 1,230  # games in a 30-team, 82-game season (30 x 82 / 2), a schedule fact
 20 @ dom, so we report a restricted  # a clock threshold, band, or window that defines the comparison, a setting
 0.36 @ shifted the headline gap from  # UNVERIFIED: the naive estimate from the run before the text-sort fix; no committed output keeps it (it equals the restricted-sample estimate only by coincidence)
-85% @ eady decided: they go quick **  # UNVERIFIED: WRONG, pending a decision (asked 2026-10-18): quick is 3,112 of 3,683 = 84.496%, which rounds to 84% (README Findings says 84%; this BRIEF says 84.5% a line later)
