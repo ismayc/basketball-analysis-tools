@@ -18,6 +18,68 @@
    }
   },
   {
+   "token": "75%",
+   "sign": "",
+   "before": " are getting shorter\" trend is",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2019
+        },
+        "column": "value",
+        "repo": "jersey-height-study"
+       },
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2018
+        },
+        "column": "value",
+        "repo": "jersey-height-study"
+       }
+      ]
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2025
+        },
+        "column": "value",
+        "repo": "jersey-height-study"
+       },
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2002
+        },
+        "column": "value",
+        "repo": "jersey-height-study"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
    "token": "0.2",
    "sign": "+",
    "before": " the comparable-sample edge is",

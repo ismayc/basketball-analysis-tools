@@ -138,7 +138,7 @@ REVEAL_SCRIPT = """<script>
 HUB_CARDS = {
     "jersey-height-study": (
         "46 seasons of rosters",
-        "The “players are getting shorter” trend is ~70% a 2019 "
+        "The “players are getting shorter” trend is ~75% a 2019 "
         "measurement-rule change. The jersey numbers really did shrink: "
         "the median nearly halved."),
     "playbyplay-study": (
