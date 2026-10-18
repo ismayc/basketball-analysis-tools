@@ -182,6 +182,19 @@
    "column": "train_auc",
    "scale": 1,
    "abs": false
+  },
+  {
+   "token": "28",
+   "sign": "",
+   "before": "rosses a coin flip around pick",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "coin_flip": 1
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
   }
  ]
 }

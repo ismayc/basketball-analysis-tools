@@ -638,6 +638,32 @@
    "column": "value",
    "scale": 100,
    "abs": false
+  },
+  {
+   "token": "99.9%",
+   "sign": "",
+   "before": " P(rotation player) falls from",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "p_rotation",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "28",
+   "sign": "",
+   "before": "n\") to a coin flip around pick",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "coin_flip": 1
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
   }
  ]
 }
