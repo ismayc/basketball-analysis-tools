@@ -1,6 +1,61 @@
 {
  "bindings": [
   {
+   "token": "16,000",
+   "sign": "",
+   "before": " margin across a full season (",
+   "nth": 0,
+   "table": "output/2023-24/scale.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "round",
+    "args": [
+     {
+      "table": "output/2023-24/scale.csv",
+      "where": {},
+      "column": "lineup_rows"
+     },
+     -3
+    ]
+   }
+  },
+  {
+   "token": "19,500",
+   "sign": "",
+   "before": "rgin across a full season (~#–",
+   "nth": 0,
+   "table": "output/2025-26/scale.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "round",
+    "args": [
+     {
+      "table": "output/2025-26/scale.csv",
+      "where": {},
+      "column": "lineup_rows"
+     },
+     -2
+    ]
+   }
+  },
+  {
+   "token": "69,767",
+   "sign": "",
+   "before": "tment upgrade is now wired in:",
+   "nth": 0,
+   "table": "output/2023-24/stint_scale.csv",
+   "where": {},
+   "column": "stints_parsed",
+   "scale": 1,
+   "abs": false
+  },
+  {
    "token": "2.2",
    "sign": "+",
    "before": "imates home-court advantage at",

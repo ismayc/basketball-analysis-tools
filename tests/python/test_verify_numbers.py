@@ -228,6 +228,14 @@ def test_cross_repo_reference_and_range_mean(nbm, tmp_path):
     assert nbm.check(here, band, {}) is None
 
 
+def test_ranges_never_split_a_number(vn):
+    toks = lambda s: [o["token"] for o in vn.occurrences(s)]
+    assert toks("sums land at 8,200-8,900, matching") == ["8,200", "8,900"]
+    assert toks("the 2015-16 season") == []
+    assert toks("CI [0.23,1.20] here") == ["0.23", "1.20"]
+    assert toks("rows (~16,000–19,500 lineups") == ["16,000", "19,500"]
+
+
 def test_min_max_aggregates_and_product_round_ops(nbm, tmp_path):
     (tmp_path / "output").mkdir()
     (tmp_path / "output" / "g.csv").write_text("game,lead,frames\na,6.0,38000\nb,2.5,41466\nc,4.0,52000\n")
@@ -252,3 +260,8 @@ def test_row_difference_median_and_argmin(nbm, tmp_path):
     chosen = {"agg": "argmin", "table": "output/cv.csv", "column": "lam", "by": "cv_wmse"}
     assert nbm.check(tmp_path, b("3200", chosen), {}) is None
     assert "cell gives" in nbm.check(tmp_path, b("1600", chosen), {})
+    lo = lambda t: {"table": t, "where": {}, "column": "lam"}
+    (tmp_path / "output" / "cv2.csv").write_text("lam\n800.0\n")
+    first = {"agg": "min", "table": "output/cv.csv", "column": "lam"}
+    assert nbm.check(tmp_path, b("800", {"op": "min", "args": [first, lo("output/cv2.csv")]}), {}) is None
+    assert nbm.check(tmp_path, b("1600", {"op": "max", "args": [first, lo("output/cv2.csv")]}), {}) is None

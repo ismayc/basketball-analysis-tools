@@ -1,6 +1,136 @@
 {
  "bindings": [
   {
+   "token": "15,900",
+   "sign": "",
+   "before": "coverage check target | Scale:",
+   "nth": 0,
+   "table": "output/2023-24/scale.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "round",
+    "args": [
+     {
+      "table": "output/2023-24/scale.csv",
+      "where": {},
+      "column": "lineup_rows"
+     },
+     -2
+    ]
+   }
+  },
+  {
+   "token": "19,500",
+   "sign": "",
+   "before": "Scale: ~# lineup rows (##) and",
+   "nth": 0,
+   "table": "output/2025-26/scale.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "round",
+    "args": [
+     {
+      "table": "output/2025-26/scale.csv",
+      "where": {},
+      "column": "lineup_rows"
+     },
+     -2
+    ]
+   }
+  },
+  {
+   "token": "8,200",
+   "sign": "",
+   "before": "count** (per-team sums land at",
+   "nth": 0,
+   "table": "output/2023-24/scale.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "round",
+    "args": [
+     {
+      "op": "min",
+      "args": [
+       {
+        "table": "output/2023-24/scale.csv",
+        "where": {},
+        "column": "team_poss_min"
+       },
+       {
+        "table": "output/2025-26/scale.csv",
+        "where": {},
+        "column": "team_poss_min"
+       }
+      ]
+     },
+     -2
+    ]
+   }
+  },
+  {
+   "token": "8,900",
+   "sign": "",
+   "before": "nt** (per-team sums land at #-",
+   "nth": 0,
+   "table": "output/2023-24/scale.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "round",
+    "args": [
+     {
+      "op": "max",
+      "args": [
+       {
+        "table": "output/2023-24/scale.csv",
+        "where": {},
+        "column": "team_poss_max"
+       },
+       {
+        "table": "output/2025-26/scale.csv",
+        "where": {},
+        "column": "team_poss_max"
+       }
+      ]
+     },
+     -2
+    ]
+   }
+  },
+  {
+   "token": "1.001",
+   "sign": "",
+   "before": "ith #+ possessions gives slope",
+   "nth": 0,
+   "table": "output/2023-24/scale.csv",
+   "where": {},
+   "column": "net_rating_slope",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.07",
+   "sign": "+",
+   "before": "ssions gives slope # intercept",
+   "nth": 0,
+   "table": "output/2023-24/scale.csv",
+   "where": {},
+   "column": "net_rating_intercept",
+   "scale": 1,
+   "abs": false
+  },
+  {
    "token": "0.5%",
    "sign": "",
    "before": "inutes** (max relative error <",
@@ -36,6 +166,19 @@
     "check": "Spearman(RAPM, raw plus-minus per minute)"
    },
    "column": "threshold",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.96",
+   "sign": "",
+   "before": "d lands within Spearman</abbr>",
+   "nth": 0,
+   "table": "output/2023-24/stint_validation.csv",
+   "where": {
+    "check": "Spearman vs lineup-aggregate model"
+   },
+   "column": "value",
    "scale": 1,
    "abs": false
   }

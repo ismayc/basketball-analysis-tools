@@ -70,8 +70,15 @@ FILES = ([(s, "docs/story.md") for s in STUDIES]
 
 YEAR = re.compile(r"^(19|20)\d{2}$")
 SEASON = re.compile(r"^\d{4}-\d{2}$")
-# ".44" (no leading zero) is a number too; it once went unchecked.
-TOKEN = re.compile(r"(?<![\w./-])[+\-−±~≈]{0,2}(\.\d+|\d[\d,]*\.?\d*(?:e-?\d+)?)"
+# ".44" (no leading zero) is a number too; it once went unchecked. A token
+# never starts mid-number, inside a thousands group: "8,200-8,900" once
+# yielded "900", which an allowlist entry for an unrelated 900 then covered
+# ("0.23,1.20" still yields 1.20). The end of a hyphen range is a token when
+# it has thousands commas; a short one after a hyphen ("2015-16") stays a
+# season label.
+TOKEN = re.compile(r"(?:(?<![\w./,-])|(?<=,)(?<!\d,)|(?<=\d,)(?!\d{3}(?![\d.]))"
+                   r"|(?<=\d-)(?=\d{1,3},\d{3}))"
+                   r"[+\-−±~≈]{0,2}(\.\d+|\d[\d,]*\.?\d*(?:e-?\d+)?)"
                    r"(%|×|x\b)?")
 # A year-shaped number followed by one of these is a count ("2000 series"),
 # not a year, and is checked like any other number.

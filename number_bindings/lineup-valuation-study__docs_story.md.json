@@ -37,6 +37,17 @@
    "abs": false
   },
   {
+   "token": "69,767",
+   "sign": "",
+   "before": "rsed</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/2023-24/stint_scale.csv",
+   "where": {},
+   "column": "stints_parsed",
+   "scale": 1,
+   "abs": false
+  },
+  {
    "token": "2.2",
    "sign": "+",
    "before": "tage</div> <div class=\"value\">",
@@ -114,6 +125,17 @@
      2
     ]
    }
+  },
+  {
+   "token": "69,767",
+   "sign": "",
+   "before": " scratch at a different grain:",
+   "nth": 0,
+   "table": "output/2023-24/stint_scale.csv",
+   "where": {},
+   "column": "stints_parsed",
+   "scale": 1,
+   "abs": false
   },
   {
    "token": "2.2",

@@ -150,7 +150,7 @@ def eval_expr(e, load) -> float | str:
     """An expression over cells: a number, a cell reference {"table",
     "where", "column"} (column may be __rows__ or __columns__), an
     aggregate {"agg": "median" | "mean", ...}, or {"op": "-" | "/" | "*" | "abs"
-    | "1-" | "round", "args": [...]}. "2.3 times the next-largest drop" is
+    | "1-" | "round" | "min" | "max", "args": [...]}. "2.3 times the next-largest drop" is
     abs(step) / abs(next drop); "a maximum over ~40,000 frames" is
     round(median frames, -4)."""
     if isinstance(e, (int, float)):
@@ -199,6 +199,9 @@ def eval_expr(e, load) -> float | str:
         return "division by zero" if vals[1] == 0 else vals[0] / vals[1]
     if op == "*":
         return vals[0] * vals[1]
+    if op in ("min", "max"):
+        # across tables: "per-team sums land at 8,200-8,900" spans two seasons
+        return min(vals) if op == "min" else max(vals)
     if op == "round":
         return float(round(vals[0], int(vals[1])))
     if op == "abs":
