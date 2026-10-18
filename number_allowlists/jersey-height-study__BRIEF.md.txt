@@ -1,0 +1,3 @@
+0.80  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.
+18,399  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.
+1e-6  # a reconciliation or convergence tolerance, a setting not a result

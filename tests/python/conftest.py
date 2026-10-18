@@ -26,6 +26,11 @@ def gloss():
 
 
 @pytest.fixture(scope="session")
+def vn():
+    return load_script(REPO / "verify_numbers.py", "portfolio_verify_numbers")
+
+
+@pytest.fixture(scope="session")
 def shotq():
     return load_script(SIBLINGS / "shot-quality-study/python/02_model.py",
                        "shotq_model")

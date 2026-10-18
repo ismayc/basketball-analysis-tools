@@ -847,9 +847,10 @@ play-by-play study, and a dplyr masking bug that silently degraded a
 standard-error column while every sum still matched. Results are validated
 against independent external data before being believed, no analysis
 number in any README is typed by hand (findings scripts
-write them from committed outputs, with drift gates), every number in
-the narrative pages is machine-verified against those outputs on every
-check run, and each study states plainly what it cannot claim.</p>
+write them from committed outputs, with drift gates), numbers in the
+narrative pages are matched against those outputs on every check run (a
+loose check, being replaced by bindings to exact output cells), and each
+study states plainly what it cannot claim.</p>
 <p>Each card below opens the study as a narrative (the question, the
 evidence, and the specific figures that carry it), with the full technical
 write-up one link deeper.</p>

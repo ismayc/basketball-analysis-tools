@@ -1,0 +1,2 @@
+1,230  # games in a 30-team, 82-game season (30 x 82 / 2), a schedule fact
+1e-6  # a reconciliation or convergence tolerance, a setting not a result

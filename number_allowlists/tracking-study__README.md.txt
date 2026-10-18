@@ -1,0 +1,1 @@
+3.07×  # UNVERIFIED: not in any committed output of this study; before 2026-10-18 it matched only by chance in other studies' outputs. Bind to a committed cell under the bindings plan.

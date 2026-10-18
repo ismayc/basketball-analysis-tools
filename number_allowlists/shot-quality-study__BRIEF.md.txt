@@ -1,2 +1,3 @@
 1e-8   # IRLS ridge stabilizer constant, a fixed hyperparameter in 02_model.py
 2e-13  # reconciliation magnitude; verified live by 03_reconcile's gate
+1e-10  # a reconciliation or convergence tolerance, a setting not a result
