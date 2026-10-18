@@ -168,9 +168,9 @@ TERMS: dict[str, tuple[str, list[str]]] = {
         "raw values.",
         ["Spearman"]),
     "corner three": (
-        "A three-pointer from the corner, where the NBA line is roughly "
-        "3 ft closer than the arc - the geometry discount that makes it "
-        "the cheapest three.",
+        "A three-pointer from the corner, where the NBA line is about "
+        "1.75 ft closer than the arc (22 ft vs 23 ft 9 in) - the geometry "
+        "discount that makes it the cheapest three.",
         ["corner threes", "corner three", "corner-three", "corner 3"]),
     "SportVU": (
         "The NBA's 2013-16 optical tracking system: x,y for all ten "

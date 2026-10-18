@@ -1,6 +1,32 @@
 {
  "bindings": [
   {
+   "token": "1.8",
+   "sign": "",
+   "before": "r price: a dunk is worth about",
+   "nth": 0,
+   "table": "output/shot_prices.csv",
+   "where": {
+    "shot": "dunk"
+   },
+   "column": "xpts",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.8",
+   "sign": "",
+   "before": "ves the hand, a long two about",
+   "nth": 0,
+   "table": "output/shot_prices.csv",
+   "where": {
+    "shot": "long two (mid-range, 16+ ft)"
+   },
+   "column": "xpts",
+   "scale": 1,
+   "abs": false
+  },
+  {
    "token": "0.9",
    "sign": "",
    "before": "st perfectly year to year (r ≈",
@@ -125,9 +151,46 @@
    "abs": true
   },
   {
+   "token": "0.003%",
+   "sign": "",
+   "before": "vs the independent pbp feed (≤",
+   "nth": 0,
+   "table": "output/validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "max",
+    "args": [
+     {
+      "table": "output/validation.csv",
+      "where": {
+       "check": "FGA matches play-by-play count (relative)"
+      },
+      "column": "value"
+     },
+     {
+      "table": "output/validation.csv",
+      "where": {
+       "check": "FGM matches play-by-play count (relative)"
+      },
+      "column": "value"
+     },
+     {
+      "table": "output/validation.csv",
+      "where": {
+       "check": "3PM matches play-by-play count (relative)"
+      },
+      "column": "value"
+     }
+    ]
+   }
+  },
+  {
    "token": "0.01",
    "sign": "",
-   "before": "eed (#%), decile calibration ≤",
+   "before": "ed (≤#%), decile calibration ≤",
    "nth": 0,
    "table": "output/validation.csv",
    "where": {

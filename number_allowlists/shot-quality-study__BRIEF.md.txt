@@ -1,9 +1,6 @@
 1e-8   # IRLS ridge stabilizer constant, a fixed hyperparameter in 02_model.py
 2e-13  # reconciliation magnitude; verified live by 03_reconcile's gate
 1e-10  # a reconciliation or convergence tolerance, a setting not a result
-1.8  # UNVERIFIED: pending a decision (asked 2026-10-18): "a dunk is worth about 1.8 points"; no committed output keeps xPTS by shot type
-0.8  # UNVERIFIED: pending a decision (asked 2026-10-18): "a contested long two about 0.8"; no committed output keeps xPTS by shot type, and the model has no defender data ("contested")
-0.002%  # UNVERIFIED: pending a decision (asked 2026-10-18): "totals vs the independent pbp feed (0.002%)"; FGA is 0.0018% but FGM and 3PM are 0.0029% and 0.0032% (validation.csv)
 1  # spline knot positions (1-26 ft), a setting
 100  # the per-100 unit in "/100", a label
 300  # qualifying threshold (300+ FGA), a setting
