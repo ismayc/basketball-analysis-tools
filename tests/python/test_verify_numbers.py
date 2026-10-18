@@ -117,14 +117,16 @@ def test_binding_row_and_column_must_exist(nbm, bound):
     assert "missing" in nbm.check(bound, {**b("1", "", {}, "N"), "table": "output/gone.csv"}, cache)
 
 
-def test_propose_binds_only_unique_cells(nbm, tmp_path):
+def test_propose_binds_only_unique_cells(nbm, vn, tmp_path):
     (tmp_path / "output").mkdir()
     # -0.03 displays from two cells (MEAN of league 0, LO of league 10).
     (tmp_path / "output" / "s.csv").write_text(
         "LEAGUE,MEAN,LO,N\n0,-0.000290,-0.0010,630\n10,0.0026,-0.00031,170\n")
     occs = [{"token": "630", "sign": "", "before": "a"}, {"token": "0.03", "sign": "-", "before": "b"}]
-    got, open_items = nbm.propose(tmp_path, ["output/s.csv"], occs, [], {})
+    got, open_items = nbm.propose(tmp_path, ["output/s.csv"], occs, [], {}, vn.allowed_reason)
     assert [(g["token"], g["column"], g["where"]) for g in got] == [("630", "N", {"LEAGUE": 0})]
+    # A single matching cell is a draft, never a verdict.
+    assert got[0]["auto"] is True
     assert [o["token"] for o in open_items] == ["0.03"]
     assert len(open_items[0]["candidates"]) == 2
 
@@ -146,3 +148,32 @@ def test_row_key_prefers_text_columns(nbm):
     df = pl.DataFrame({"spec": ["strict", "strict"], "tier": ["role", "star"],
                        "n_cy": [1123, 246], "diff": [0.21, -0.25]})
     assert nbm.row_key(df, 0) == {"tier": "role"}
+
+
+def test_numbers_glued_to_letters_are_names(vn):
+    assert vn.tokens_of("the 1990s and 2000s, 3PA rate, the 12th pick, and 35.1%") == ["35.1%"]
+
+
+def test_scoped_allowlist_entry(vn):
+    occ = vn.occurrences("falls from 99.9% at pick 1. | quintile | 1 | 39 |")
+    allowed = {"1 @ at pick": "1 @ at pick  # an illustrative pick number"}
+    one = [o for o in occ if o["token"] == "1"]
+    assert vn.allowed_reason(one[0], allowed) is not None
+    assert vn.allowed_reason(one[1], allowed) is None
+
+
+def test_repeated_context_gets_nth(vn):
+    row = "a long table caption that fills the context | 38 |\n"
+    occ = vn.occurrences(row + row)
+    assert [o["nth"] for o in occ] == [0, 1]
+
+
+def test_rows_and_cross_table_minus(nbm, tmp_path):
+    (tmp_path / "output").mkdir()
+    (tmp_path / "output" / "m1.csv").write_text("term,coef\n" + "".join(f"t{i},0.1\n" for i in range(17)))
+    (tmp_path / "output" / "m0.csv").write_text("term,coef\nintercept,1\nlog_pick,2\n")
+    feat = {"token": "15", "sign": "+", "before": "x", "table": "output/m1.csv", "where": {},
+            "column": "__rows__", "scale": 1, "abs": False,
+            "minus": {"table": "output/m0.csv", "column": "__rows__"}}
+    assert nbm.check(tmp_path, feat, {}) is None
+    assert "cell gives" in nbm.check(tmp_path, {**feat, "token": "16"}, {})

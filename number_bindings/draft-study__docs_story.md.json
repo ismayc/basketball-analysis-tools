@@ -1,0 +1,187 @@
+{
+ "bindings": [
+  {
+   "token": "0.000",
+   "sign": "+",
+   "before": " add</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_plus_college"
+   },
+   "column": "test_auc",
+   "scale": 1,
+   "abs": false,
+   "minus": {
+    "where": {
+     "model": "pick_only"
+    },
+    "column": "test_auc"
+   }
+  },
+  {
+   "token": "0.827",
+   "sign": "",
+   "before": "lone</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_only"
+   },
+   "column": "test_auc",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.844",
+   "sign": "",
+   "before": "tery</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_only"
+   },
+   "column": "train_auc",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.861",
+   "sign": "",
+   "before": "v> <div class=\"value\"># &rarr;",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_plus_college"
+   },
+   "column": "train_auc",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "567",
+   "sign": "",
+   "before": "mple</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/model_frame.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "567",
+   "sign": "",
+   "before": "worthy rather than flattering.",
+   "nth": 0,
+   "table": "output/model_frame.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "98%",
+   "sign": "",
+   "before": "study's one name join gated at",
+   "nth": 0,
+   "table": "output/validation.csv",
+   "where": {
+    "check": "lottery picks from colleges matched to Torvik"
+   },
+   "column": "threshold",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.000",
+   "sign": "+",
+   "before": "iv> ## The college numbers add",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_plus_college"
+   },
+   "column": "test_auc",
+   "scale": 1,
+   "abs": false,
+   "minus": {
+    "where": {
+     "model": "pick_only"
+    },
+    "column": "test_auc"
+   }
+  },
+  {
+   "token": "0.827",
+   "sign": "",
+   "before": " predicts rotation outcomes at",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_only"
+   },
+   "column": "test_auc",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.827",
+   "sign": "",
+   "before": "rks) and the test AUC moves to",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_plus_college"
+   },
+   "column": "test_auc",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.000",
+   "sign": "+",
+   "before": "to # **The college numbers add",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_plus_college"
+   },
+   "column": "test_auc",
+   "scale": 1,
+   "abs": false,
+   "minus": {
+    "where": {
+     "model": "pick_only"
+    },
+    "column": "test_auc"
+   }
+  },
+  {
+   "token": "0.844",
+   "sign": "",
+   "before": " add #** In-sample they help (",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_only"
+   },
+   "column": "train_auc",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.861",
+   "sign": "",
+   "before": "d #** In-sample they help (# →",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_plus_college"
+   },
+   "column": "train_auc",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

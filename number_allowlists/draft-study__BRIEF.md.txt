@@ -1,1 +1,2 @@
 1e-13  # reconciliation magnitude; verified live by 03_reconcile's gate
+2,000  # the rotation outcome's minutes threshold (2,000+ NBA minutes within three seasons), a setting

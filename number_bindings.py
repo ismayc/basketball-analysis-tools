@@ -23,10 +23,13 @@ sign ("smaller by 2.49 points"); "complement" is true when the prose states
 
     python verify_numbers.py --propose <repo> <file>   draft bindings
 
---propose binds a number when exactly one cell in the study's tracked
+--propose drafts a binding when exactly one cell in the study's tracked
 outputs displays as it does (a Python table and its tracked R twin count
-once) and writes the rest, with their candidates, to a .proposals.json
-file beside it for a person to resolve.
+once), marked "auto": true, and writes the rest, with their candidates, to
+a .proposals.json file beside it. One matching cell is not proof: on
+2026-10-18 the draft-study sample size 567 drafted as one player's OBPM
+x 100. The gate fails every "auto" binding until a person confirms it and
+deletes the flag.
 """
 from __future__ import annotations
 
@@ -79,6 +82,51 @@ def cell(df: pl.DataFrame, where: dict, column: str) -> list:
     return sub[column].to_list()
 
 
+def load_cached(base: Path, table: str, cache: dict) -> pl.DataFrame | None:
+    if table not in cache:
+        cache[table] = read_table(base, table) if (base / table).exists() else None
+    return cache[table]
+
+
+def one_cell(df: pl.DataFrame, where: dict, column: str) -> float | str:
+    """The single cell at where/column, or a reason there is not one."""
+    if column not in df.columns:
+        return f"has no column {column}"
+    vals = cell(df, where, column)
+    if len(vals) != 1:
+        return f"{where} selects {len(vals)} rows, not 1"
+    if vals[0] is None:
+        return f"{where} {column} is blank"
+    return float(vals[0])
+
+
+def local_count(b: dict) -> bool:
+    """A row or column count of a local data/ file. Such a file may be a
+    gitignored download (licensed source data); only its size is claimed."""
+    return b["table"].startswith("data/") and b["column"] in ("__rows__", "__columns__")
+
+
+def raw_value(df: pl.DataFrame, b: dict, load=None) -> float | str:
+    """The bound number before scaling: a cell, the table's row or column
+    count ("__rows__", "__columns__"), or that minus another cell or count
+    ("minus": {"where": ..., "column": ..., "table": optional}), an AUC
+    gain or a feature count, for example."""
+    if b["column"] == "__rows__":
+        v = float(df.height)
+    elif b["column"] == "__columns__":
+        v = float(df.width)
+    else:
+        v = one_cell(df, b["where"], b["column"])
+    if isinstance(v, str) or "minus" not in b:
+        return v
+    m_spec = b["minus"]
+    other = df if "table" not in m_spec else (load(m_spec["table"]) if load else None)
+    if other is None:
+        return f"minus table {m_spec.get('table')} missing"
+    m = raw_value(other, {"column": m_spec["column"], "where": m_spec.get("where", {})})
+    return m if isinstance(m, str) else v - m
+
+
 def value_of(raw: float, b: dict) -> float:
     """The cell as the prose states it: 1 minus the cell when "complement"
     ("20% never played again" from a played-again share), then scaled,
@@ -96,14 +144,10 @@ def check(base: Path, b: dict, cache: dict) -> str | None:
     df = cache[key]
     if df is None:
         return f"{key} missing"
-    if b["column"] not in df.columns:
-        return f"{key} has no column {b['column']}"
-    vals = cell(df, b["where"], b["column"])
-    if len(vals) != 1:
-        return f"{key} {b['where']} selects {len(vals)} rows, not 1"
-    if vals[0] is None:
-        return f"{key} {b['where']} {b['column']} is blank"
-    v = value_of(float(vals[0]), b)
+    raw = raw_value(df, b, lambda tb: load_cached(base, tb, cache))
+    if isinstance(raw, str):
+        return f"{key} {raw}"
+    v = value_of(raw, b)
     want = shown(b["token"], b["sign"])
     got = fmt(v, decimals(b["token"]))
     if b["sign"] == "" and not b.get("abs") and v < 0 and float(got) != 0:
@@ -113,14 +157,15 @@ def check(base: Path, b: dict, cache: dict) -> str | None:
 
 def find(bindings: list[dict], occ: dict) -> dict | None:
     for b in bindings:
-        if b["token"] == occ["token"] and b["sign"] == occ["sign"] and b["before"] == occ["before"]:
+        if (b["token"] == occ["token"] and b["sign"] == occ["sign"] and b["before"] == occ["before"]
+                and b.get("nth", 0) == occ.get("nth", 0)):
             return b
     return None
 
 
 def find_by_context(bindings: list[dict], occ: dict) -> dict | None:
     """The binding at the same spot when the number itself was edited."""
-    hits = [b for b in bindings if b["before"] == occ["before"]]
+    hits = [b for b in bindings if b["before"] == occ["before"] and b.get("nth", 0) == occ.get("nth", 0)]
     return hits[0] if len(hits) == 1 else None
 
 
@@ -129,10 +174,10 @@ def expected(base: Path, b: dict, cache: dict) -> str:
     if b["table"] not in cache:
         cache[b["table"]] = read_table(base, b["table"]) if (base / b["table"]).exists() else None
     df = cache[b["table"]]
-    vals = cell(df, b["where"], b["column"]) if df is not None and b["column"] in df.columns else []
-    if len(vals) != 1 or vals[0] is None:
+    raw = raw_value(df, b, lambda tb: load_cached(base, tb, cache)) if df is not None else "missing"
+    if isinstance(raw, str):
         return "no single cell"
-    v = value_of(float(vals[0]), b)
+    v = value_of(raw, b)
     out = fmt(v, decimals(b["token"]))
     return ("+" + out if b["sign"] == "+" and v >= 0 else out) + ("%" if b["token"].endswith("%") else "")
 
@@ -194,13 +239,13 @@ def candidates(base: Path, tables: list[str], occ: dict, limit: int = 12) -> lis
 
 
 def propose(base: Path, tables: list[str], occs: list[dict], existing: list[dict],
-            allowed: dict) -> tuple[list[dict], list[dict]]:
+            allowed: dict, allowed_reason) -> tuple[list[dict], list[dict]]:
     """Keep existing bindings that still find their occurrence; bind the
     rest when exactly one cell fits; return (bindings, open items)."""
     bound, open_items = [], []
     tables = sorted(tables, key=lambda t: ("_r.csv" in t or "/r/" in t, t))
     for occ in occs:
-        if occ["token"] in allowed:
+        if allowed_reason(occ, allowed) is not None:
             continue
         b = find(existing, occ)
         if b:
@@ -211,7 +256,8 @@ def propose(base: Path, tables: list[str], occs: list[dict], existing: list[dict
             c = cands[0]
             df = read_table(base, c["table"])
             bound.append({**occ, "table": c["table"], "where": row_key(df, c["row"]),
-                          "column": c["column"], "scale": c["scale"], "abs": c["abs"]})
+                          "column": c["column"], "scale": c["scale"], "abs": c["abs"],
+                          "auto": True})
         else:
             open_items.append({**occ, "candidates": [
                 {**c, "where": row_key(read_table(base, c["table"]), c["row"])} for c in cands]})

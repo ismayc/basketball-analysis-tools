@@ -1,0 +1,81 @@
+{
+ "bindings": [
+  {
+   "token": "567",
+   "sign": "",
+   "before": "ore. ## For analytics peers n=",
+   "nth": 0,
+   "table": "output/model_frame.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "98%",
+   "sign": "",
+   "before": " Torvik↔DraftHistory, gated at",
+   "nth": 0,
+   "table": "output/validation.csv",
+   "where": {
+    "check": "lottery picks from colleges matched to Torvik"
+   },
+   "column": "threshold",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "15",
+   "sign": "+",
+   "before": "Logistic M# (log pick) vs M# (",
+   "nth": 0,
+   "table": "output/coefficients_m1.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false,
+   "minus": {
+    "table": "output/coefficients_m0.csv",
+    "column": "__rows__"
+   }
+  },
+  {
+   "token": "0.017",
+   "sign": "+",
+   "before": "t (train ## test ##): M# gains",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_plus_college"
+   },
+   "column": "train_auc",
+   "scale": 1,
+   "abs": false,
+   "minus": {
+    "where": {
+     "model": "pick_only"
+    },
+    "column": "train_auc"
+   }
+  },
+  {
+   "token": "0.000",
+   "sign": "+",
+   "before": ": M# gains # AUC in-sample and",
+   "nth": 0,
+   "table": "output/metrics.csv",
+   "where": {
+    "model": "pick_plus_college"
+   },
+   "column": "test_auc",
+   "scale": 1,
+   "abs": false,
+   "minus": {
+    "where": {
+     "model": "pick_only"
+    },
+    "column": "test_auc"
+   }
+  }
+ ]
+}

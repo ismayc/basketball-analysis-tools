@@ -1,1 +1,6 @@
 1e-13  # observed R-vs-Python reconciliation magnitude; verified live by 03_reconcile's gate, not stored as a CSV cell
+2,000  # the rotation outcome's minutes threshold (2,000+ NBA minutes within three seasons), a setting
+28  # UNVERIFIED: read off the fitted pick curve; no committed output holds it. Needs a committed curve table to bind.
+3 @ difference between pick  # an illustrative pick number in an argument about the curve, not a result
+12 @ between pick # and pick  # an illustrative pick number in an argument about the curve, not a result
+27 @ trading up at pick  # an illustrative pick number in an argument about the curve, not a result

@@ -28,7 +28,9 @@ per-number cell bindings are the planned replacement.
 
 A token that matches nothing must be listed in an allowlist file with a
 reason, or the check fails. Allowlists live in number_allowlists/ as
-"<repo>__<filename>.txt", one token per line, with a # reason.
+"<repo>__<filename>.txt", one entry per line: the token, two spaces, then
+"# reason". "token @ text" scopes an entry to occurrences whose masked
+context ends with text.
 
 Run:  python verify_numbers.py            report per file
       python verify_numbers.py --check    gate mode (non-zero on failure)
@@ -77,11 +79,11 @@ COUNT_NOUN = re.compile(
     r"attempts?|rows?|lineups?|picks?|contracts?|minutes|points|"
     r"team-seasons?|player-seasons?|stints?)\b", re.I)
 # Numbers that name things rather than claim them: "Game 1", "Games 6 and
-# 7", "Question 4", "per 100 possessions", and an interval's confidence
-# level ("95% interval"). They have no cell to come from.
+# 7", "Question 4", "#1", "per 100 possessions", and an interval's
+# confidence level ("95% interval"). They have no cell to come from.
 LABEL_BEFORE = re.compile(
     r"\b(Games?|Questions?|Amendments?|Figures?|Fig\.|Steps?|Parts?|Options?|"
-    r"Tables?|Sections?)\s+(\d+\s*(,|and|or|to|through|&)\s*)*$|\bper\s+$", re.I)
+    r"Tables?|Sections?)\s+(\d+\s*(,|and|or|to|through|&)\s*)*$|\bper\s+$|#$", re.I)
 LEVEL_AFTER = re.compile(r"%?\s+(bootstrap\s+)?(interval|CI|confidence|credible)", re.I)
 PERTURB_PER_TOKEN = 5
 
@@ -219,6 +221,10 @@ def occurrences_of_prose(prose: str) -> list[dict]:
         num, suffix = m.group(1).rstrip(",."), m.group(2) or ""
         if YEAR.match(num) and not suffix and not COUNT_NOUN.match(prose, m.end()):
             continue
+        # A number glued to letters ("3PA", "12th") is part of a name. Checked
+        # here, not in TOKEN: a regex lookahead backtracks "1990s" to "199".
+        if not suffix and prose[m.end():m.end() + 1].isalpha():
+            continue
         raw = num + suffix
         ctx = prose[max(0, m.start() - 1):m.end() + 3]
         if SEASON.match(ctx.strip()):
@@ -229,6 +235,13 @@ def occurrences_of_prose(prose: str) -> list[dict]:
             continue
         sign = "-" if ("−" in lead or "-" in lead) else "+" if "+" in lead else ""
         out.append({"token": raw, "sign": sign, "before": context(prose[max(0, m.start() - 80):m.start()])})
+    # Table cells can share token and masked context ("38" in three rows);
+    # nth numbers the repeats in reading order so each gets its own binding.
+    seen: dict = {}
+    for o in out:
+        k = (o["token"], o["sign"], o["before"])
+        o["nth"] = seen.get(k, 0)
+        seen[k] = o["nth"] + 1
     return out
 
 
@@ -287,6 +300,20 @@ def wrong_pass_rate(tokens: list[str], pool: Pool, seed: str) -> float | None:
     return sum(matches(p, pool) for p in trials) / len(trials)
 
 
+def allowed_reason(occ: dict, allowed: dict) -> str | None:
+    """The allowlist line covering this occurrence: a plain "token" entry, or
+    a scoped "token @ text" entry whose text ends the occurrence's masked
+    context, right before the number ("1 @ at pick" covers "at pick 1" and
+    not quintile 1)."""
+    if occ["token"] in allowed:
+        return allowed[occ["token"]]
+    for key, line in allowed.items():
+        tok, _, scope = key.partition(" @ ")
+        if scope and tok == occ["token"] and occ["before"].rstrip().endswith(scope):
+            return line
+    return None
+
+
 def allowlist_for(repo: str, rel: str) -> dict[str, str]:
     f = ALLOW_DIR / f"{repo}__{rel.replace('/', '_')}.txt"
     allowed: dict[str, str] = {}
@@ -294,7 +321,9 @@ def allowlist_for(repo: str, rel: str) -> dict[str, str]:
         for line in f.read_text().splitlines():
             line = line.strip()
             if line and not line.startswith("#"):
-                tok = line.split("#")[0].strip()
+                # Two spaces end the token: a scoped entry's masked context
+                # contains "#" itself ("12 @ between pick # and pick  # why").
+                tok = line.split("  #")[0].strip()
                 allowed[tok] = line
     return allowed
 
@@ -324,8 +353,9 @@ def check_bound(repo: str, rel: str, text: str, allowed: dict,
     cache: dict = {}
     problems, bound = [], 0
     for occ in occurrences(text):
-        if occ["token"] in allowed:
-            if "UNVERIFIED" in allowed[occ["token"]]:
+        reason = allowed_reason(occ, allowed)
+        if reason is not None:
+            if "UNVERIFIED" in reason:
                 unverified.append(f"{repo}/{rel}: {occ['token']}")
             continue
         b = nb.find(bindings, occ)
@@ -337,7 +367,10 @@ def check_bound(repo: str, rel: str, text: str, allowed: dict,
                                 f"{nb.expected(base, was, cache)} (prose had {was['sign']}{was['token']})")
             else:
                 problems.append(f"unbound {where}")
-        elif b["table"] not in tracked:
+        elif b.get("auto"):
+            problems.append(f"{where}: drafted by --propose and not yet reviewed; confirm "
+                            f"{b['table']} {b['where']} {b['column']} and delete \"auto\"")
+        elif b["table"] not in tracked and not nb.local_count(b):
             problems.append(f"{where}: {b['table']} is not a tracked output")
         elif (why := nb.check(base, b, cache)) is not None:
             problems.append(f"{where}: {why}")
@@ -351,7 +384,7 @@ def propose_cli(repo: str, rel: str) -> int:
     path = nb.path_for(BIND_DIR, repo, rel)
     occs = occurrences((base / rel).read_text())
     bound, open_items = nb.propose(base, tracked_tables(base), occs, nb.load(path),
-                                   allowlist_for(repo, rel))
+                                   allowlist_for(repo, rel), allowed_reason)
     BIND_DIR.mkdir(exist_ok=True)
     nb.save(path, bound)
     prop = path.with_suffix(".proposals.json")
