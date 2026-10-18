@@ -240,3 +240,15 @@ def test_min_max_aggregates_and_product_round_ops(nbm, tmp_path):
     assert nbm.check(tmp_path, b("40,000", rounded), {}) is None
     assert "cell gives" in nbm.check(tmp_path, b("41,466", rounded), {})
     assert nbm.check(tmp_path, b("12.0", {"op": "*", "args": [agg("max", "lead"), 2]}), {}) is None
+
+
+def test_row_difference_median_and_argmin(nbm, tmp_path):
+    (tmp_path / "output").mkdir()
+    (tmp_path / "output" / "v.csv").write_text("lo,hi\n1.0,6.0\n2.0,7.2\n0.0,4.0\n")
+    (tmp_path / "output" / "cv.csv").write_text("lam,cv_wmse\n1600.0,1895.9\n3200.0,1893.9\n6400.0,1895.9\n")
+    b = lambda tok, expr: {"token": tok, "sign": "", "before": "x", "scale": 1, "abs": False, "expr": expr}
+    width = {"agg": "median", "table": "output/v.csv", "column": "hi", "minus_column": "lo"}
+    assert nbm.check(tmp_path, b("2.5", {"op": "/", "args": [width, 2]}), {}) is None
+    chosen = {"agg": "argmin", "table": "output/cv.csv", "column": "lam", "by": "cv_wmse"}
+    assert nbm.check(tmp_path, b("3200", chosen), {}) is None
+    assert "cell gives" in nbm.check(tmp_path, b("1600", chosen), {})

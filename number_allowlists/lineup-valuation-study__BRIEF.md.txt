@@ -1,2 +1,12 @@
 1,230  # games in a 30-team, 82-game season (30 x 82 / 2), a schedule fact
 1e-6  # a reconciliation or convergence tolerance, a setting not a result
+69,767  # UNVERIFIED: pending a decision (asked 2026-10-18): the stint count 05_build_stints.py prints; no committed output keeps it, so binding needs a new output table
+15,000  # UNVERIFIED: pending a decision (asked 2026-10-18): lineup rows per season (README says ~15,900 and ~19,500); lineup_table.csv keeps only the top lineups, so binding needs a new output table
+19,000  # UNVERIFIED: pending a decision (asked 2026-10-18): lineup rows per season (README says ~15,900 and ~19,500); lineup_table.csv keeps only the top lineups, so binding needs a new output table
+2  # UNVERIFIED: pending a decision (asked 2026-10-18): "±2-3" brackets the per-season median CI half-widths, 2.5 (2023-24) and 2.6 (2025-26); no single cell rounds to 2 or 3
+3  # UNVERIFIED: pending a decision (asked 2026-10-18): "±2-3" brackets the per-season median CI half-widths, 2.5 (2023-24) and 2.6 (2025-26); no single cell rounds to 2 or 3
+2,000  # the LeagueDashLineups row cap, an outside fact about the API
+5  # cross-validation folds, a setting
+500  # bootstrap resamples, a setting
+1  # the +1/-1 design encoding, a label
+82  # games in a season, a schedule fact

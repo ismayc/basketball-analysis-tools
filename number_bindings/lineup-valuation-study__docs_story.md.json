@@ -1,0 +1,171 @@
+{
+ "bindings": [
+  {
+   "token": "2.5",
+   "sign": "",
+   "before": "v> <div class=\"value\">&plusmn;",
+   "nth": 0,
+   "table": "output/2023-24/player_values.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "median",
+      "table": "output/2023-24/player_values.csv",
+      "column": "ci_hi",
+      "minus_column": "ci_lo"
+     },
+     2
+    ]
+   }
+  },
+  {
+   "token": "0.96",
+   "sign": "",
+   "before": "ment</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/2023-24/stint_validation.csv",
+   "where": {
+    "check": "Spearman vs lineup-aggregate model"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.2",
+   "sign": "+",
+   "before": "tage</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/2023-24/stint_validation.csv",
+   "where": {
+    "check": "home-court advantage in plausible range (pts/100)"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "3200",
+   "sign": "",
+   "before": "chooses the ridge penalty (λ =",
+   "nth": 0,
+   "table": "output/2023-24/cv_curve.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "argmin",
+    "table": "output/2023-24/cv_curve.csv",
+    "column": "lam",
+    "by": "cv_wmse"
+   }
+  },
+  {
+   "token": "5.5",
+   "sign": "+",
+   "before": "e eye test at the top: Jokić (",
+   "nth": 0,
+   "table": "output/2023-24/player_values.csv",
+   "where": {
+    "player": "Nikola Jokić"
+   },
+   "column": "rapm_100",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "6.5",
+   "sign": "+",
+   "before": "lexander lead ##; Wembanyama (",
+   "nth": 0,
+   "table": "output/2025-26/player_values.csv",
+   "where": {
+    "player": "Victor Wembanyama"
+   },
+   "column": "rapm_100",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.5",
+   "sign": "",
+   "before": "an #% bootstrap CI spans about",
+   "nth": 0,
+   "table": "output/2023-24/player_values.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "median",
+      "table": "output/2023-24/player_values.csv",
+      "column": "ci_hi",
+      "minus_column": "ci_lo"
+     },
+     2
+    ]
+   }
+  },
+  {
+   "token": "2.2",
+   "sign": "+",
+   "before": "unpenalized intercept lands at",
+   "nth": 0,
+   "table": "output/2023-24/stint_validation.csv",
+   "where": {
+    "check": "home-court advantage in plausible range (pts/100)"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.96",
+   "sign": "",
+   "before": ", one dot per player (Spearman",
+   "nth": 0,
+   "table": "output/2023-24/stint_validation.csv",
+   "where": {
+    "check": "Spearman vs lineup-aggregate model"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "15.3",
+   "sign": "+",
+   "before": "eton–Antetokounmpo– Beasley at",
+   "nth": 0,
+   "table": "output/2023-24/lineup_table.csv",
+   "where": {
+    "TEAM_ABBREVIATION": "MIL"
+   },
+   "column": "net_100",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1,302",
+   "sign": "",
+   "before": "unmpo– Beasley at # per # over",
+   "nth": 0,
+   "table": "output/2023-24/lineup_table.csv",
+   "where": {
+    "TEAM_ABBREVIATION": "MIL"
+   },
+   "column": "POSS",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

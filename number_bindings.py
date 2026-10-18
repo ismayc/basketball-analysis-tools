@@ -159,7 +159,9 @@ def eval_expr(e, load) -> float | str:
         # {"agg": "median" | "mean" | "sum" | "min" | "max" | "wmean" (+ "weight"), "table",
         # "column", "where": {}, "where_not": {}, "range": {col: [lo, hi]}}: "a typical
         # offseason" is a median with rows left out; "201 per second at 31-33s" a mean over
-        # a range; "a latency of 2.5-6.0 s" the min and max across games.
+        # a range; "a latency of 2.5-6.0 s" the min and max across games. "minus_column"
+        # aggregates a per-row difference (median CI width is ci_hi minus ci_lo), and
+        # "argmin" returns the column at the row where "by" is smallest (the CV-chosen lambda).
         df = load(e["table"], e.get("repo"))
         if df is None:
             return f"{e['table']} missing"
@@ -172,7 +174,11 @@ def eval_expr(e, load) -> float | str:
             sub = sub.filter(pl.col(k).is_between(lo, hi))
         if sub.height == 0 or e["column"] not in sub.columns:
             return f"{e['table']} agg selects nothing"
+        if e["agg"] == "argmin":
+            return float(sub.sort(pl.col(e["by"]).cast(pl.Float64))[e["column"]].cast(pl.Float64)[0])
         col = sub[e["column"]].cast(pl.Float64)
+        if "minus_column" in e:
+            col = col - sub[e["minus_column"]].cast(pl.Float64)
         if e["agg"] == "wmean":
             # weighted by another column: shot-weighted eFG across clock buckets
             w = sub[e["weight"]].cast(pl.Float64)
