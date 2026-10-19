@@ -15,7 +15,7 @@ fi
 
 for r in jersey-height-study playbyplay-study tracking-study \
          lineup-valuation-study shot-quality-study draft-study \
-         contract-year-study playoff-series-study \
+         contract-year-study playoff-series-study elam-ending-study \
          basketball-sql-layer; do
   echo "=================== $r"
   (cd "../$r" && ./run_checks.sh)

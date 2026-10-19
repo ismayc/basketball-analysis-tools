@@ -1,0 +1,24 @@
+# elam-ending-study docs/story.md: rule settings, clock readings, and bin labels
+8  # the Elam target margin (leader + 8), a rule setting
+00  # seconds of a game-clock reading (4:00, 2:00, 6:00)
+4 @ share of points, last  # 4:00, the Elam trigger window
+2 @ minutes for the last  # 2:00, the final-two-minutes window
+2 @ take foul, last  # 2:00, the final-two-minutes window
+2 @ separated by more than # at  # 2:00, the final-two-minutes window
+2 @ by the margin with  # 2:00, the final-two-minutes window
+6 @ the third quarter from  # 6:00 to 4:00, the neutral comparison window
+4 @ third quarter from #:# to  # 6:00 to 4:00, the neutral comparison window
+5 @ of an NBA game within  # close-game threshold (5 points at 2:00), a definition
+0 @ how often possessions score  # the possible points of one possession
+1 @ possessions score #  # the possible points of one possession
+2 @ possessions score # #  # the possible points of one possession
+3 @ possessions score # # #  # the possible points of one possession
+4 @ # # # # or  # the possible points of one possession
+15 @ lead of more than  # bin edge (16+ points at the trigger); the claim is the 0 flips there
+15 @ led by more than  # bin edge (16+ points at the trigger); the claim is the 0 flips there
+16 @ NBA games led by  # bin label 16+
+11 @ NBA teams up  # bin label 11-15
+15 @ NBA teams up # to  # bin label 11-15
+11 @ NBA leads of  # bin label 11-15
+15 @ NBA leads of # to  # bin label 11-15
+20 @ separated by more than  # bin label 21+ (margin at 2:00)

@@ -297,6 +297,13 @@ NEW_CARDS = {
             "series (NBA −0.03 points). NBA teams just take fewer threes in "
             "Game 1, and the share climbs through Game 7."),
     },
+    "elam-ending-study": {
+        "kicker": "4,860 games under a target-score ending",
+        "headline": (
+            "The Elam Ending would change the winner of about 3% of games "
+            "and barely move the leader's odds, while cutting the slowest "
+            "minutes in basketball: a close game's last 2:00 runs 10.2."),
+    },
 }
 
 CSS = """

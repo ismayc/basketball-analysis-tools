@@ -1,0 +1,795 @@
+{
+ "bindings": [
+  {
+   "token": "4,860",
+   "sign": "",
+   "before": "three seasons of both leagues:",
+   "nth": 0,
+   "table": "output/games.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "3.0%",
+   "sign": "",
+   "before": "nged</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/replay_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "flip_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "111",
+   "sign": "",
+   "before": " rule, crowns the other team (",
+   "nth": 0,
+   "table": "output/replay_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "flipped",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "3,690",
+   "sign": "",
+   "before": "e, crowns the other team (# of",
+   "nth": 0,
+   "table": "output/replay_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "games",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "90.7",
+   "sign": "",
+   "before": "odds</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/race_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "leader_win_rate_clock",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "90.6",
+   "sign": "",
+   "before": "</div> <div class=\"value\"># vs",
+   "nth": 0,
+   "table": "output/race_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "leader_win_rate_elam_league",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "9,092",
+   "sign": "",
+   "before": "heck</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/race_calibration.csv",
+   "where": {
+    "version": "league",
+    "bin": "all"
+   },
+   "column": "races",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.2",
+   "sign": "",
+   "before": "ide games; the model is within",
+   "nth": 0,
+   "table": "output/race_calibration.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/race_calibration.csv",
+    "column": "mean_predicted",
+    "minus_column": "observed",
+    "where": {
+     "version": "league"
+    }
+   }
+  },
+  {
+   "token": "10.2",
+   "sign": "",
+   "before": "ings</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "median_real_min_q4_last2_close",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4.6",
+   "sign": "",
+   "before": " game within # points, against",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "median_real_min_q4_last2_not_close",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4,860",
+   "sign": "",
+   "before": "st the league's game logs (all",
+   "nth": 0,
+   "table": "output/games.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "3.0%",
+   "sign": "",
+   "before": " hands Under a literal replay,",
+   "nth": 0,
+   "table": "output/replay_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "flip_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "3.0%",
+   "sign": "",
+   "before": "f NBA regular-season games and",
+   "nth": 0,
+   "table": "output/replay_summary.csv",
+   "where": {
+    "league": "wnba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "flip_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "16%",
+   "sign": "",
+   "before": "hem were close at the trigger:",
+   "nth": 0,
+   "table": "output/replay_by_margin.csv",
+   "where": {
+    "league": "nba",
+    "margin": "0"
+   },
+   "column": "flip_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "38%",
+   "sign": "",
+   "before": "y cannot decide every game. In",
+   "nth": 0,
+   "table": "output/replay_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "unresolved_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "57%",
+   "sign": "",
+   "before": "ose games are mostly lopsided:",
+   "nth": 0,
+   "table": "output/replay_by_margin.csv",
+   "where": {
+    "league": "nba",
+    "margin": "16+"
+   },
+   "column": "unresolved_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "13%",
+   "sign": "",
+   "before": " trigger end that way, against",
+   "nth": 0,
+   "table": "output/replay_by_margin.csv",
+   "where": {
+    "league": "nba",
+    "margin": "1"
+   },
+   "column": "unresolved_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "9,092",
+   "sign": "",
+   "before": "almost exactly its odds On the",
+   "nth": 0,
+   "table": "output/race_calibration.csv",
+   "where": {
+    "version": "league",
+    "bin": "all"
+   },
+   "column": "races",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "86.7%",
+   "sign": "",
+   "before": "favorite would get there first",
+   "nth": 0,
+   "table": "output/race_calibration.csv",
+   "where": {
+    "version": "league",
+    "bin": "all"
+   },
+   "column": "mean_predicted",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "86.2%",
+   "sign": "",
+   "before": "e first #% of the time; it did",
+   "nth": 0,
+   "table": "output/race_calibration.csv",
+   "where": {
+    "version": "league",
+    "bin": "all"
+   },
+   "column": "observed",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.2",
+   "sign": "",
+   "before": "edictions was off by more than",
+   "nth": 0,
+   "table": "output/race_calibration.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/race_calibration.csv",
+    "column": "mean_predicted",
+    "minus_column": "observed",
+    "where": {
+     "version": "league"
+    }
+   }
+  },
+  {
+   "token": "0.098",
+   "sign": "",
+   "before": "oints, and its Brier score was",
+   "nth": 0,
+   "table": "output/race_calibration.csv",
+   "where": {
+    "version": "league",
+    "bin": "brier"
+   },
+   "column": "mean_predicted",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.119",
+   "sign": "",
+   "before": " its Brier score was # against",
+   "nth": 0,
+   "table": "output/race_calibration.csv",
+   "where": {
+    "version": "league",
+    "bin": "brier"
+   },
+   "column": "observed",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "9,092",
+   "sign": "",
+   "before": " Predicted against observed on",
+   "nth": 0,
+   "table": "output/race_calibration.csv",
+   "where": {
+    "version": "league",
+    "bin": "all"
+   },
+   "column": "races",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.2",
+   "sign": "",
+   "before": "e perfect; every bin is within",
+   "nth": 0,
+   "table": "output/race_calibration.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/race_calibration.csv",
+    "column": "mean_predicted",
+    "minus_column": "observed",
+    "where": {
+     "version": "league"
+    }
+   }
+  },
+  {
+   "token": "90.7%",
+   "sign": "",
+   "before": "eam ahead at the trigger wins:",
+   "nth": 0,
+   "table": "output/race_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "leader_win_rate_clock",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "90.6%",
+   "sign": "",
+   "before": "-season games under the clock,",
+   "nth": 0,
+   "table": "output/race_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "leader_win_rate_elam_league",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "90.0%",
+   "sign": "",
+   "before": " the clock, #% under Elam, and",
+   "nth": 0,
+   "table": "output/race_summary.csv",
+   "where": {
+    "league": "wnba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "leader_win_rate_clock",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "89.2%",
+   "sign": "",
+   "before": " #% under Elam, and #% against",
+   "nth": 0,
+   "table": "output/race_summary.csv",
+   "where": {
+    "league": "wnba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "leader_win_rate_elam_league",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "99.7%",
+   "sign": "",
+   "before": "leads. NBA teams up # to # won",
+   "nth": 0,
+   "table": "output/race_by_margin.csv",
+   "where": {
+    "league": "nba",
+    "margin": "11-15"
+   },
+   "column": "clock",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "98.9%",
+   "sign": "",
+   "before": "l games, with a #% interval of",
+   "nth": 0,
+   "table": "output/race_by_margin.csv",
+   "where": {
+    "league": "nba",
+    "margin": "11-15"
+   },
+   "column": "clock_lo",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "99.9%",
+   "sign": "",
+   "before": "s, with a #% interval of #% to",
+   "nth": 0,
+   "table": "output/race_by_margin.csv",
+   "where": {
+    "league": "nba",
+    "margin": "11-15"
+   },
+   "column": "clock_hi",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "98.4%",
+   "sign": "",
+   "before": "o #%, and the model gives them",
+   "nth": 0,
+   "table": "output/race_by_margin.csv",
+   "where": {
+    "league": "nba",
+    "margin": "11-15"
+   },
+   "column": "elam_league",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "20",
+   "sign": "",
+   "before": "ide the interval in one of the",
+   "nth": 0,
+   "table": "output/race_by_margin.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "308",
+   "sign": "",
+   "before": " bigger gaps, but they rest on",
+   "nth": 0,
+   "table": "output/race_summary.csv",
+   "where": {
+    "season": "pooled",
+    "season_type": "playoffs"
+   },
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/race_summary.csv",
+    "column": "led_games",
+    "where": {
+     "season": "pooled",
+     "season_type": "playoffs"
+    }
+   }
+  },
+  {
+   "token": "4.7%",
+   "sign": "",
+   "before": "--|---| | NBA regular season |",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "overtime_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "23%",
+   "sign": "",
+   "before": "-| | NBA regular season | #% |",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "endgame_ft_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "14%",
+   "sign": "",
+   "before": "NBA regular season | #% | #% (",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "q1_q3_ft_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "26%",
+   "sign": "",
+   "before": "egular season | #% | #% (#%) |",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "games_with_trailing_take",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "10.2",
+   "sign": "",
+   "before": "| #% | #% (#%) | #% of games |",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "median_real_min_q4_last2_close",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4.6",
+   "sign": "",
+   "before": " | #% (#%) | #% of games | # (",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "median_real_min_q4_last2_not_close",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2.9%",
+   "sign": "",
+   "before": " (#) | | WNBA regular season |",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "wnba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "overtime_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "28%",
+   "sign": "",
+   "before": "| | WNBA regular season | #% |",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "wnba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "endgame_ft_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "17%",
+   "sign": "",
+   "before": "NBA regular season | #% | #% (",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "wnba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "q1_q3_ft_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "25%",
+   "sign": "",
+   "before": "egular season | #% | #% (#%) |",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "wnba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "games_with_trailing_take",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "11.3",
+   "sign": "",
+   "before": "| #% | #% (#%) | #% of games |",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "wnba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "median_real_min_q4_last2_close",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "5.0",
+   "sign": "",
+   "before": " | #% (#%) | #% of games | # (",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "wnba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "median_real_min_q4_last2_not_close",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "23%",
+   "sign": "",
+   "before": " | # (#) | Free throws make up",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "endgame_ft_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "14%",
+   "sign": "",
+   "before": " minutes and overtime, against",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "q1_q3_ft_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "26%",
+   "sign": "",
+   "before": "ck, in the last two minutes of",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "games_with_trailing_take",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "10.2",
+   "sign": "",
+   "before": "lose NBA game take a median of",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "median_real_min_q4_last2_close",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4.6",
+   "sign": "",
+   "before": "l minutes, more than twice the",
+   "nth": 0,
+   "table": "output/endgame_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "pooled",
+    "season_type": "regular"
+   },
+   "column": "median_real_min_q4_last2_not_close",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "3.5",
+   "sign": "",
+   "before": "ted by more than # at #:# take",
+   "nth": 0,
+   "table": "output/endgame_by_margin.csv",
+   "where": {
+    "league": "nba",
+    "margin": "21+"
+   },
+   "column": "median_real_min",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}
