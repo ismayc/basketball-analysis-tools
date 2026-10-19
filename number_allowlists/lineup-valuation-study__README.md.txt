@@ -12,3 +12,4 @@
 100  # "per 100 possessions" in table headers, a unit label
 1.0  # a perfect correlation as the reference point, a label
 82  # games in a season, a schedule fact
+19 @ **Correction, October  # a date (the stint correction, October 19, 2026)

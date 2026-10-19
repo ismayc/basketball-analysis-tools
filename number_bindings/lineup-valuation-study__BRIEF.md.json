@@ -45,7 +45,7 @@
    }
   },
   {
-   "token": "69,767",
+   "token": "62,658",
    "sign": "",
    "before": "tment upgrade is now wired in:",
    "nth": 0,
@@ -63,19 +63,6 @@
    "table": "output/2023-24/stint_validation.csv",
    "where": {
     "check": "home-court advantage in plausible range (pts/100)"
-   },
-   "column": "value",
-   "scale": 1,
-   "abs": false
-  },
-  {
-   "token": "0.96",
-   "sign": "",
-   "before": "ints leave the model. Spearman",
-   "nth": 0,
-   "table": "output/2023-24/stint_validation.csv",
-   "where": {
-    "check": "Spearman vs lineup-aggregate model"
    },
    "column": "value",
    "scale": 1,
@@ -102,6 +89,19 @@
    "table": "output/2023-24/validation.csv",
    "where": {
     "check": "Spearman(RAPM, raw plus-minus per minute)"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.97",
+   "sign": "",
+   "before": "inus now catch both.) Spearman",
+   "nth": 0,
+   "table": "output/2023-24/stint_validation.csv",
+   "where": {
+    "check": "Spearman vs lineup-aggregate model"
    },
    "column": "value",
    "scale": 1,

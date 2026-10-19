@@ -24,7 +24,7 @@
    }
   },
   {
-   "token": "0.96",
+   "token": "0.97",
    "sign": "",
    "before": "ment</div> <div class=\"value\">",
    "nth": 0,
@@ -37,7 +37,7 @@
    "abs": false
   },
   {
-   "token": "69,767",
+   "token": "62,658",
    "sign": "",
    "before": "rsed</div> <div class=\"value\">",
    "nth": 0,
@@ -127,7 +127,7 @@
    }
   },
   {
-   "token": "69,767",
+   "token": "62,658",
    "sign": "",
    "before": " scratch at a different grain:",
    "nth": 0,
@@ -151,7 +151,7 @@
    "abs": false
   },
   {
-   "token": "0.96",
+   "token": "0.97",
    "sign": "",
    "before": ", one dot per player (Spearman",
    "nth": 0,
@@ -186,6 +186,58 @@
     "TEAM_ABBREVIATION": "MIL"
    },
    "column": "POSS",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "99.8%",
+   "sign": "",
+   "before": "tches: plus-minus is exact for",
+   "nth": 0,
+   "table": "output/2023-24/stint_correction.csv",
+   "where": {
+    "metric": "player_game_pm_exact_share"
+   },
+   "column": "corrected",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "41%",
+   "sign": "",
+   "before": "or #% of player-games, up from",
+   "nth": 0,
+   "table": "output/2023-24/stint_correction.csv",
+   "where": {
+    "metric": "player_game_pm_exact_share"
+   },
+   "column": "first_build",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.97",
+   "sign": "",
+   "before": "d (the two models now agree at",
+   "nth": 0,
+   "table": "output/2023-24/stint_validation.csv",
+   "where": {
+    "check": "Spearman vs lineup-aggregate model"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.96",
+   "sign": "",
+   "before": " models now agree at # up from",
+   "nth": 0,
+   "table": "output/2023-24/stint_correction.csv",
+   "where": {
+    "metric": "spearman_vs_aggregate"
+   },
+   "column": "first_build",
    "scale": 1,
    "abs": false
   }
