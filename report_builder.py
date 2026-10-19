@@ -16,6 +16,7 @@ Run: python report_builder.py --all         every repo's docs/
 """
 from __future__ import annotations
 
+import html as html_lib
 import re
 import shutil
 import sys
@@ -133,6 +134,100 @@ REVEAL_SCRIPT = """<script>
   window.__revealReady = true;
 })();
 </script>"""
+
+# Sticky section nav: marks the link for the section being read. A section
+# counts as current once its top passes just under the bar; the active link is
+# kept in view when the row scrolls sideways on narrow screens.
+NAV_SCRIPT = """<script>
+(function () {
+  var nav = document.querySelector(".sectionnav");
+  if (!nav) { return; }
+  var links = Array.prototype.slice.call(nav.querySelectorAll("a"));
+  var row = nav.querySelector(".inner");
+  var targets = links.map(function (a) {
+    return document.getElementById(a.getAttribute("href").slice(1));
+  });
+  var last = null;
+  function update() {
+    var edge = nav.getBoundingClientRect().bottom + 24, cur = -1;
+    targets.forEach(function (t, i) {
+      if (t && t.getBoundingClientRect().top <= edge) { cur = i; }
+    });
+    // At the foot of the page the last sections are too short to reach the
+    // bar, so the final one counts as current there.
+    var de = document.documentElement;
+    if (window.scrollY + window.innerHeight >= de.scrollHeight - 2) { cur = targets.length - 1; }
+    if (cur === last) { return; }
+    last = cur;
+    links.forEach(function (a, i) {
+      if (i === cur) { a.setAttribute("aria-current", "true"); }
+      else { a.removeAttribute("aria-current"); }
+    });
+    var a = links[cur];
+    if (a && row) {
+      var l = a.offsetLeft, r = l + a.offsetWidth;
+      if (l < row.scrollLeft || r > row.scrollLeft + row.clientWidth) {
+        row.scrollLeft = Math.max(0, l - 16);
+      }
+    }
+  }
+  // Straight from the event, not via requestAnimationFrame, which stalls in
+  // background tabs and offscreen frames; eight rect reads per scroll is cheap.
+  window.addEventListener("scroll", update, {passive: true});
+  window.addEventListener("resize", update);
+  update();
+})();
+</script>"""
+
+NAV_BEAT = re.compile(r'<div class="eyebrow beat">([^<]+)</div>')
+NAV_H2 = re.compile(r"<h2>([^<]+)</h2>")
+METHOD_H2 = "Method, code, and verification"
+
+
+def slug(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", html_lib.unescape(text).lower()).strip("-")
+
+
+def section_nav(body: str) -> tuple[str, str]:
+    """Give each section an id and return the sticky nav that links them.
+
+    Story pages group their sections under eyebrow beats ("The question",
+    "Limits"), so the nav lists those, plus the method section at the end.
+    A page without beats lists its h2 headings. Fewer than three sections
+    gets no nav."""
+    seen: set[str] = set()
+    items: list[tuple[str, str]] = []
+
+    def unique(s: str) -> str:
+        base, n = s or "section", 2
+        while s in seen or not s:
+            s, n = f"{base}-{n}", n + 1
+        seen.add(s)
+        return s
+
+    def beat(m: re.Match) -> str:
+        sid = unique(slug(m[1]))
+        items.append((sid, m[1]))
+        return f'<div class="eyebrow beat" id="{sid}">{m[1]}</div>'
+
+    def h2(m: re.Match) -> str:
+        label = m[1]
+        if has_beats and html_lib.unescape(label) != METHOD_H2:
+            return m[0]
+        sid = unique(slug(label))
+        items.append((sid, "Method" if html_lib.unescape(label) == METHOD_H2 else label))
+        return f'<h2 id="{sid}">{label}</h2>'
+
+    has_beats = bool(NAV_BEAT.search(body))
+    # One pass over both patterns keeps the links in page order.
+    body = re.sub(f"{NAV_BEAT.pattern}|{NAV_H2.pattern}",
+                  lambda m: beat(NAV_BEAT.fullmatch(m[0])) if m[0].startswith("<div") else h2(NAV_H2.fullmatch(m[0])),
+                  body)
+    if len(items) < 3:
+        return body, ""
+    links = "".join(f'<a href="#{sid}">{label}</a>' for sid, label in items)
+    return body, f'<nav class="sectionnav" aria-label="Sections"><div class="inner">{links}</div></nav>'
+
 
 # Hub landing-page config: repo -> (kicker, one-line headline)
 HUB_CARDS = {
@@ -314,6 +409,21 @@ details.terms summary { padding: .55rem .9rem; cursor: pointer;
   color: var(--ink-2); font-weight: 600; }
 details.terms ul { margin: 0; padding: .2rem 1.4rem .8rem; }
 details.terms li { margin: .3rem 0; color: var(--ink-2); }
+/* sticky section nav (study pages): the masthead scrolls away, this stays */
+.sectionnav { position: sticky; top: 0; z-index: 30; background: var(--surface);
+  border-bottom: 1px solid var(--rule); }
+.sectionnav .inner { width: min(1200px, 94vw); margin: 0 auto; display: flex;
+  gap: 1.3rem; overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+  padding: .55rem 0 .45rem; }
+.sectionnav .inner::-webkit-scrollbar { display: none; }
+.sectionnav a { font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 500; font-size: .95rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); text-decoration: none;
+  padding-bottom: .15rem; border-bottom: 2px solid transparent; }
+.sectionnav a:hover { color: var(--ink); }
+.sectionnav a[aria-current="true"] { color: var(--accent-ink);
+  border-bottom-color: var(--accent); }
+main [id] { scroll-margin-top: 3.6rem; }
 /* hub cards */
 .cards { display: grid; grid-template-columns:
   repeat(auto-fit, minmax(290px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
@@ -361,6 +471,9 @@ def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
     og_url = f"{PAGES}/{repo or 'basketball-data-science'}/"
     gh_link = (f'<a href="{GH}/{repo}">Code on GitHub</a>' if repo
                else f'<a href="{GH}/basketball-data-science">GitHub</a>')
+    nav = ""
+    if repo:
+        body, nav = section_nav(body)
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -392,6 +505,7 @@ def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
   {gh_link}
   <button class="themebtn" type="button" aria-label="Toggle color theme">◐</button>
 </div></header>
+{nav}
 <main>
 {body}
 </main>
@@ -399,6 +513,7 @@ def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
 <a href="{GH}/basketball-data-science">the family on GitHub</a></footer>
 {THEME_SCRIPT}
 {REVEAL_SCRIPT}
+{NAV_SCRIPT if nav else ""}
 </body>
 </html>
 """

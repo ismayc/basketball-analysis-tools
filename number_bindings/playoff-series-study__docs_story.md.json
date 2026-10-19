@@ -1010,6 +1010,150 @@
    "column": "R",
    "scale": 1,
    "abs": false
+  },
+  {
+   "token": "0.18",
+   "sign": "+",
+   "before": "e to its own later games, runs",
+   "nth": 0,
+   "table": "output/experience_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "MEASURE": "roster",
+    "BIN": "any",
+    "METRIC": "CONTRAST_PCT"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1.65",
+   "sign": "-",
+   "before": " the less experienced team's (",
+   "nth": 0,
+   "table": "output/experience_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "MEASURE": "roster",
+    "BIN": "any",
+    "METRIC": "CONTRAST_PCT"
+   },
+   "column": "LO",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "2.00",
+   "sign": "+",
+   "before": " less experienced team's (# to",
+   "nth": 0,
+   "table": "output/experience_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "MEASURE": "roster",
+    "BIN": "any",
+    "METRIC": "CONTRAST_PCT"
+   },
+   "column": "HI",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "629",
+   "sign": "",
+   "before": "rienced team's (# to #) across",
+   "nth": 0,
+   "table": "output/experience_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "MEASURE": "roster",
+    "BIN": "any",
+    "METRIC": "CONTRAST_PCT"
+   },
+   "column": "N",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.11",
+   "sign": "+",
+   "before": " its share of shots from three",
+   "nth": 0,
+   "table": "output/experience_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "MEASURE": "roster",
+    "BIN": "any",
+    "METRIC": "CONTRAST_RATE"
+   },
+   "column": "MEAN",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "0.43",
+   "sign": "",
+   "before": "erienced NBA team's Game # has",
+   "nth": 0,
+   "table": "output/experience_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "MEASURE": "roster",
+    "BIN": "any",
+    "METRIC": "CONTRAST_PF"
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": true
+  },
+  {
+   "token": "0.55",
+   "sign": "",
+   "before": "hat only just clears zero, and",
+   "nth": 0,
+   "table": "output/experience_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "MEASURE": "franchise",
+    "BIN": "any",
+    "METRIC": "CONTRAST_PF"
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": true
+  },
+  {
+   "token": "0.98",
+   "sign": "-",
+   "before": "e three previous postseasons (",
+   "nth": 0,
+   "table": "output/experience_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "MEASURE": "franchise",
+    "BIN": "any",
+    "METRIC": "CONTRAST_PF"
+   },
+   "column": "LO",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.12",
+   "sign": "-",
+   "before": "ree previous postseasons (# to",
+   "nth": 0,
+   "table": "output/experience_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "MEASURE": "franchise",
+    "BIN": "any",
+    "METRIC": "CONTRAST_PF"
+   },
+   "column": "HI",
+   "scale": 1,
+   "abs": false
   }
  ]
 }
