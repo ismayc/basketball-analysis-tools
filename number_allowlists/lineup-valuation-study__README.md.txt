@@ -18,3 +18,4 @@
 19 @ the possession gap (October  # a date (the pbpstats check, October 19, 2026)
 50  # possession floor for the POSS identity check and the small-lineup bin in 11_poss_gap.py, a setting
 0 @ used exactly once carry  # a bin label ("0 or 1 extra possession"), a literal in 04_findings.py
+19 @ pre-specified (decided October  # a date (the POSS decision, October 19, 2026)
