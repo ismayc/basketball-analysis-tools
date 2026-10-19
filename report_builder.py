@@ -302,7 +302,8 @@ NEW_CARDS = {
         "headline": (
             "The Elam Ending would change the winner of about 3% of games "
             "and barely move the leader's odds, while cutting the slowest "
-            "minutes in basketball: a close game's last 2:00 runs 10.2."),
+            "minutes in basketball: a close game's last two minutes take "
+            "10.2 real minutes."),
     },
 }
 
