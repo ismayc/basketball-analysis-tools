@@ -706,6 +706,310 @@
    "column": "HI",
    "scale": 100,
    "abs": false
+  },
+  {
+   "token": "59.8%",
+   "sign": "",
+   "before": "me # goes on to win the series",
+   "nth": 0,
+   "table": "output/outshoot_summary.csv",
+   "where": {
+    "ESTIMATE": "shooter_wins_series",
+    "LEAGUE": 0
+   },
+   "column": "P",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "76.7%",
+   "sign": "",
+   "before": "Game # winners took the series",
+   "nth": 0,
+   "table": "output/outshoot_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "ESTIMATE": "g1_winner_outshot"
+   },
+   "column": "P",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "76.8%",
+   "sign": "",
+   "before": "their opponent from three, and",
+   "nth": 0,
+   "table": "output/outshoot_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "ESTIMATE": "g1_winner_not_outshot"
+   },
+   "column": "P",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "7.7",
+   "sign": "+",
+   "before": " In the WNBA the difference is",
+   "nth": 0,
+   "table": "output/outshoot_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "ESTIMATE": "difference"
+   },
+   "column": "P",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "7.0",
+   "sign": "-",
+   "before": " points, with an interval from",
+   "nth": 0,
+   "table": "output/outshoot_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "ESTIMATE": "difference"
+   },
+   "column": "LO",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "22.5",
+   "sign": "+",
+   "before": "ts, with an interval from # to",
+   "nth": 0,
+   "table": "output/outshoot_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "ESTIMATE": "difference"
+   },
+   "column": "HI",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "167",
+   "sign": "",
+   "before": "an interval from # to # across",
+   "nth": 0,
+   "table": "output/outshoot_summary.csv",
+   "where": {
+    "LEAGUE": 10,
+    "ESTIMATE": "difference"
+   },
+   "column": "N",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.63",
+   "sign": "+",
+   "before": "ame # foul pattern. Game # ran",
+   "nth": 0,
+   "table": "output/break_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "season_2020",
+    "METRIC": "G1_PF100"
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.35",
+   "sign": "-",
+   "before": "s against the series average (",
+   "nth": 0,
+   "table": "output/break_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "season_2020",
+    "METRIC": "G1_PF100"
+   },
+   "column": "LO",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.61",
+   "sign": "+",
+   "before": "ainst the series average (# to",
+   "nth": 0,
+   "table": "output/break_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "season_2020",
+    "METRIC": "G1_PF100"
+   },
+   "column": "HI",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.09",
+   "sign": "-",
+   "before": "ries average (# to #), against",
+   "nth": 0,
+   "table": "output/break_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "other_seasons",
+    "METRIC": "G1_PF100"
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "15",
+   "sign": "",
+   "before": "ry other season. That rests on",
+   "nth": 0,
+   "table": "output/break_summary.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PANEL": "season_2020",
+    "METRIC": "G1_PF100"
+   },
+   "column": "N",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.53",
+   "sign": "-",
+   "before": "ears in every NBA decade, from",
+   "nth": 0,
+   "table": "output/profile_decade.csv",
+   "where": {
+    "LEAGUE": 0,
+    "DECADE": 1980,
+    "GAME_NO": 1,
+    "METRIC": "PF100"
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.64",
+   "sign": "-",
+   "before": "BA decade, from # in the #s to",
+   "nth": 0,
+   "table": "output/profile_decade.csv",
+   "where": {
+    "LEAGUE": 0,
+    "DECADE": 2010,
+    "GAME_NO": 1,
+    "METRIC": "PF100"
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.00",
+   "sign": "+",
+   "before": "o the second. Game # crews run",
+   "nth": 0,
+   "table": "output/officials_profile.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PART": "crew",
+    "GAME_NO": 1
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.03",
+   "sign": "-",
+   "before": "rews by their usual tendency (",
+   "nth": 0,
+   "table": "output/officials_profile.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PART": "crew",
+    "GAME_NO": 1
+   },
+   "column": "LO",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.04",
+   "sign": "+",
+   "before": " by their usual tendency (# to",
+   "nth": 0,
+   "table": "output/officials_profile.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PART": "crew",
+    "GAME_NO": 1
+   },
+   "column": "HI",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "240",
+   "sign": "",
+   "before": " usual tendency (# to # across",
+   "nth": 0,
+   "table": "output/officials_profile.csv",
+   "where": {
+    "LEAGUE": 0,
+    "PART": "crew",
+    "GAME_NO": 1
+   },
+   "column": "N",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.06",
+   "sign": "",
+   "before": "ut the same NBA officials call",
+   "nth": 0,
+   "table": "output/officials_within.csv",
+   "where": {
+    "LEAGUE": 0
+   },
+   "column": "MEAN",
+   "scale": 1,
+   "abs": true
+  },
+  {
+   "token": "56",
+   "sign": "",
+   "before": "n in their later games, across",
+   "nth": 0,
+   "table": "output/officials_within.csv",
+   "where": {
+    "LEAGUE": 0
+   },
+   "column": "N",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.49",
+   "sign": "+",
+   "before": "heir level in odd ones, at r =",
+   "nth": 0,
+   "table": "output/officials_reliability.csv",
+   "where": {
+    "LEAGUE": 0
+   },
+   "column": "R",
+   "scale": 1,
+   "abs": false
   }
  ]
 }
