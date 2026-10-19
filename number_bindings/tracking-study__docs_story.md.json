@@ -395,6 +395,28 @@
      1
     ]
    }
+  },
+  {
+   "token": "43",
+   "sign": "",
+   "before": "stretches of game clock, up to",
+   "nth": 0,
+   "table": "output/frame_coverage.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "round",
+    "args": [
+     {
+      "agg": "max",
+      "table": "output/frame_coverage.csv",
+      "column": "start_gap"
+     },
+     0
+    ]
+   }
   }
  ]
 }
