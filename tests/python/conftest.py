@@ -36,6 +36,14 @@ def nbm():
 
 
 @pytest.fixture(scope="session")
+def brand():
+    # check_family_brand imports family_brand from the repo root.
+    if str(REPO) not in sys.path:
+        sys.path.insert(0, str(REPO))
+    return load_script(REPO / "check_family_brand.py", "portfolio_check_brand")
+
+
+@pytest.fixture(scope="session")
 def shotq():
     return load_script(SIBLINGS / "shot-quality-study/python/02_model.py",
                        "shotq_model")

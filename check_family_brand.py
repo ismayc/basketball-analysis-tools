@@ -10,13 +10,14 @@ in scope when it has a .git directory and publishes any of:
 - index.html + vite.config.js  (app shells whose head ships to dist/)
 
 Skipped: figure iframes under docs/figures/ (chrome-less embeds), raw
-data caches, and repos with no published pages.
+data caches, repos with no published pages, and the repos in EXEMPT. Each
+exempt repo is printed with its reason on every run, so a skip is never
+silent.
 
 Run: python check_family_brand.py            report + exit non-zero on fail
 """
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 
 import family_brand
@@ -26,6 +27,15 @@ SIBLINGS = Path(__file__).resolve().parent.parent
 # The favicon appears entity-encoded in some shells; match on the stable
 # core of the data URI instead of the exact wrapper.
 FAVICON_CORE = "font-size=%2290%22>🏀</text></svg>"
+
+# Repos that publish pages under their own brand on purpose. Add a repo
+# here only with the reason it is not a family page.
+EXEMPT = {
+    "nba-shot-charts": "own favicon and og image; private, password-protected "
+                       "Netlify site, not linked from the hub",
+    "wnba-shot-charts": "own favicon and og image; private, password-protected "
+                        "Netlify site, not linked from the hub",
+}
 
 
 def pages_for(repo: Path) -> list[Path]:
@@ -41,14 +51,20 @@ def pages_for(repo: Path) -> list[Path]:
     return pages
 
 
-def main() -> int:
+def main(siblings: Path = SIBLINGS) -> int:
     failures: list[str] = []
     checked = 0
-    for repo in sorted(SIBLINGS.iterdir()):
+    skipped = 0
+    for repo in sorted(siblings.iterdir()):
         if not (repo / ".git").is_dir():
             continue
+        if repo.name in EXEMPT:
+            n = len(pages_for(repo))
+            skipped += n
+            print(f"BRAND SKIP {repo.name} ({n} pages): {EXEMPT[repo.name]}")
+            continue
         for page in pages_for(repo):
-            rel = page.relative_to(SIBLINGS)
+            rel = page.relative_to(siblings)
             text = page.read_text(errors="replace")
             checked += 1
             if FAVICON_CORE not in text:
@@ -62,7 +78,7 @@ def main() -> int:
     for f in failures:
         print(f"BRAND FAIL {f}")
     print(f"family brand check: {checked} pages checked, "
-          f"{len(failures)} failures")
+          f"{skipped} skipped as exempt, {len(failures)} failures")
     return 1 if failures else 0
 
 

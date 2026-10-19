@@ -6,10 +6,16 @@
 # first failure.
 set -euo pipefail
 cd "$(dirname "$0")"
-export PY=${PY:-$(pwd)/.venv/bin/python}
+# The shared venv lives in the parent folder that holds the siblings.
+export PY=${PY:-$(cd .. && pwd)/.venv/bin/python}
+if [ ! -x "$PY" ]; then
+  echo "no Python at $PY; create the shared venv (see README) or set PY" >&2
+  exit 1
+fi
 
 for r in jersey-height-study playbyplay-study tracking-study \
          lineup-valuation-study shot-quality-study draft-study \
+         contract-year-study playoff-series-study \
          basketball-sql-layer; do
   echo "=================== $r"
   (cd "../$r" && ./run_checks.sh)
@@ -22,12 +28,13 @@ echo
 
 echo "=================== basketball-analysis-tools"
 echo "=== family brand: every published page has the family favicon + og ==="
-$PY check_family_brand.py | tail -1
+# Full output, not tail -1: the exempt repos' SKIP lines must show.
+$PY check_family_brand.py
 echo
 echo "=== glossary: terms blocks and hover annotations current ==="
 $PY glossary.py --check | tail -1
 echo
-echo "=== numbers: prose numbers matched against committed outputs (weak; prints its wrong-number pass rate) ==="
+echo "=== numbers: every prose number bound to one committed output cell ==="
 $PY verify_numbers.py --check | tail -1
 echo
 echo "=== cross-study identity tests (pytest) ==="

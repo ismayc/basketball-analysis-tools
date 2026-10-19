@@ -12,7 +12,8 @@ whole; anything specific to one analysis lives in that analysis's repo.
 | `glossary.py` | Single source of truth for the family's terms of art. Maintains a Terms block at the top of every registered README and wraps each point of use in an `<abbr>` hover tooltip. `--sync` rewrites, `--check` gates staleness. |
 | `nba_api_compat.py` | Hard-won compatibility shims for the public NBA data stack: the stats.nba.com User-Agent fingerprint fix and the numpy 2.x `np.in1d` shim for nba-on-court. |
 | `clone_family.sh` | Check out every family repo as siblings of this one. |
-| `run_all_checks.sh` | The family-wide green light: each sibling repo's own checks, then the cross-repo gates (SQL reconciliation, scouting staleness, glossary staleness, cross-study identity tests). |
+| `run_all_checks.sh` | The family-wide green light: each sibling repo's own checks, then the cross-repo gates (SQL reconciliation, scouting staleness, family brand, glossary staleness, number bindings, cross-study identity tests). |
+| `check_family_brand.py` | Every published page in a sibling repo carries the family favicon and og image. Repos with their own brand on purpose sit in `EXEMPT` with a reason, printed as a `BRAND SKIP` line on every run. |
 | `tests/` | Tests that span repos: e.g. draft-study and shot-quality-study claim the identical hand-rolled IRLS in both languages; the identity is held here, on shared random data, in Python and R. |
 
 ## Conventions
@@ -26,6 +27,10 @@ repo's `run_checks.sh` works standalone.
 
 ```bash
 bash clone_family.sh        # siblings appear next to this repo
-uv venv .venv && uv pip install -r requirements.txt --python .venv/bin/python
+uv venv ../.venv && uv pip install -r requirements.txt --python ../.venv/bin/python
 bash run_all_checks.sh      # every gate in the family
 ```
+
+The venv is shared by every sibling, so it lives in the parent folder
+(`../.venv`), which is where `run_all_checks.sh` looks for it. Set `PY` to
+use a different interpreter.
