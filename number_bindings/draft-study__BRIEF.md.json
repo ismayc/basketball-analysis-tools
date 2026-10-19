@@ -1,7 +1,7 @@
 {
  "bindings": [
   {
-   "token": "567",
+   "token": "569",
    "sign": "",
    "before": "ore. ## For analytics peers n=",
    "nth": 0,
@@ -40,7 +40,7 @@
    }
   },
   {
-   "token": "0.017",
+   "token": "0.018",
    "sign": "+",
    "before": "t (train ## test ##): M# gains",
    "nth": 0,
@@ -60,7 +60,7 @@
   },
   {
    "token": "0.000",
-   "sign": "+",
+   "sign": "",
    "before": ": M# gains # AUC in-sample and",
    "nth": 0,
    "table": "output/metrics.csv",
@@ -69,7 +69,7 @@
    },
    "column": "test_auc",
    "scale": 1,
-   "abs": false,
+   "abs": true,
    "minus": {
     "where": {
      "model": "pick_only"

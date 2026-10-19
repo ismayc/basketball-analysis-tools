@@ -2,7 +2,7 @@
  "bindings": [
   {
    "token": "0.000",
-   "sign": "+",
+   "sign": "",
    "before": " add</div> <div class=\"value\">",
    "nth": 0,
    "table": "output/metrics.csv",
@@ -11,7 +11,7 @@
    },
    "column": "test_auc",
    "scale": 1,
-   "abs": false,
+   "abs": true,
    "minus": {
     "where": {
      "model": "pick_only"
@@ -20,7 +20,7 @@
    }
   },
   {
-   "token": "0.827",
+   "token": "0.829",
    "sign": "",
    "before": "lone</div> <div class=\"value\">",
    "nth": 0,
@@ -46,7 +46,7 @@
    "abs": false
   },
   {
-   "token": "0.861",
+   "token": "0.862",
    "sign": "",
    "before": "v> <div class=\"value\"># &rarr;",
    "nth": 0,
@@ -59,7 +59,7 @@
    "abs": false
   },
   {
-   "token": "567",
+   "token": "569",
    "sign": "",
    "before": "mple</div> <div class=\"value\">",
    "nth": 0,
@@ -70,7 +70,7 @@
    "abs": false
   },
   {
-   "token": "567",
+   "token": "569",
    "sign": "",
    "before": "worthy rather than flattering.",
    "nth": 0,
@@ -95,7 +95,7 @@
   },
   {
    "token": "0.000",
-   "sign": "+",
+   "sign": "",
    "before": "iv> ## The college numbers add",
    "nth": 0,
    "table": "output/metrics.csv",
@@ -104,7 +104,7 @@
    },
    "column": "test_auc",
    "scale": 1,
-   "abs": false,
+   "abs": true,
    "minus": {
     "where": {
      "model": "pick_only"
@@ -113,7 +113,7 @@
    }
   },
   {
-   "token": "0.827",
+   "token": "0.829",
    "sign": "",
    "before": " predicts rotation outcomes at",
    "nth": 0,
@@ -126,7 +126,7 @@
    "abs": false
   },
   {
-   "token": "0.827",
+   "token": "0.829",
    "sign": "",
    "before": "rks) and the test AUC moves to",
    "nth": 0,
@@ -140,7 +140,7 @@
   },
   {
    "token": "0.000",
-   "sign": "+",
+   "sign": "",
    "before": "to # **The college numbers add",
    "nth": 0,
    "table": "output/metrics.csv",
@@ -149,7 +149,7 @@
    },
    "column": "test_auc",
    "scale": 1,
-   "abs": false,
+   "abs": true,
    "minus": {
     "where": {
      "model": "pick_only"
@@ -171,7 +171,7 @@
    "abs": false
   },
   {
-   "token": "0.861",
+   "token": "0.862",
    "sign": "",
    "before": "d #** In-sample they help (# →",
    "nth": 0,

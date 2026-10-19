@@ -36,7 +36,18 @@
    "abs": false
   },
   {
-   "token": "567",
+   "token": "569",
+   "sign": "",
+   "before": "is blank), so n rose from # to",
+   "nth": 0,
+   "table": "output/model_frame.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "569",
    "sign": "",
    "before": "final college season is ## (n=",
    "nth": 0,
@@ -82,17 +93,6 @@
     "check": "pick-only test AUC beats coin flip decisively"
    },
    "column": "threshold",
-   "scale": 1,
-   "abs": false
-  },
-  {
-   "token": "567",
-   "sign": "",
-   "before": "ver logged a college minute. -",
-   "nth": 0,
-   "table": "output/model_frame.csv",
-   "where": {},
-   "column": "__rows__",
    "scale": 1,
    "abs": false
   },

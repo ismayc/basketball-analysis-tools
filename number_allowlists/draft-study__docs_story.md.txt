@@ -3,3 +3,4 @@
 3 @ difference between pick  # an illustrative pick number in an argument about the curve, not a result
 12 @ between pick # and pick  # an illustrative pick number in an argument about the curve, not a result
 27 @ trading up at pick  # an illustrative pick number in an argument about the curve, not a result
+19 @ **Corrected October  # a date (the draft join correction, October 19, 2026)

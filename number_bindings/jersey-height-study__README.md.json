@@ -10,6 +10,71 @@
    "column": "reps",
    "scale": 1,
    "abs": false
+  },
+  {
+   "token": "41",
+   "sign": "",
+   "before": "# audit found this in NBA ## (",
+   "nth": 0,
+   "table": "output/participation_impact.csv",
+   "where": {
+    "metric": "jersey_height_cor"
+   },
+   "column": "players_missing",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "41",
+   "sign": "",
+   "before": "nd WNBA # (# of #). Adding the",
+   "nth": 0,
+   "table": "output/participation_impact.csv",
+   "where": {
+    "metric": "jersey_height_cor"
+   },
+   "column": "players_missing",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.005",
+   "sign": "+",
+   "before": "s jersey/height correlation by",
+   "nth": 0,
+   "table": "output/participation_impact.csv",
+   "where": {
+    "metric": "jersey_height_cor"
+   },
+   "column": "delta",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.003",
+   "sign": "+",
+   "before": "lation by # its mean height by",
+   "nth": 0,
+   "table": "output/participation_impact.csv",
+   "where": {
+    "metric": "mean_height_in"
+   },
+   "column": "delta",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.002",
+   "sign": "+",
+   "before": "ts share of numbers above # by",
+   "nth": 0,
+   "table": "output/participation_impact.csv",
+   "where": {
+    "metric": "share_above_55"
+   },
+   "column": "delta",
+   "scale": 1,
+   "abs": false
   }
  ]
 }

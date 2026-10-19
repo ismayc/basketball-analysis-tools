@@ -270,8 +270,8 @@ NEW_CARDS = {
         "kicker": "2M play-by-play events, WNBA × NBA",
         "headline": (
             "Angel Reese's “mebound” is measurably earned: she recovers "
-            "her own misses at 3-4x the league rate, at league-leading "
-            "rebound volume no NBA player matches either."),
+            "18-23% of her own missed shots, 3.6-4.5x the WNBA rate, while "
+            "ranking second in the league in rebounds every season."),
     },
     "draft-potential-by-team": {
         "kicker": "27 draft classes, priced by slot",
