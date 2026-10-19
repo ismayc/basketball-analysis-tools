@@ -1,7 +1,7 @@
 {
  "bindings": [
   {
-   "token": "0.6",
+   "token": "0.8",
    "sign": "+",
    "before": " in the final minute (about **",
    "nth": 0,
@@ -89,9 +89,51 @@
    "abs": false
   },
   {
+   "token": "0.23",
+   "sign": "+",
+   "before": "ons it is clearly above zero (",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "nba",
+    "quantity": "net_restricted"
+   },
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.10",
+   "sign": "+",
+   "before": " it is clearly above zero (# [",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "nba",
+    "quantity": "net_restricted"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.35",
+   "sign": "+",
+   "before": "it is clearly above zero (# [#",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "nba",
+    "quantity": "net_restricted"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
    "token": "84%",
    "sign": "",
-   "before": "eady decided: they go quick **",
+   "before": "he #-second mark goes quick **",
    "nth": 0,
    "table": "output/two_for_one_summary.csv",
    "where": {},
@@ -109,47 +151,9 @@
       "column": "n"
      },
      {
-      "op": "-",
-      "args": [
-       {
-        "op": "-",
-        "args": [
-         {
-          "table": "output/decision_summary.csv",
-          "where": {
-           "behavior": "quick"
-          },
-          "column": "n"
-         },
-         {
-          "op": "-",
-          "args": [
-           0,
-           {
-            "table": "output/decision_summary.csv",
-            "where": {
-             "behavior": "normal"
-            },
-            "column": "n"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "op": "-",
-        "args": [
-         0,
-         {
-          "table": "output/decision_summary.csv",
-          "where": {
-           "behavior": "hold"
-          },
-          "column": "n"
-         }
-        ]
-       }
-      ]
+      "agg": "sum",
+      "table": "output/decision_summary.csv",
+      "column": "n"
      }
     ]
    }
@@ -157,13 +161,41 @@
   {
    "token": "24",
    "sign": "",
-   "before": "ssessions are nearly extinct (",
+   "before": "ng for the last shot is rare (",
    "nth": 0,
    "table": "output/decision_summary.csv",
    "where": {
     "behavior": "hold"
    },
    "column": "n",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "50",
+   "sign": "",
+   "before": " in ##) but not disappearing (",
+   "nth": 0,
+   "table": "output/seasons_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "2024-25"
+   },
+   "column": "hold_n",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "48",
+   "sign": "",
+   "before": "#) but not disappearing (# and",
+   "nth": 0,
+   "table": "output/seasons_summary.csv",
+   "where": {
+    "league": "nba",
+    "season": "2025-26"
+   },
+   "column": "hold_n",
    "scale": 1,
    "abs": false
   },
@@ -194,9 +226,89 @@
    "abs": false
   },
   {
+   "token": "0.71",
+   "sign": "+",
+   "before": "there too on possession data (",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "wnba",
+    "quantity": "decision_quick_minus_hold"
+   },
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.25",
+   "sign": "+",
+   "before": "re too on possession data (# [",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "wnba",
+    "quantity": "decision_quick_minus_hold"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.18",
+   "sign": "+",
+   "before": "e too on possession data (# [#",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "wnba",
+    "quantity": "decision_quick_minus_hold"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "76%",
+   "sign": "",
+   "before": "BA teams go quick less often (",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "agg": "min",
+    "table": "output/seasons_summary.csv",
+    "column": "quick_share",
+    "where": {
+     "league": "wnba"
+    }
+   }
+  },
+  {
+   "token": "78%",
+   "sign": "",
+   "before": "ams go quick less often (#% to",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/seasons_summary.csv",
+    "column": "quick_share",
+    "where": {
+     "league": "wnba"
+    }
+   }
+  },
+  {
    "token": "4,000",
    "sign": "",
-   "before": "tas (FT-safe). Bootstrap CIs (",
+   "before": "e-clock order. Bootstrap CIs (",
    "nth": 0,
    "table": "output/bootstrap_points_diff.csv",
    "where": {},
@@ -205,9 +317,9 @@
    "abs": false
   },
   {
-   "token": "0.36",
+   "token": "0.50",
    "sign": "+",
-   "before": "son. Own-points gap survives (",
+   "before": "th gaps survive it, own points",
    "nth": 0,
    "table": "output/bootstrap_restricted.csv",
    "where": {},
@@ -216,9 +328,9 @@
    "abs": false
   },
   {
-   "token": "0.22",
+   "token": "0.36",
    "sign": "+",
-   "before": ". Own-points gap survives (# [",
+   "before": "aps survive it, own points # [",
    "nth": 0,
    "table": "output/bootstrap_restricted.csv",
    "where": {},
@@ -227,9 +339,9 @@
    "abs": false
   },
   {
-   "token": "0.51",
+   "token": "0.64",
    "sign": "+",
-   "before": " Own-points gap survives (# [#",
+   "before": "ps survive it, own points # [#",
    "nth": 0,
    "table": "output/bootstrap_restricted.csv",
    "where": {},
@@ -238,9 +350,9 @@
    "abs": false
   },
   {
-   "token": "0.19",
+   "token": "0.24",
    "sign": "+",
-   "before": " (# [# #]), net gap does not (",
+   "before": "it, own points # [# #] and net",
    "nth": 0,
    "table": "output/bootstrap_net_restricted.csv",
    "where": {},
@@ -249,9 +361,9 @@
    "abs": false
   },
   {
-   "token": "0.00",
-   "sign": "-",
-   "before": " [# #]), net gap does not (# [",
+   "token": "0.03",
+   "sign": "+",
+   "before": "own points # [# #] and net # [",
    "nth": 0,
    "table": "output/bootstrap_net_restricted.csv",
    "where": {},
@@ -260,12 +372,54 @@
    "abs": false
   },
   {
-   "token": "0.38",
+   "token": "0.44",
    "sign": "+",
-   "before": "[# #]), net gap does not (# [#",
+   "before": "wn points # [# #] and net # [#",
    "nth": 0,
    "table": "output/bootstrap_net_restricted.csv",
    "where": {},
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.23",
+   "sign": "+",
+   "before": "sons the restricted net gap is",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "nba",
+    "quantity": "net_restricted"
+   },
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.10",
+   "sign": "+",
+   "before": " the restricted net gap is # [",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "nba",
+    "quantity": "net_restricted"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.35",
+   "sign": "+",
+   "before": "the restricted net gap is # [#",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "nba",
+    "quantity": "net_restricted"
+   },
    "column": "ci_hi",
    "scale": 1,
    "abs": false
@@ -291,47 +445,9 @@
       "column": "n"
      },
      {
-      "op": "-",
-      "args": [
-       {
-        "op": "-",
-        "args": [
-         {
-          "table": "output/decision_summary.csv",
-          "where": {
-           "behavior": "quick"
-          },
-          "column": "n"
-         },
-         {
-          "op": "-",
-          "args": [
-           0,
-           {
-            "table": "output/decision_summary.csv",
-            "where": {
-             "behavior": "normal"
-            },
-            "column": "n"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "op": "-",
-        "args": [
-         0,
-         {
-          "table": "output/decision_summary.csv",
-          "where": {
-           "behavior": "hold"
-          },
-          "column": "n"
-         }
-        ]
-       }
-      ]
+      "agg": "sum",
+      "table": "output/decision_summary.csv",
+      "column": "n"
      }
     ]
    }
@@ -357,47 +473,9 @@
       "column": "n"
      },
      {
-      "op": "-",
-      "args": [
-       {
-        "op": "-",
-        "args": [
-         {
-          "table": "output/decision_summary.csv",
-          "where": {
-           "behavior": "quick"
-          },
-          "column": "n"
-         },
-         {
-          "op": "-",
-          "args": [
-           0,
-           {
-            "table": "output/decision_summary.csv",
-            "where": {
-             "behavior": "normal"
-            },
-            "column": "n"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "op": "-",
-        "args": [
-         0,
-         {
-          "table": "output/decision_summary.csv",
-          "where": {
-           "behavior": "hold"
-          },
-          "column": "n"
-         }
-        ]
-       }
-      ]
+      "agg": "sum",
+      "table": "output/decision_summary.csv",
+      "column": "n"
      }
     ]
    }
@@ -423,53 +501,15 @@
       "column": "n"
      },
      {
-      "op": "-",
-      "args": [
-       {
-        "op": "-",
-        "args": [
-         {
-          "table": "output/decision_summary.csv",
-          "where": {
-           "behavior": "quick"
-          },
-          "column": "n"
-         },
-         {
-          "op": "-",
-          "args": [
-           0,
-           {
-            "table": "output/decision_summary.csv",
-            "where": {
-             "behavior": "normal"
-            },
-            "column": "n"
-           }
-          ]
-         }
-        ]
-       },
-       {
-        "op": "-",
-        "args": [
-         0,
-         {
-          "table": "output/decision_summary.csv",
-          "where": {
-           "behavior": "hold"
-          },
-          "column": "n"
-         }
-        ]
-       }
-      ]
+      "agg": "sum",
+      "table": "output/decision_summary.csv",
+      "column": "n"
      }
     ]
    }
   },
   {
-   "token": "0.69",
+   "token": "0.92",
    "sign": "+",
    "before": "k minus hold net from the mark",
    "nth": 0,
@@ -480,7 +520,7 @@
    "abs": false
   },
   {
-   "token": "0.23",
+   "token": "0.35",
    "sign": "+",
    "before": "nus hold net from the mark # [",
    "nth": 0,
@@ -491,7 +531,7 @@
    "abs": false
   },
   {
-   "token": "1.20",
+   "token": "1.51",
    "sign": "+",
    "before": "us hold net from the mark # [#",
    "nth": 0,
@@ -504,7 +544,7 @@
   {
    "token": "82%",
    "sign": "",
-   "before": "st; the first-shot proxy flags",
+   "before": "re; the first-shot proxy flags",
    "nth": 0,
    "table": "output/proxy_vs_possession.csv",
    "where": {},
@@ -513,20 +553,123 @@
    "abs": false
   },
   {
-   "token": "0.58",
+   "token": "0.71",
    "sign": "+",
-   "before": "ted the headline gap from # to",
+   "before": "the possession design pools to",
    "nth": 0,
-   "table": "output/bootstrap_points_diff.csv",
-   "where": {},
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "wnba",
+    "quantity": "decision_quick_minus_hold"
+   },
    "column": "estimate",
    "scale": 1,
    "abs": false
   },
   {
+   "token": "0.25",
+   "sign": "+",
+   "before": "possession design pools to # [",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "wnba",
+    "quantity": "decision_quick_minus_hold"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1.18",
+   "sign": "+",
+   "before": "ossession design pools to # [#",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "wnba",
+    "quantity": "decision_quick_minus_hold"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.13",
+   "sign": "-",
+   "before": "cted shot-timing comparison to",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "wnba",
+    "quantity": "net_restricted"
+   },
+   "column": "estimate",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.36",
+   "sign": "-",
+   "before": " shot-timing comparison to # [",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "wnba",
+    "quantity": "net_restricted"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.11",
+   "sign": "+",
+   "before": "shot-timing comparison to # [#",
+   "nth": 0,
+   "table": "output/seasons_pooled.csv",
+   "where": {
+    "league": "wnba",
+    "quantity": "net_restricted"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "15%",
+   "sign": "",
+   "before": " let late-inserted events zero",
+   "nth": 0,
+   "table": "output/two_for_one_summary.csv",
+   "where": {},
+   "column": "mean_points",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "table": "output/correction_2026-10-19.csv",
+      "where": {
+       "quantity": "team_periods_points_changed"
+      },
+      "column": "corrected"
+     },
+     {
+      "table": "output/correction_2026-10-19.csv",
+      "where": {
+       "quantity": "team_periods"
+      },
+      "column": "corrected"
+     }
+    ]
+   }
+  },
+  {
    "token": "0.2",
    "sign": "+",
-   "before": "ck much of the value: net edge",
+   "before": " the value, and the net edge (",
    "nth": 0,
    "table": "output/bootstrap_net_restricted.csv",
    "where": {},

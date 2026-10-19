@@ -3,3 +3,4 @@
 2  # UNVERIFIED: "±2-3" is a stated rough bracket of lineup-valuation-study's per-season median CI half-widths, 2.5 and 2.6 (kept as a range by decision, 2026-10-18)
 3  # UNVERIFIED: "±2-3" is a stated rough bracket of lineup-valuation-study's per-season median CI half-widths, 2.5 and 2.6 (kept as a range by decision, 2026-10-18)
 30  # teams in the league, a league fact
+19 @ NBA seasons (corrected October  # a date (the 2-for-1 correction, October 19, 2026)

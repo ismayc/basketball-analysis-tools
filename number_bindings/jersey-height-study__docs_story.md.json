@@ -516,6 +516,283 @@
    "column": "share_50_plus",
    "scale": 100,
    "abs": false
+  },
+  {
+   "token": "0.20",
+   "sign": "+",
+   "before": " jersey/height correlation was",
+   "nth": 0,
+   "table": "output/wnba/era_bootstrap_python.csv",
+   "where": {
+    "league": "wnba"
+   },
+   "column": "cor_first5",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.19",
+   "sign": "+",
+   "before": " WNBA's first five seasons and",
+   "nth": 0,
+   "table": "output/wnba/era_bootstrap_python.csv",
+   "where": {
+    "league": "wnba"
+   },
+   "column": "cor_last5",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.10",
+   "sign": "-",
+   "before": " change of about zero (#% CI [",
+   "nth": 0,
+   "table": "output/wnba/era_bootstrap_python.csv",
+   "where": {
+    "league": "wnba"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.09",
+   "sign": "+",
+   "before": "change of about zero (#% CI [#",
+   "nth": 0,
+   "table": "output/wnba/era_bootstrap_python.csv",
+   "where": {
+    "league": "wnba"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "0.07",
+   "sign": "+",
+   "before": "correlation was building, from",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "mean",
+    "table": "output/wnba/season_metrics_python.csv",
+    "column": "value",
+    "where": {
+     "league": "nba",
+     "metric": "jersey_height_cor",
+     "included": 1
+    },
+    "range": {
+     "league_age": [
+      8,
+      12
+     ]
+    }
+   }
+  },
+  {
+   "token": "0.33",
+   "sign": "+",
+   "before": "rom # at league ages # to # to",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "mean",
+    "table": "output/wnba/season_metrics_python.csv",
+    "column": "value",
+    "where": {
+     "league": "nba",
+     "metric": "jersey_height_cor",
+     "included": 1
+    },
+    "range": {
+     "league_age": [
+      25,
+      29
+     ]
+    }
+   }
+  },
+  {
+   "token": "0.21",
+   "sign": "+",
+   "before": " to # while the WNBA's held at",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "mean",
+    "table": "output/wnba/season_metrics_python.csv",
+    "column": "value",
+    "where": {
+     "league": "wnba",
+     "metric": "jersey_height_cor",
+     "included": 1
+    },
+    "range": {
+     "league_age": [
+      8,
+      12
+     ]
+    }
+   }
+  },
+  {
+   "token": "0.19",
+   "sign": "+",
+   "before": "while the WNBA's held at # and",
+   "nth": 0,
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "value",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "mean",
+    "table": "output/wnba/season_metrics_python.csv",
+    "column": "value",
+    "where": {
+     "league": "wnba",
+     "metric": "jersey_height_cor",
+     "included": 1
+    },
+    "range": {
+     "league_age": [
+      25,
+      29
+     ]
+    }
+   }
+  },
+  {
+   "token": "8.5%",
+   "sign": "",
+   "before": "git from six to nine went from",
+   "nth": 0,
+   "table": "output/wnba/rookie_shares_python.csv",
+   "where": {
+    "league": "wnba",
+    "group": "ncaa_rookie",
+    "window": "recent"
+   },
+   "column": "share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "13.0%",
+   "sign": "",
+   "before": "% in the ten classes before to",
+   "nth": 0,
+   "table": "output/wnba/rookie_shares_python.csv",
+   "where": {
+    "league": "wnba",
+    "group": "ncaa_rookie",
+    "window": "exposed"
+   },
+   "column": "share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "4.5",
+   "sign": "+",
+   "before": "e exposed classes, a change of",
+   "nth": 0,
+   "table": "output/wnba/rookie_bootstrap_python.csv",
+   "where": {
+    "league": "wnba",
+    "contrast": "ncaa_rookie_recent"
+   },
+   "column": "observed",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "2.8",
+   "sign": "-",
+   "before": "points with a #% interval of [",
+   "nth": 0,
+   "table": "output/wnba/rookie_bootstrap_python.csv",
+   "where": {
+    "league": "wnba",
+    "contrast": "ncaa_rookie_recent"
+   },
+   "column": "ci_lo",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "12.8",
+   "sign": "+",
+   "before": "oints with a #% interval of [#",
+   "nth": 0,
+   "table": "output/wnba/rookie_bootstrap_python.csv",
+   "where": {
+    "league": "wnba",
+    "contrast": "ncaa_rookie_recent"
+   },
+   "column": "ci_hi",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "22.9%",
+   "sign": "",
+   "before": "e college system, it went from",
+   "nth": 0,
+   "table": "output/wnba/rookie_shares_python.csv",
+   "where": {
+    "league": "nba",
+    "group": "ncaa_rookie",
+    "window": "recent"
+   },
+   "column": "share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "21.3%",
+   "sign": "",
+   "before": "ege system, it went from #% to",
+   "nth": 0,
+   "table": "output/wnba/rookie_shares_python.csv",
+   "where": {
+    "league": "nba",
+    "group": "ncaa_rookie",
+    "window": "exposed"
+   },
+   "column": "share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "92",
+   "sign": "",
+   "before": "r change clears zero, and with",
+   "nth": 0,
+   "table": "output/wnba/rookie_shares_python.csv",
+   "where": {
+    "league": "wnba",
+    "group": "ncaa_rookie",
+    "window": "exposed"
+   },
+   "column": "n",
+   "scale": 1,
+   "abs": false
   }
  ]
 }

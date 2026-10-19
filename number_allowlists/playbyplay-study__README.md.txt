@@ -20,10 +20,15 @@
 36 @ –# seconds **#× more** than at  # a clock threshold, band, or window that defines the comparison, a setting
 40 @ seconds **#× more** than at #–  # a clock threshold, band, or window that defines the comparison, a setting
 32 @ if nothing special happened at  # a clock threshold, band, or window that defines the comparison, a setting
-1,228  # UNVERIFIED: games covered by the pbpstats bulk archive; no committed output records the count
-1,230  # games in a 30-team, 82-game season (30 x 82 / 2), a schedule fact
 40 @ ). The sharper frame: **at the  # a clock threshold, band, or window that defines the comparison, a setting
 20 @ at does not get the ball until  # a clock threshold, band, or window that defines the comparison, a setting
 40 @ mparable to one that had it at  # a clock threshold, band, or window that defines the comparison, a setting
 32 @ %** took their first shot with  # a clock threshold, band, or window that defines the comparison, a setting
 16 @ | **#** | # | #% | | Normal (  # a clock threshold, band, or window that defines the comparison, a setting
+10 @ me definitions. The WNBA plays  # quarter length in minutes, a rule fact
+24 @ #-minute quarters but the same  # shot clock in seconds, a rule fact
+60 @ me #-second shot clock, so the  # a clock threshold, band, or window that defines the comparison, a setting
+32 @ ck, so the #-second window and  # a clock threshold, band, or window that defines the comparison, a setting
+31 @ on | Games | First shot ≥ #s |  # a clock threshold, band, or window that defines the comparison, a setting
+31 @ h at the threshold at all (the  # a clock threshold, band, or window that defines the comparison, a setting
+36 @ ##s spike never exceeds #× the  # a clock threshold, band, or window that defines the comparison, a setting

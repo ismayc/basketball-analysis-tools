@@ -9,3 +9,11 @@
 50 @ peak in ## (#% in ##). Numbers  # the 50+ number bucket's name, a label
 00 @ ver any season for the #/  # jersey number 00 in the bucket name 0/00, a label
 00 @ right tail thin out and the #/  # jersey number 00 in the bucket name 0/00, a label
+55 @  near the NBA's. Numbers above  # the above-55 number bucket's threshold, a setting
+55 @ re of players in numbers above  # the above-55 number bucket's threshold, a setting
+0 @  players in numbers above # in  # jersey number 0 in the bucket name 0 or 00, a label
+00 @ ers in numbers above # in # or  # jersey number 00 in the bucket name 0 or 00, a label
+8 @ uilding, from # at league ages  # league-age comparison band (ages 8-12), a setting
+12 @ ng, from # at league ages # to  # league-age comparison band (ages 8-12), a setting
+25 @ eague ages # to # to # at ages  # league-age comparison band (ages 25-29), a setting
+29 @  ages # to # to # at ages # to  # league-age comparison band (ages 25-29), a setting

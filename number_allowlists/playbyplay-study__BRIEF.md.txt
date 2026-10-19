@@ -1,7 +1,9 @@
 31 @ rst shots pile up right at the  # a clock threshold, band, or window that defines the comparison, a setting
 33 @ shots pile up right at the #–  # a clock threshold, band, or window that defines the comparison, a setting
 32 @ Teams that get a shot up with  # a clock threshold, band, or window that defines the comparison, a setting
-40 @ t actually has the ball at the  # a clock threshold, band, or window that defines the comparison, a setting
+32 @ t time their first shot to the  # a clock threshold, band, or window that defines the comparison, a setting
+40 @ has the ball at the  # a clock threshold, band, or window that defines the comparison, a setting
 1,230  # games in a 30-team, 82-game season (30 x 82 / 2), a schedule fact
 20 @ dom, so we report a restricted  # a clock threshold, band, or window that defines the comparison, a setting
-0.36 @ shifted the headline gap from  # UNVERIFIED: the naive estimate from the run before the text-sort fix; no committed output keeps it (it equals the restricted-sample estimate only by coincidence)
+19 @ originals). Corrected October  # a date (the correction, October 19, 2026)
+19 @ bers were corrected on October  # a date (the correction, October 19, 2026)

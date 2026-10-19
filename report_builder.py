@@ -235,11 +235,13 @@ HUB_CARDS = {
         "46 seasons of rosters",
         "The “players are getting shorter” trend is ~75% a 2019 "
         "measurement-rule change. The jersey numbers really did shrink: "
-        "the median nearly halved."),
+        "the median nearly halved. The WNBA never had the big-number "
+        "habit to lose."),
     "playbyplay-study": (
-        "Full 2023-24 play-by-play",
+        "Play-by-play, three NBA and three WNBA seasons",
         "The 2-for-1 adds a real possession at no shot-quality cost, "
-        "and ~+0.2 net points, indistinguishable from zero."),
+        "and ~+0.2 net points a quarter-end, clearly above zero over "
+        "three NBA seasons."),
     "tracking-study": (
         "7.5M frames of raw SportVU",
         "A 2.5–6s scorer's-table latency fabricates findings if "
