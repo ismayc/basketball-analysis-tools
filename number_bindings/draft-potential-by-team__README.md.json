@@ -1,0 +1,988 @@
+{
+ "bindings": [
+  {
+   "token": "30",
+   "sign": "",
+   "before": "d analysis). - **Teams** — all",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1",
+   "sign": "",
+   "before": "ighted isotonic fit over picks",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1",
+   "sign": "",
+   "before": "orm. - The slot gradient: pick",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "77",
+   "sign": "",
+   "before": "ck # carries an expectation of",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "exp_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "60",
+   "sign": "",
+   "before": "n of # career Win Shares; pick",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 60
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2",
+   "sign": "",
+   "before": "eer Win Shares; pick # carries",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 60
+   },
+   "column": "exp_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "10",
+   "sign": "",
+   "before": " | --- | --- | | Wake Forest |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Wake Forest"
+   },
+   "column": "draftees",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "7",
+   "sign": "",
+   "before": "-- | --- | | Wake Forest | # |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Wake Forest"
+   },
+   "column": "hits",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "70%",
+   "sign": "",
+   "before": " --- | | Wake Forest | # | # |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Wake Forest"
+   },
+   "column": "hit_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "323",
+   "sign": "+",
+   "before": "| | Wake Forest | # | # | #% |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Wake Forest"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "36",
+   "sign": "",
+   "before": "# | | California-Los Angeles |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "California-Los Angeles"
+   },
+   "column": "draftees",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "16",
+   "sign": "",
+   "before": "| California-Los Angeles | # |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "California-Los Angeles"
+   },
+   "column": "hits",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "44%",
+   "sign": "",
+   "before": "lifornia-Los Angeles | # | # |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "California-Los Angeles"
+   },
+   "column": "hit_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "224",
+   "sign": "+",
+   "before": "nia-Los Angeles | # | # | #% |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "California-Los Angeles"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "11",
+   "sign": "",
+   "before": "# | # | #% | # | | Marquette |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Marquette"
+   },
+   "column": "draftees",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "3",
+   "sign": "",
+   "before": "# | #% | # | | Marquette | # |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Marquette"
+   },
+   "column": "hits",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "27%",
+   "sign": "",
+   "before": "#% | # | | Marquette | # | # |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Marquette"
+   },
+   "column": "hit_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "201",
+   "sign": "+",
+   "before": "# | | Marquette | # | # | #% |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Marquette"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "18",
+   "sign": "",
+   "before": "| # | # | #% | # | | Florida |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Florida"
+   },
+   "column": "draftees",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "10",
+   "sign": "",
+   "before": "| # | #% | # | | Florida | # |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Florida"
+   },
+   "column": "hits",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "56%",
+   "sign": "",
+   "before": "| #% | # | | Florida | # | # |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Florida"
+   },
+   "column": "hit_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "142",
+   "sign": "+",
+   "before": "| # | | Florida | # | # | #% |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Florida"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "11",
+   "sign": "",
+   "before": " | # | # | #% | # | | Xavier |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Xavier"
+   },
+   "column": "draftees",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4",
+   "sign": "",
+   "before": " | # | #% | # | | Xavier | # |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Xavier"
+   },
+   "column": "hits",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "36%",
+   "sign": "",
+   "before": " | #% | # | | Xavier | # | # |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Xavier"
+   },
+   "column": "hit_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "117",
+   "sign": "+",
+   "before": " | # | | Xavier | # | # | #% |",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Xavier"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "25",
+   "sign": "",
+   "before": "entucky has the best hit rate:",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Kentucky"
+   },
+   "column": "hits",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "41",
+   "sign": "",
+   "before": "ky has the best hit rate: # of",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Kentucky"
+   },
+   "column": "draftees",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "61%",
+   "sign": "",
+   "before": " best hit rate: # of # picks (",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Kentucky"
+   },
+   "column": "hit_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "69",
+   "sign": "",
+   "before": "-- | | Oklahoma City Thunder |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Oklahoma City Thunder"
+   },
+   "column": "picks",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "31.1",
+   "sign": "",
+   "before": " | Oklahoma City Thunder | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Oklahoma City Thunder"
+   },
+   "column": "avg_pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "489",
+   "sign": "+",
+   "before": "klahoma City Thunder | # | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Oklahoma City Thunder"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "14",
+   "sign": "-",
+   "before": "oma City Thunder | # | # | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Oklahoma City Thunder"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "992",
+   "sign": "",
+   "before": "ity Thunder | # | # | # | # to",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Oklahoma City Thunder"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "38%",
+   "sign": "",
+   "before": "Thunder | # | # | # | # to # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Oklahoma City Thunder"
+   },
+   "column": "kept_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "50",
+   "sign": "",
+   "before": "# | #% | | San Antonio Spurs |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "San Antonio Spurs"
+   },
+   "column": "picks",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "40.8",
+   "sign": "",
+   "before": "#% | | San Antonio Spurs | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "San Antonio Spurs"
+   },
+   "column": "avg_pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "411",
+   "sign": "+",
+   "before": " | San Antonio Spurs | # | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "San Antonio Spurs"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "10",
+   "sign": "-",
+   "before": "an Antonio Spurs | # | # | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "San Antonio Spurs"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "832",
+   "sign": "",
+   "before": "tonio Spurs | # | # | # | # to",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "San Antonio Spurs"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "44%",
+   "sign": "",
+   "before": "o Spurs | # | # | # | # to # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "San Antonio Spurs"
+   },
+   "column": "kept_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "48",
+   "sign": "",
+   "before": " | #% | | Los Angeles Lakers |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Los Angeles Lakers"
+   },
+   "column": "picks",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "35.8",
+   "sign": "",
+   "before": "% | | Los Angeles Lakers | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Los Angeles Lakers"
+   },
+   "column": "avg_pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "251",
+   "sign": "+",
+   "before": "| Los Angeles Lakers | # | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Los Angeles Lakers"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "76",
+   "sign": "-",
+   "before": "s Angeles Lakers | # | # | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Los Angeles Lakers"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "578",
+   "sign": "",
+   "before": "eles Lakers | # | # | # | # to",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Los Angeles Lakers"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "41%",
+   "sign": "",
+   "before": " Lakers | # | # | # | # to # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Los Angeles Lakers"
+   },
+   "column": "kept_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "60",
+   "sign": "",
+   "before": "# to # | #% | | Phoenix Suns |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Phoenix Suns"
+   },
+   "column": "picks",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "34.1",
+   "sign": "",
+   "before": " # | #% | | Phoenix Suns | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Phoenix Suns"
+   },
+   "column": "avg_pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "240",
+   "sign": "+",
+   "before": " #% | | Phoenix Suns | # | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Phoenix Suns"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "164",
+   "sign": "-",
+   "before": "| | Phoenix Suns | # | # | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Phoenix Suns"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "644",
+   "sign": "",
+   "before": "hoenix Suns | # | # | # | # to",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Phoenix Suns"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "33%",
+   "sign": "",
+   "before": "ix Suns | # | # | # | # to # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Phoenix Suns"
+   },
+   "column": "kept_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "56",
+   "sign": "",
+   "before": "#% | | Golden State Warriors |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Golden State Warriors"
+   },
+   "column": "picks",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "27.2",
+   "sign": "",
+   "before": " | Golden State Warriors | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Golden State Warriors"
+   },
+   "column": "avg_pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "204",
+   "sign": "+",
+   "before": "olden State Warriors | # | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Golden State Warriors"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "187",
+   "sign": "-",
+   "before": "n State Warriors | # | # | # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Golden State Warriors"
+   },
+   "column": "ci_lo",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "595",
+   "sign": "",
+   "before": "te Warriors | # | # | # | # to",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Golden State Warriors"
+   },
+   "column": "ci_hi",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "46%",
+   "sign": "",
+   "before": "arriors | # | # | # | # to # |",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Golden State Warriors"
+   },
+   "column": "kept_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "394",
+   "sign": "-",
+   "before": "% | The LA Clippers sit last (",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "LA Clippers"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "27",
+   "sign": "",
+   "before": ". Draft value is heavy-tailed:",
+   "nth": 0,
+   "table": "output/summary_counts.csv",
+   "where": {
+    "metric": "franchises_crossing_zero"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "30",
+   "sign": "",
+   "before": "ft value is heavy-tailed: # of",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "46%",
+   "sign": "",
+   "before": " of the careers they drafted (",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Golden State Warriors"
+   },
+   "column": "kept_share",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "1",
+   "sign": "",
+   "before": "- | --- | | LeBron James | # |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "LeBron James"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "200",
+   "sign": "+",
+   "before": " # | # | Cleveland Cavaliers |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "LeBron James"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "9",
+   "sign": "",
+   "before": "rs | # | | Dirk Nowitzki | # |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Dirk Nowitzki"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "170",
+   "sign": "+",
+   "before": "ki | # | # | Milwaukee Bucks |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Dirk Nowitzki"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4",
+   "sign": "",
+   "before": "Bucks | # | | Chris Paul | # |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Chris Paul"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "155",
+   "sign": "+",
+   "before": "# | # | New Orleans Pelicans |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Chris Paul"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "13",
+   "sign": "",
+   "before": "cans | # | | Kobe Bryant | # |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kobe Bryant"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "145",
+   "sign": "+",
+   "before": " | # | # | Charlotte Hornets |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kobe Bryant"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "5",
+   "sign": "",
+   "before": "ts | # | | Kevin Garnett | # |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kevin Garnett"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "136",
+   "sign": "+",
+   "before": "| # | Minnesota Timberwolves |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kevin Garnett"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2,155",
+   "sign": "",
+   "before": " | NBA Stats via [nba_api] | (",
+   "nth": 0,
+   "table": "output/summary_counts.csv",
+   "where": {
+    "metric": "draft_history_picks"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "489",
+   "sign": "",
+   "before": "ery pages (cached raw in ) | (",
+   "nth": 0,
+   "table": "output/summary_counts.csv",
+   "where": {
+    "metric": "lottery_rows"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "60",
+   "sign": "",
+   "before": "so some drafts have fewer than",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 60
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

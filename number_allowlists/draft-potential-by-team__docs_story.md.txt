@@ -1,0 +1,4 @@
+# draft-potential-by-team docs/story.md: settings
+10,000  # the hit threshold in career minutes (HIT_MINUTES in python/05_analyze.py), a setting
+8 @ colleges with  # MIN_DRAFTEES in python/05_analyze.py, the minimum class size for the college table, a setting
+15 @ programs with  # the high-volume cut for the hit-rate comparison (python/07_findings.py), a setting

@@ -23,6 +23,7 @@ like; `stroke=` the same names.
 """
 from __future__ import annotations
 
+import hashlib
 import html
 import re
 from pathlib import Path
@@ -58,6 +59,12 @@ class Diagram:
         self.w, self.h, self.title = width, height, title
         self.parts: list[str] = []
         self.font_sizes: list[float] = []
+        # Marker ids are document-global once inlined. A shared "dg-arrow"
+        # resolved to the first copy on the page, which on phones sits in
+        # the hidden wide layout, so narrow arrows lost their heads. The id
+        # is derived, not random, so --check rebuilds stay byte-identical.
+        key = f"{title}|{width:g}|{height:g}".encode()
+        self.arrow_id = "dg-arrow-" + hashlib.sha1(key).hexdigest()[:10]
 
     # shapes -------------------------------------------------------------
     def rect(self, x, y, w, h, fill="surface2", stroke=None, rx=0,
@@ -80,7 +87,7 @@ class Diagram:
              arrow=False, opacity=None):
         a = f' stroke-dasharray="{dash}"' if dash else ""
         a += f' opacity="{opacity}"' if opacity is not None else ""
-        a += ' marker-end="url(#dg-arrow)"' if arrow else ""
+        a += f' marker-end="url(#{self.arrow_id})"' if arrow else ""
         self.parts.append(f'<line x1="{x1:g}" y1="{y1:g}" x2="{x2:g}" '
                           f'y2="{y2:g}" stroke-width="{sw}" '
                           f'class="{_cls(None, stroke, "dg-arrowed" if arrow else "")}"{a}/>')
@@ -89,7 +96,7 @@ class Diagram:
              opacity=None, arrow=False):
         a = f' stroke-dasharray="{dash}"' if dash else ""
         a += f' opacity="{opacity}"' if opacity is not None else ""
-        a += ' marker-end="url(#dg-arrow)"' if arrow else ""
+        a += f' marker-end="url(#{self.arrow_id})"' if arrow else ""
         self.parts.append(f'<path d="{d}" stroke-width="{sw}" '
                           f'class="{_cls(fill, stroke)}"{a}/>')
 
@@ -118,7 +125,7 @@ class Diagram:
 
     # output -------------------------------------------------------------
     def svg(self) -> str:
-        defs = ('<defs><marker id="dg-arrow" viewBox="0 0 10 10" refX="9" '
+        defs = (f'<defs><marker id="{self.arrow_id}" viewBox="0 0 10 10" refX="9" '
                 'refY="5" markerWidth="7" markerHeight="7" '
                 'orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" '
                 'class="dg-f-ink3"/></marker></defs>')

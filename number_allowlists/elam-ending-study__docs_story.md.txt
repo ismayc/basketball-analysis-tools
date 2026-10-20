@@ -22,3 +22,5 @@
 11 @ NBA leads of  # bin label 11-15
 15 @ NBA leads of # to  # bin label 11-15
 20 @ separated by more than  # bin label 21+ (margin at 2:00)
+0 @ game. Each possession scores  # the possible points of one possession (dg3 caption)
+4 @ Each possession scores # to  # the possible points of one possession (dg3 caption)

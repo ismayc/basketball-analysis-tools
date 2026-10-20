@@ -59,7 +59,8 @@ BIND_DIR = REPO / "number_bindings"
 
 STUDIES = ["jersey-height-study", "playbyplay-study", "tracking-study",
            "lineup-valuation-study", "shot-quality-study", "draft-study",
-           "contract-year-study", "playoff-series-study", "elam-ending-study"]
+           "contract-year-study", "playoff-series-study", "elam-ending-study",
+           "draft-potential-by-team"]
 # A private study keeps its bindings and allowlists in its own repo, under
 # number_checks/{bindings,allowlists}/, so this public repo never holds its
 # prose or numbers. Any sibling with that folder is checked too.

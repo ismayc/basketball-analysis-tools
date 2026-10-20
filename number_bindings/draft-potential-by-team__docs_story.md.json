@@ -1,0 +1,769 @@
+{
+ "bindings": [
+  {
+   "token": "1",
+   "sign": "",
+   "before": "on fit isotonically over picks",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "77",
+   "sign": "",
+   "before": "ient</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "exp_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2",
+   "sign": "",
+   "before": "v> <div class=\"value\"># &rarr;",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 60
+   },
+   "column": "exp_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1",
+   "sign": "",
+   "before": "cted career Win Shares at pick",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "60",
+   "sign": "",
+   "before": "n Shares at pick # versus pick",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 60
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "489",
+   "sign": "+",
+   "before": "hise</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Oklahoma City Thunder"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "69",
+   "sign": "",
+   "before": " above slot expectation across",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Oklahoma City Thunder"
+   },
+   "column": "picks",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "27",
+   "sign": "",
+   "before": "zero</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/summary_counts.csv",
+   "where": {
+    "metric": "franchises_crossing_zero"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "30",
+   "sign": "",
+   "before": "<div class=\"value\">#<small> of",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "70%",
+   "sign": "",
+   "before": "rate</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Wake Forest"
+   },
+   "column": "hit_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "7",
+   "sign": "",
+   "before": "ue\">#%</div> <div class=\"sub\">",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Wake Forest"
+   },
+   "column": "hits",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "10",
+   "sign": "",
+   "before": "#%</div> <div class=\"sub\"># of",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Wake Forest"
+   },
+   "column": "draftees",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1",
+   "sign": "",
+   "before": "f career Win Shares over picks",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1",
+   "sign": "",
+   "before": "Win Shares over picks ##: pick",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "77",
+   "sign": "",
+   "before": "ck # carries an expectation of",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "exp_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "60",
+   "sign": "",
+   "before": "n of # career Win Shares, pick",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 60
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "2",
+   "sign": "",
+   "before": "eer Win Shares, pick # carries",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 60
+   },
+   "column": "exp_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "489",
+   "sign": "+",
+   "before": "ion and Oklahoma City leads at",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Oklahoma City Thunder"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "69",
+   "sign": "",
+   "before": " Oklahoma City leads at # over",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Oklahoma City Thunder"
+   },
+   "column": "picks",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "411",
+   "sign": "+",
+   "before": "er # picks, with San Antonio (",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "San Antonio Spurs"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "251",
+   "sign": "+",
+   "before": " San Antonio (#), the Lakers (",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Los Angeles Lakers"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "240",
+   "sign": "+",
+   "before": "(#), the Lakers (#), Phoenix (",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Phoenix Suns"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "204",
+   "sign": "+",
+   "before": "hoenix (#), and Golden State (",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "Golden State Warriors"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "394",
+   "sign": "",
+   "before": "A Clippers sit last at &minus;",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {
+    "team": "LA Clippers"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": true
+  },
+  {
+   "token": "27",
+   "sign": "",
+   "before": "aft value is heavy-tailed, and",
+   "nth": 0,
+   "table": "output/summary_counts.csv",
+   "where": {
+    "metric": "franchises_crossing_zero"
+   },
+   "column": "value",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "30",
+   "sign": "",
+   "before": "alue is heavy-tailed, and # of",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "30",
+   "sign": "",
+   "before": " this data cannot certify. All",
+   "nth": 0,
+   "table": "output/teams.csv",
+   "where": {},
+   "column": "__rows__",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "323",
+   "sign": "+",
+   "before": "draftees, Wake Forest leads at",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Wake Forest"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "70%",
+   "sign": "",
+   "before": "# Win Shares above slot with a",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Wake Forest"
+   },
+   "column": "hit_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "224",
+   "sign": "+",
+   "before": "will do that), ahead of UCLA (",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "California-Los Angeles"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "201",
+   "sign": "+",
+   "before": "ahead of UCLA (#), Marquette (",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Marquette"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "142",
+   "sign": "+",
+   "before": " (#), Marquette (#), Florida (",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Florida"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "117",
+   "sign": "+",
+   "before": "(#), Florida (#), and Xavier (",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Xavier"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "25",
+   "sign": "",
+   "before": "entucky has the best hit rate:",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Kentucky"
+   },
+   "column": "hits",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "41",
+   "sign": "",
+   "before": "ky has the best hit rate: # of",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Kentucky"
+   },
+   "column": "draftees",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "61%",
+   "sign": "",
+   "before": " best hit rate: # of # picks (",
+   "nth": 0,
+   "table": "output/colleges.csv",
+   "where": {
+    "college": "Kentucky"
+   },
+   "column": "hit_rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "200",
+   "sign": "+",
+   "before": " of the era is LeBron James at",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "LeBron James"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "1",
+   "sign": "",
+   "before": "t # Win Shares above what pick",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "LeBron James"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "170",
+   "sign": "+",
+   "before": " the top five: Dirk Nowitzki (",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Dirk Nowitzki"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "9",
+   "sign": "",
+   "before": "ve: Dirk Nowitzki (# from pick",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Dirk Nowitzki"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "155",
+   "sign": "+",
+   "before": " (# from pick #), Chris Paul (",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Chris Paul"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4",
+   "sign": "",
+   "before": "ck #), Chris Paul (# from pick",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Chris Paul"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "145",
+   "sign": "+",
+   "before": "(# from pick #), Kobe Bryant (",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kobe Bryant"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "13",
+   "sign": "",
+   "before": "k #), Kobe Bryant (# from pick",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kobe Bryant"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "136",
+   "sign": "+",
+   "before": "m pick #), and Kevin Garnett (",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kevin Garnett"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "5",
+   "sign": "",
+   "before": "and Kevin Garnett (# from pick",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kevin Garnett"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "3.6",
+   "sign": "",
+   "before": ", and his career still came to",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "table": "output/steals.csv",
+      "where": {
+       "player": "LeBron James"
+      },
+      "column": "ws"
+     },
+     {
+      "table": "output/steals.csv",
+      "where": {
+       "player": "LeBron James"
+      },
+      "column": "expected_ws"
+     }
+    ]
+   }
+  },
+  {
+   "token": "1",
+   "sign": "",
+   "before": "- | --- | | LeBron James | # |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "LeBron James"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "200",
+   "sign": "+",
+   "before": " # | # | Cleveland Cavaliers |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "LeBron James"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "9",
+   "sign": "",
+   "before": "rs | # | | Dirk Nowitzki | # |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Dirk Nowitzki"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "170",
+   "sign": "+",
+   "before": "ki | # | # | Milwaukee Bucks |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Dirk Nowitzki"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4",
+   "sign": "",
+   "before": "Bucks | # | | Chris Paul | # |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Chris Paul"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "155",
+   "sign": "+",
+   "before": "# | # | New Orleans Pelicans |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Chris Paul"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "13",
+   "sign": "",
+   "before": "cans | # | | Kobe Bryant | # |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kobe Bryant"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "145",
+   "sign": "+",
+   "before": " | # | # | Charlotte Hornets |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kobe Bryant"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "5",
+   "sign": "",
+   "before": "ts | # | | Kevin Garnett | # |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kevin Garnett"
+   },
+   "column": "pick",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "136",
+   "sign": "+",
+   "before": "| # | Minnesota Timberwolves |",
+   "nth": 0,
+   "table": "output/steals.csv",
+   "where": {
+    "player": "Kevin Garnett"
+   },
+   "column": "value_ws",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "27",
+   "sign": "",
+   "before": "ser The numbers above compress",
+   "nth": 0,
+   "table": "output/pick_curve.csv",
+   "where": {
+    "pick": 1
+   },
+   "column": "picks",
+   "scale": 1,
+   "abs": false
+  }
+ ]
+}

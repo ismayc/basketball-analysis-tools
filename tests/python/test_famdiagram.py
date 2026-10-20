@@ -62,3 +62,13 @@ def test_css_defines_every_diagram_class():
     for c in famdiagram.COLORS:
         for kind in ("f", "s"):
             assert f".dg-{kind}-{c} " in report_builder.CSS, (kind, c)
+
+
+def test_arrow_markers_are_unique_per_layout():
+    # One shared id resolved to the hidden wide copy on phones, so the
+    # narrow layout's arrows drew without heads (October 20, 2026).
+    wide, narrow = small(width=900, size=20), small(width=360)
+    assert wide.arrow_id != narrow.arrow_id
+    assert f'id="{wide.arrow_id}"' in wide.svg()
+    assert f'url(#{wide.arrow_id})' in wide.svg()
+    assert wide.arrow_id == small(width=900, size=20).arrow_id   # deterministic

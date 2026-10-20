@@ -1,5 +1,3 @@
 25  # SportVU frame rate (25 per second), a property of the source
 24%  # UNVERIFIED: worst-game naive-join agreement from the calibration sweep; 06 printed it once and no committed output keeps it (08_findings.py docstring)
-42%  # UNVERIFIED: the uncalibrated join's spacing gradient low end; a one-off diagnostic no committed output keeps
-53%  # UNVERIFIED: the uncalibrated join's spacing gradient high end; a one-off diagnostic no committed output keeps
 19 @ **Correction, October  # a date (the workload correction, October 19, 2026)

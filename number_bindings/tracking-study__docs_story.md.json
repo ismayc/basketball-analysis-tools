@@ -103,6 +103,32 @@
    }
   },
   {
+   "token": "42%",
+   "sign": "",
+   "before": "ient</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles_naive.csv",
+   "where": {
+    "quartile": "Q1 (tightest)"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "53%",
+   "sign": "",
+   "before": "> <div class=\"value\">#% &rarr;",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles_naive.csv",
+   "where": {
+    "quartile": "Q4 (widest)"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
    "token": "7.5",
    "sign": "",
    "before": "mple</div> <div class=\"value\">",
@@ -127,6 +153,28 @@
       ]
      },
      1000000.0
+    ]
+   }
+  },
+  {
+   "token": "43",
+   "sign": "",
+   "before": "stretches of game clock, up to",
+   "nth": 0,
+   "table": "output/frame_coverage.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "op": "round",
+    "args": [
+     {
+      "agg": "max",
+      "table": "output/frame_coverage.csv",
+      "column": "start_gap"
+     },
+     0
     ]
    }
   },
@@ -325,6 +373,58 @@
    "abs": false
   },
   {
+   "token": "42%",
+   "sign": "",
+   "before": "better shooting\" gradient from",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles_naive.csv",
+   "where": {
+    "quartile": "Q1 (tightest)"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "53%",
+   "sign": "",
+   "before": " shooting\" gradient from #% to",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles_naive.csv",
+   "where": {
+    "quartile": "Q4 (widest)"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "42%",
+   "sign": "",
+   "before": "ck and shows a clean rise from",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles_naive.csv",
+   "where": {
+    "quartile": "Q1 (tightest)"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "53%",
+   "sign": "",
+   "before": " shows a clean rise from #% to",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles_naive.csv",
+   "where": {
+    "quartile": "Q4 (widest)"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
    "token": "6%",
    "sign": "",
    "before": "> ## Today's teams cover about",
@@ -393,28 +493,6 @@
       ]
      },
      1
-    ]
-   }
-  },
-  {
-   "token": "43",
-   "sign": "",
-   "before": "stretches of game clock, up to",
-   "nth": 0,
-   "table": "output/frame_coverage.csv",
-   "where": {},
-   "column": "expr",
-   "scale": 1,
-   "abs": false,
-   "expr": {
-    "op": "round",
-    "args": [
-     {
-      "agg": "max",
-      "table": "output/frame_coverage.csv",
-      "column": "start_gap"
-     },
-     0
     ]
    }
   }
