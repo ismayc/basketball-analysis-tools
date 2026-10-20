@@ -153,36 +153,43 @@
    "abs": false
   },
   {
-   "token": "2.5",
+   "token": "67%",
    "sign": "",
-   "before": "a **per-game scorer latency of",
+   "before": "seconds**; naive joining gives",
    "nth": 0,
-   "table": "output/possession_validation.csv",
-   "where": {},
-   "column": "expr",
-   "scale": 1,
-   "abs": false,
-   "expr": {
-    "agg": "min",
-    "table": "output/possession_validation.csv",
-    "column": "calibrated_lead_s"
-   }
+   "table": "output/lead_pooled.csv",
+   "where": {
+    "lead_s": 1.0
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
   },
   {
-   "token": "6.0",
+   "token": "4",
    "sign": "",
-   "before": "*per-game scorer latency of #–",
+   "before": "me below coin-flip), one fixed",
    "nth": 0,
-   "table": "output/possession_validation.csv",
-   "where": {},
-   "column": "expr",
+   "table": "output/lead_pooled.csv",
+   "where": {
+    "rate_rank": 1
+   },
+   "column": "lead_s",
    "scale": 1,
-   "abs": false,
-   "expr": {
-    "agg": "max",
-    "table": "output/possession_validation.csv",
-    "column": "calibrated_lead_s"
-   }
+   "abs": false
+  },
+  {
+   "token": "96.6%",
+   "sign": "",
+   "before": "p), one fixed # s offset gives",
+   "nth": 0,
+   "table": "output/lead_pooled.csv",
+   "where": {
+    "rate_rank": 1
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
   },
   {
    "token": "97.6%",
@@ -237,6 +244,32 @@
    }
   },
   {
+   "token": "42",
+   "sign": "",
+   "before": "purious spacing→eFG gradient (",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles_naive.csv",
+   "where": {
+    "quartile": "Q1 (tightest)"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "53%",
+   "sign": "",
+   "before": "rious spacing→eFG gradient (#→",
+   "nth": 0,
+   "table": "output/spacing_efg_quartiles_naive.csv",
+   "where": {
+    "quartile": "Q4 (widest)"
+   },
+   "column": "efg",
+   "scale": 100,
+   "abs": false
+  },
+  {
    "token": "10",
    "sign": "",
    "before": "ata (nothing newer is public),",
@@ -246,38 +279,6 @@
    "column": "__rows__",
    "scale": 1,
    "abs": false
-  },
-  {
-   "token": "2.5",
-   "sign": "",
-   "before": "d: #× frame duplication, and a",
-   "nth": 0,
-   "table": "output/possession_validation.csv",
-   "where": {},
-   "column": "expr",
-   "scale": 1,
-   "abs": false,
-   "expr": {
-    "agg": "min",
-    "table": "output/possession_validation.csv",
-    "column": "calibrated_lead_s"
-   }
-  },
-  {
-   "token": "6",
-   "sign": "",
-   "before": "#× frame duplication, and a #–",
-   "nth": 0,
-   "table": "output/possession_validation.csv",
-   "where": {},
-   "column": "expr",
-   "scale": 1,
-   "abs": false,
-   "expr": {
-    "agg": "max",
-    "table": "output/possession_validation.csv",
-    "column": "calibrated_lead_s"
-   }
   },
   {
    "token": "94",

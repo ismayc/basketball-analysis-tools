@@ -29,35 +29,58 @@
    }
   },
   {
-   "token": "2.5",
+   "token": "4",
    "sign": "",
    "before": " lag</div> <div class=\"value\">",
    "nth": 0,
-   "table": "output/possession_validation.csv",
+   "table": "output/lead_pooled.csv",
+   "where": {
+    "rate_rank": 1
+   },
+   "column": "lead_s",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "4",
+   "sign": "",
+   "before": " every game: shifting the join",
+   "nth": 0,
+   "table": "output/lead_pooled.csv",
+   "where": {
+    "rate_rank": 1
+   },
+   "column": "lead_s",
+   "scale": 1,
+   "abs": false
+  },
+  {
+   "token": "96.6%",
+   "sign": "",
+   "before": "nds earlier lifts agreement to",
+   "nth": 0,
+   "table": "output/lead_pooled.csv",
+   "where": {
+    "rate_rank": 1
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "24%",
+   "sign": "",
+   "before": "ment</div> <div class=\"value\">",
+   "nth": 0,
+   "table": "output/lead_bands.csv",
    "where": {},
    "column": "expr",
-   "scale": 1,
+   "scale": 100,
    "abs": false,
    "expr": {
     "agg": "min",
-    "table": "output/possession_validation.csv",
-    "column": "calibrated_lead_s"
-   }
-  },
-  {
-   "token": "6.0",
-   "sign": "",
-   "before": "v> <div class=\"value\">#&ndash;",
-   "nth": 0,
-   "table": "output/possession_validation.csv",
-   "where": {},
-   "column": "expr",
-   "scale": 1,
-   "abs": false,
-   "expr": {
-    "agg": "max",
-    "table": "output/possession_validation.csv",
-    "column": "calibrated_lead_s"
+    "table": "output/lead_bands.csv",
+    "column": "same_clock_rate"
    }
   },
   {
@@ -87,7 +110,7 @@
    }
   },
   {
-   "token": "1,622",
+   "token": "1,621",
    "sign": "",
    "before": " versus the calibrated join on",
    "nth": 0,
@@ -179,41 +202,51 @@
    }
   },
   {
-   "token": "2.5",
+   "token": "24%",
    "sign": "",
-   "before": "y a per-game scorer latency of",
+   "before": "ssion-direction heuristic just",
    "nth": 0,
-   "table": "output/possession_validation.csv",
+   "table": "output/lead_bands.csv",
    "where": {},
    "column": "expr",
-   "scale": 1,
+   "scale": 100,
    "abs": false,
    "expr": {
     "agg": "min",
-    "table": "output/possession_validation.csv",
-    "column": "calibrated_lead_s"
+    "table": "output/lead_bands.csv",
+    "column": "same_clock_rate"
    }
   },
   {
-   "token": "6.0",
+   "token": "4",
    "sign": "",
-   "before": "er-game scorer latency of # to",
+   "before": "arlier fixes it. One offset of",
    "nth": 0,
-   "table": "output/possession_validation.csv",
-   "where": {},
-   "column": "expr",
+   "table": "output/lead_pooled.csv",
+   "where": {
+    "rate_rank": 1
+   },
+   "column": "lead_s",
    "scale": 1,
-   "abs": false,
-   "expr": {
-    "agg": "max",
-    "table": "output/possession_validation.csv",
-    "column": "calibrated_lead_s"
-   }
+   "abs": false
+  },
+  {
+   "token": "96.6%",
+   "sign": "",
+   "before": "y game lifts shot agreement to",
+   "nth": 0,
+   "table": "output/lead_pooled.csv",
+   "where": {
+    "rate_rank": 1
+   },
+   "column": "rate",
+   "scale": 100,
+   "abs": false
   },
   {
    "token": "97.6%",
    "sign": "",
-   "before": "-out check, agreement rises to",
+   "before": "s as a held-out check, reaches",
    "nth": 0,
    "table": "output/possession_validation.csv",
    "where": {},
@@ -237,9 +270,9 @@
    }
   },
   {
-   "token": "1,622",
+   "token": "1,621",
    "sign": "",
-   "before": "heck, agreement rises to #% on",
+   "before": " held-out check, reaches #% on",
    "nth": 0,
    "table": "output/possession_validation.csv",
    "where": {},
@@ -255,7 +288,7 @@
   {
    "token": "94.0%",
    "sign": "",
-   "before": "ses to #% on # shot events and",
+   "before": "eaches #% on # shot events and",
    "nth": 0,
    "table": "output/possession_validation.csv",
    "where": {},
@@ -292,6 +325,54 @@
     "agg": "sum",
     "table": "output/possession_validation.csv",
     "column": "to_checked"
+   }
+  },
+  {
+   "token": "2.5",
+   "sign": "",
+   "before": "overs. Those per-game offsets,",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "min",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s"
+   }
+  },
+  {
+   "token": "6.0",
+   "sign": "",
+   "before": ". Those per-game offsets, # to",
+   "nth": 0,
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s"
+   }
+  },
+  {
+   "token": "1.5",
+   "sign": "",
+   "before": "oss a band of offsets at least",
+   "nth": 0,
+   "table": "output/lead_bands.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "min",
+    "table": "output/lead_bands.csv",
+    "column": "band_width_s"
    }
   },
   {
@@ -375,7 +456,7 @@
   {
    "token": "42%",
    "sign": "",
-   "before": "better shooting\" gradient from",
+   "before": "g = better shooting\" rise from",
    "nth": 0,
    "table": "output/spacing_efg_quartiles_naive.csv",
    "where": {
@@ -388,7 +469,7 @@
   {
    "token": "53%",
    "sign": "",
-   "before": " shooting\" gradient from #% to",
+   "before": "tter shooting\" rise from #% to",
    "nth": 0,
    "table": "output/spacing_efg_quartiles_naive.csv",
    "where": {
@@ -401,7 +482,7 @@
   {
    "token": "42%",
    "sign": "",
-   "before": "ck and shows a clean rise from",
+   "before": "ed clock and shows a rise from",
    "nth": 0,
    "table": "output/spacing_efg_quartiles_naive.csv",
    "where": {
@@ -414,7 +495,7 @@
   {
    "token": "53%",
    "sign": "",
-   "before": " shows a clean rise from #% to",
+   "before": "ck and shows a rise from #% to",
    "nth": 0,
    "table": "output/spacing_efg_quartiles_naive.csv",
    "where": {

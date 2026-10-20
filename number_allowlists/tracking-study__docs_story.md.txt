@@ -1,3 +1,3 @@
 25  # SportVU frame rate (25 per second), a property of the source
-24%  # UNVERIFIED: worst-game naive-join agreement from the calibration sweep; 06 printed it once and no committed output keeps it (08_findings.py docstring)
 19 @ **Correction, October  # a date (the workload correction, October 19, 2026)
+2 @ y game, agreement stays within  # NEAR_BEST in 11_join_diagnostics.py: the 2-point band that defines a near-best lead, a setting

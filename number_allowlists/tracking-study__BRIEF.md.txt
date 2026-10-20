@@ -1,7 +1,4 @@
 3.07×  # UNVERIFIED: the duplication factor 02_parse_moments.py prints; no committed output keeps it
 3×  # UNVERIFIED: the duplication factor (3.07x) rounded; 02_parse_moments.py prints it, no committed output keeps it
 25  # SportVU frame rate and the 25 ft/s glitch filter, a property of the source and a setting
-67%  # UNVERIFIED: naive-join agreement from the calibration sweep; 06 printed it once and no committed output keeps it (08_findings.py docstring)
-42  # UNVERIFIED: the uncalibrated join's spacing gradient low end; a one-off diagnostic no committed output keeps
-53%  # UNVERIFIED: the uncalibrated join's spacing gradient high end; a one-off diagnostic no committed output keeps
 19 @ corrected October  # a date (the workload correction, October 19, 2026)
