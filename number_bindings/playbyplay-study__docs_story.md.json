@@ -479,7 +479,7 @@
    "abs": false
   },
   {
-   "token": "0.23",
+   "token": "0.22",
    "sign": "+",
    "before": "e NBA seasons that net edge is",
    "nth": 0,
@@ -507,7 +507,7 @@
    "abs": false
   },
   {
-   "token": "0.35",
+   "token": "0.34",
    "sign": "+",
    "before": " seasons that net edge is # [#",
    "nth": 0,
@@ -976,7 +976,7 @@
    }
   },
   {
-   "token": "99.9%",
+   "token": "100.0%",
    "sign": "",
    "before": "ees with the corrected ones on",
    "nth": 0,
@@ -987,6 +987,19 @@
    },
    "column": "agree_share",
    "scale": 100,
+   "abs": false
+  },
+  {
+   "token": "28",
+   "sign": "",
+   "before": "rrive out of order. It changed",
+   "nth": 0,
+   "table": "output/correction_2026-10-19.csv",
+   "where": {
+    "quantity": "second_pass_points_changed"
+   },
+   "column": "corrected",
+   "scale": 1,
    "abs": false
   }
  ]
