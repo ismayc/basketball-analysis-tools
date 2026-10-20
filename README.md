@@ -13,6 +13,7 @@ whole; anything specific to one analysis lives in that analysis's repo.
 | `nba_api_compat.py` | Hard-won compatibility shims for the public NBA data stack: the stats.nba.com User-Agent fingerprint fix and the numpy 2.x `np.in1d` shim for nba-on-court. |
 | `clone_family.sh` | Check out every family repo as siblings of this one. |
 | `run_all_checks.sh` | The family-wide green light: each sibling repo's own checks, then the cross-repo gates (SQL reconciliation, scouting staleness, family brand, glossary staleness, number bindings, cross-study identity tests). |
+| `pbp_history.py` | Full-history PlayByPlayV3 events for the play-by-play studies (NBA from 1996-97, WNBA from 1997), from the shufinskiy/nba_data archives. Downloads with sha256 checks, applies the family's score-stamp rules once, and checks every game against LeagueGameLog: final score, and no running score rising more than 3 on one row. Data stays outside every repo, in `../.pbp-archive/`. `build --league nba --years 1996-2025`; `status`. |
 | `check_family_brand.py` | Every published page in a sibling repo carries the family favicon and og image. Repos with their own brand on purpose sit in `EXEMPT` with a reason, printed as a `BRAND SKIP` line on every run. |
 | `tests/` | Tests that span repos: e.g. draft-study and shot-quality-study claim the identical hand-rolled IRLS in both languages; the identity is held here, on shared random data, in Python and R. |
 
