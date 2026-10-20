@@ -31,6 +31,10 @@ echo "=== family brand: every published page has the family favicon + og ==="
 # Full output, not tail -1: the exempt repos' SKIP lines must show.
 $PY check_family_brand.py
 echo
+echo "=== figure fit: pages and figures fit phone and desktop widths ==="
+# Full output: a FAIL line names the page, width, and figure.
+$PY check_figure_fit.py
+echo
 echo "=== glossary: terms blocks and hover annotations current ==="
 $PY glossary.py --check | tail -1
 echo

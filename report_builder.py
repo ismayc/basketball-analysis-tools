@@ -97,6 +97,18 @@ THEME_SCRIPT = """<script>
     });
   }
   window.addEventListener("load", broadcast);
+  // Each figure reports its rendered height (famplot's chart height follows
+  // the frame's width); fit the frame to it so phones get no clipped chart
+  // and no empty band under a shrunken one.
+  window.addEventListener("message", function (e) {
+    if (!e.data || !e.data.famHeight) { return; }
+    document.querySelectorAll("iframe").forEach(function (f) {
+      if (f.contentWindow !== e.source) { return; }
+      var cs = getComputedStyle(f);
+      var pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+      f.style.height = Math.ceil(e.data.famHeight + pad + 4) + "px";
+    });
+  });
   document.querySelectorAll("iframe").forEach(function (f) {
     f.addEventListener("load", function () {
       var t = document.documentElement.dataset.theme || "auto";
@@ -327,6 +339,7 @@ CSS = """
   --accent: #d95926; --accent-ink: #ea9066; --fig-surface: #1a1a19;
 }
 * { box-sizing: border-box; }
+img { max-width: 100%; height: auto; }
 body { margin: 0; background: var(--surface); color: var(--ink);
   font: 17px/1.65 system-ui, -apple-system, "Segoe UI", Helvetica, Arial,
   sans-serif; }
@@ -661,6 +674,7 @@ RESPONSIVE_SNIPPET = """<script>
 # media query covers the OS preference; the fam-dark/fam-light classes are
 # stamped by the runtime when the parent page's manual toggle overrides it.
 FIGURE_DARK_CSS = """<style>html,body{margin:0;height:100%}
+.js-plotly-plot,.plotly-graph-div{height:auto!important}
 @media (prefers-color-scheme: dark){
   body:not(.fam-light){background:#1a1a19;color:#c3c2b7}
   body:not(.fam-light) .controls button{background:#1a1a19;color:#c3c2b7;border-color:#383835}
@@ -703,8 +717,11 @@ def make_figure_responsive(text: str) -> str:
             text = re.sub(re.escape(old), new, text, flags=re.IGNORECASE)
         else:
             text = text.replace(old, new)
-    text = re.sub(r'style="height:\d+px; width:\d+px;"',
-                  'style="height:100%; width:100%;"', text, count=1)
+    # The chart div takes its height from famplot's SVG (whose height
+    # follows the width); a pinned pixel height would overflow the frame
+    # once the page fits the frame to the reported chart height.
+    text = re.sub(r'style="height:(?:\d+px|100%); width:(?:\d+px|100%);"',
+                  'style="height:auto; width:100%;"', text, count=1)
     text = text.replace("<head>", "<head>" + FIGURE_DARK_CSS, 1)
     if "</body>" in text:
         text = text.replace("</body>", RESPONSIVE_SNIPPET + "</body>", 1)

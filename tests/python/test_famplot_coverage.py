@@ -241,7 +241,7 @@ def test_every_string_coordinate_lands_in_a_band(spec):
 # error there either: it substitutes "" and the tooltip loses that piece.
 # Four figures shipped with "%{text}" leading their template and every
 # tooltip missing the player's name before this was caught.
-HOVER_PATHS = {"x", "y", "text", "hovertext", "fullData.name"}
+HOVER_PATHS = {"x", "y", "text", "hovertext", "fullData.name", "customdata"}
 HOVER_FIELD = re.compile(r"%\{([^}:]+)(?::[^}]*)?\}")
 
 
@@ -267,3 +267,33 @@ def test_drawn_text_labels_are_only_on_bars(spec):
         if kind == "scatter":
             assert "text" not in (tr.get("mode") or "lines"), \
                 f"{path.name} trace {i}: scatter asks for drawn text"
+
+
+@pytest.mark.parametrize("spec", ALL, ids=label)
+def test_tonexty_bands_have_a_lower_trace(spec):
+    """famplot fills a `tonexty` trace to the scatter trace before it, as
+    plotly does (a percentile band is lower bound, then upper bound). Until
+    October 20, 2026 it filled to the axis instead, so the jersey study's
+    25th-75th band was drawn from zero. A tonexty trace with no scatter
+    before it still fills to the axis, which is rarely what was meant."""
+    path, data, _ = spec
+    seen_scatter = False
+    for i, tr in enumerate(data):
+        kind = tr.get("type", "scatter")
+        if kind == "scatter" and tr.get("fill") == "tonexty":
+            assert seen_scatter, f"{path.name} trace {i}: tonexty has no lower trace"
+        if kind == "scatter":
+            seen_scatter = True
+
+
+@pytest.mark.parametrize("spec", ALL, ids=label)
+def test_ticktext_pairs_with_tickvals(spec):
+    """famplot draws `ticktext` at `tickvals` on numeric and category axes
+    (added October 20, 2026; before that a numeric era axis read 1, 1.5, 2).
+    Unequal lengths would label the wrong ticks."""
+    path, _, layout = spec
+    for axis in ("xaxis", "yaxis"):
+        ax = layout.get(axis) or {}
+        if "ticktext" in ax:
+            assert len(ax.get("tickvals") or []) == len(ax["ticktext"]), \
+                f"{path.name} {axis}: ticktext and tickvals differ in length"
