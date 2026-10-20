@@ -209,6 +209,7 @@ def strip_nonprose(text: str) -> str:
     text = re.sub(r"\]\([^)]*\)", "]", text)          # link targets
     text = re.sub(r"https?://\S+", "", text)
     text = re.sub(r"\{\{fig:[^|]*\|", "", text)       # keep caption text
+    text = re.sub(r"\{\{svg:[^|]*\|", "", text)       # diagrams, same
     return text
 
 

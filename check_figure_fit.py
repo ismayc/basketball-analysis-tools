@@ -8,7 +8,9 @@ iframe at phone width (390) and desktop width (1280), then fails when:
 - a figure scrolls sideways inside its frame, or its chart is wider than
   the frame,
 - a figure's content is taller than its frame (a clipped chart, or a
-  scrollbar inside the frame).
+  scrollbar inside the frame),
+- an inline explainer diagram (famdiagram.py) is wider than its card, or
+  its smallest text renders under MIN_TEXT_PX at that width.
 
 Usage: python3 check_figure_fit.py [page.html ...]
 With no arguments it checks every sibling repo's docs/index.html that
@@ -26,6 +28,7 @@ import tempfile
 
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 WIDTHS = (390, 1280)
+MIN_TEXT_PX = 10.5   # famdiagram.save() designs to 11 at its narrowest
 SIBLINGS = pathlib.Path(__file__).resolve().parent.parent
 
 PROBE = r"""
@@ -34,7 +37,8 @@ function probe(){
   const f = document.getElementById('p');
   const d = f.contentDocument, w = f.contentWindow;
   const out = {innerWidth: w.innerWidth,
-               scrollWidth: d.documentElement.scrollWidth, figs: []};
+               scrollWidth: d.documentElement.scrollWidth, figs: [],
+               diagrams: []};
   for (const fr of d.querySelectorAll('iframe')) {
     const r = fr.getBoundingClientRect();
     const rec = {src: fr.getAttribute('src'), frameW: Math.round(r.width),
@@ -48,6 +52,20 @@ function probe(){
       rec.svgW = svgs.length ? Math.max(...svgs) : 0;
     } catch (e) { rec.err = String(e); }
     out.figs.push(rec);
+  }
+  // inline diagrams: the shown layout's smallest text and its width
+  for (const card of d.querySelectorAll('.diagram-card')) {
+    for (const s of card.querySelectorAll('svg.dg')) {
+      const r = s.getBoundingClientRect();
+      if (!r.width) continue;               // the hidden layout
+      const vb = s.viewBox.baseVal, k = r.width / (vb.width || r.width);
+      const sizes = [...s.querySelectorAll('text')]
+        .map(t => parseFloat(t.getAttribute('font-size') || '16') * k);
+      out.diagrams.push({label: s.getAttribute('aria-label'),
+        w: Math.round(r.width),
+        cardW: Math.round(card.getBoundingClientRect().width),
+        minPx: sizes.length ? Math.min(...sizes) : 99});
+    }
   }
   document.getElementById('out').textContent = JSON.stringify(out);
 }
@@ -96,12 +114,20 @@ def problems(d: dict) -> list[str]:
         if g["scrollH"] > g["clientH"] + 2:
             out.append(f"{g['src']}: content {g['scrollH']}px taller than "
                        f"frame {g['clientH']}px")
+    for g in d.get("diagrams", []):
+        if g["w"] > g["cardW"] + 1:
+            out.append(f"diagram {g['label']!r}: {g['w']}px wider than its "
+                       f"card {g['cardW']}px")
+        if g["minPx"] < MIN_TEXT_PX:
+            out.append(f"diagram {g['label']!r}: text renders at "
+                       f"{g['minPx']:.1f}px (minimum {MIN_TEXT_PX})")
     return out
 
 
 def default_pages() -> list[pathlib.Path]:
     return sorted(p for p in SIBLINGS.glob("*/docs/index.html")
-                  if "<iframe" in p.read_text())
+                  if "<iframe" in p.read_text()
+                  or "diagram-card" in p.read_text())
 
 
 def main(argv: list[str]) -> int:
@@ -116,7 +142,7 @@ def main(argv: list[str]) -> int:
         for w in WIDTHS:
             d = measure(page, w, work)
             checked += 1
-            figs = len(d.get("figs", []))
+            figs = len(d.get("figs", [])) + len(d.get("diagrams", []))
             bad = problems(d)
             name = f"{page.parent.parent.name} @{w}px ({figs} figures)"
             print(("FAIL " if bad else "ok   ") + name)

@@ -325,18 +325,24 @@ CSS = """
   --surface: #faf9f6; --surface-2: #f2f1ea; --rule: #e1e0d9;
   --accent: #eb6834; --accent-ink: #a83f12; --fig-surface: #fcfcfb;
   --ease: cubic-bezier(.22, .61, .36, 1);
+  --dg-box: #f2f1ea; --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a;
+  --c4: #eda100; --c8: #e34948;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --ink: #f5f3ec; --ink-2: #c3c2b7; --ink-3: #898781;
     --surface: #0f0e0d; --surface-2: #1a1a19; --rule: #2c2c2a;
     --accent: #d95926; --accent-ink: #ea9066; --fig-surface: #1a1a19;
+    --dg-box: #2a2a28; --c1: #3987e5; --c2: #d95926; --c3: #199e70;
+    --c4: #c98500; --c8: #e66767;
   }
 }
 :root[data-theme="dark"] {
   --ink: #f5f3ec; --ink-2: #c3c2b7; --ink-3: #898781;
   --surface: #0f0e0d; --surface-2: #1a1a19; --rule: #2c2c2a;
   --accent: #d95926; --accent-ink: #ea9066; --fig-surface: #1a1a19;
+  --dg-box: #2a2a28; --c1: #3987e5; --c2: #d95926; --c3: #199e70;
+  --c4: #c98500; --c8: #e66767;
 }
 * { box-sizing: border-box; }
 img { max-width: 100%; height: auto; }
@@ -419,6 +425,34 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
 .figure-card iframe { display: block; width: 100%; height: 560px;
   border: none; padding: .75rem 1rem 0 1.1rem;
   background: var(--fig-surface); }
+/* inline explainer diagrams (famdiagram.py): colors are page tokens, so
+   they follow the theme; the narrow layout replaces the wide one on phones */
+.diagram-card .dg-wrap { padding: 1rem 1.1rem .6rem; }
+.diagram-card svg.dg { display: block; width: 100%; height: auto; }
+.diagram-card .dg-narrow { display: none; }
+@media (max-width: 640px) {
+  .diagram-card .dg-has-narrow .dg-wide { display: none; }
+  .diagram-card .dg-has-narrow .dg-narrow { display: block; }
+  .diagram-card .dg-wrap { padding: .7rem .6rem .4rem; }
+}
+.dg .dg-text { font-family: system-ui, -apple-system, "Segoe UI", Helvetica,
+  Arial, sans-serif; }
+.dg .dg-display { font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 600; letter-spacing: .01em; }
+.dg-f-ink { fill: var(--ink); } .dg-s-ink { stroke: var(--ink); }
+.dg-f-ink2 { fill: var(--ink-2); } .dg-s-ink2 { stroke: var(--ink-2); }
+.dg-f-ink3 { fill: var(--ink-3); } .dg-s-ink3 { stroke: var(--ink-3); }
+.dg-f-rule { fill: var(--rule); } .dg-s-rule { stroke: var(--rule); }
+.dg-f-surface { fill: var(--fig-surface); } .dg-s-surface { stroke: var(--fig-surface); }
+.dg-f-surface2 { fill: var(--dg-box); } .dg-s-surface2 { stroke: var(--dg-box); }
+.dg-f-accent { fill: var(--accent); } .dg-s-accent { stroke: var(--accent); }
+.dg-f-nba { fill: var(--c1); } .dg-s-nba { stroke: var(--c1); }
+.dg-f-wnba { fill: var(--c2); } .dg-s-wnba { stroke: var(--c2); }
+.dg-f-c3 { fill: var(--c3); } .dg-s-c3 { stroke: var(--c3); }
+.dg-f-c4 { fill: var(--c4); } .dg-s-c4 { stroke: var(--c4); }
+.dg-f-c8 { fill: var(--c8); } .dg-s-c8 { stroke: var(--c8); }
+.dg-f-none { fill: none; } .dg-s-none { stroke: none; }
+.dg line, .dg path { stroke-linecap: round; stroke-linejoin: round; }
 .figure-card figcaption { padding: .55rem .9rem; font-size: .85rem;
   color: var(--ink-3); border-top: 1px solid var(--rule);
   background: var(--surface); }
@@ -838,6 +872,22 @@ def figure_card(repo_dir: Path, docs: Path, ref: str, caption: str) -> str:
             f'<figcaption>{caption}</figcaption></figure>')
 
 
+def diagram_card(repo_dir: Path, ref: str, caption: str) -> str:
+    """Inline an explainer diagram (famdiagram.py) so it takes the page's
+    theme tokens; a figures/<ref>_narrow.svg replaces it on phones."""
+    wide = (repo_dir / "figures" / f"{ref}.svg").read_text().strip()
+    narrow_p = repo_dir / "figures" / f"{ref}_narrow.svg"
+    if narrow_p.exists():
+        inner = (f'<div class="dg-has-narrow"><div class="dg-wide">{wide}</div>'
+                 f'<div class="dg-narrow">{narrow_p.read_text().strip()}'
+                 f'</div></div>')
+    else:
+        inner = wide
+    return (f'<figure class="figure-card diagram-card">'
+            f'<div class="dg-wrap">{inner}</div>'
+            f'<figcaption>{caption}</figcaption></figure>')
+
+
 def terms_panel(md_text: str) -> str:
     keys = glossary.terms_for(md_text)
     if not keys:
@@ -862,6 +912,14 @@ def build_study(repo: str) -> None:
             md_text = md_text.replace("{{fig:%s|%s}}" % (ref, cap), key, 1)
             placeholders[key] = figure_card(repo_dir, docs, ref.strip(),
                                             cap.strip())
+        # Diagrams go in after the glossary pass, which would otherwise
+        # put <abbr> tooltips inside their SVG text.
+        dused = re.findall(r"\{\{svg:([^|}]+)\|([^}]*)\}\}", md_text)
+        diagrams = {}
+        for i, (ref, cap) in enumerate(dused):
+            key = f"SVGPLACEHOLDER{i}ENDSVG"
+            md_text = md_text.replace("{{svg:%s|%s}}" % (ref, cap), key, 1)
+            diagrams[key] = diagram_card(repo_dir, ref.strip(), cap.strip())
         html = markdown.markdown(md_text,
                                  extensions=["tables", "fenced_code"])
         html = wrap_tables(absolutize_links(html, repo))
@@ -872,6 +930,8 @@ def build_study(repo: str) -> None:
         if panel:
             html = html.replace("</p>", "</p>\n" + panel, 1)
         html = tipify_html(html)
+        for key, card in diagrams.items():
+            html = html.replace(f"<p>{key}</p>", card).replace(key, card)
         referenced = {r.strip() for r, _ in used}
         leftovers = [f for f in sorted((repo_dir / "figures").rglob("*.html"))
                      if not f.stem.endswith("_r")
