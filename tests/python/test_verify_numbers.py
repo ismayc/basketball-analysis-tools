@@ -262,6 +262,19 @@ def test_min_max_aggregates_and_product_round_ops(nbm, tmp_path):
     assert nbm.check(tmp_path, b("12.0", {"op": "*", "args": [agg("max", "lead"), 2]}), {}) is None
 
 
+def test_floor_op_rounds_an_at_least_claim_down(nbm, tmp_path):
+    # kills-study: a 0.9985903 minimum is "at least 99.85%", never 99.86%
+    (tmp_path / "output").mkdir()
+    (tmp_path / "output" / "v.csv").write_text("cap\n0.9985903\n0.9991\n0.995\n")
+    b = lambda tok, expr: {"token": tok, "sign": "", "before": "x", "scale": 100, "abs": False, "expr": expr}
+    lo = {"agg": "min", "table": "output/v.csv", "column": "cap", "where": {}}
+    worst = {"agg": "min", "table": "output/v.csv", "column": "cap", "range": {"cap": [0.998, 1]}}
+    assert nbm.check(tmp_path, b("99.85%", {"op": "floor", "args": [worst, 4]}), {}) is None
+    assert "cell gives" in nbm.check(tmp_path, b("99.86%", {"op": "floor", "args": [worst, 4]}), {})
+    # an exact 0.995 stays 0.995 despite float noise in 0.995 * 1000
+    assert nbm.check(tmp_path, b("99.5%", {"op": "floor", "args": [lo, 3]}), {}) is None
+
+
 def test_row_difference_median_and_argmin(nbm, tmp_path):
     (tmp_path / "output").mkdir()
     (tmp_path / "output" / "v.csv").write_text("lo,hi\n1.0,6.0\n2.0,7.2\n0.0,4.0\n")
@@ -277,3 +290,13 @@ def test_row_difference_median_and_argmin(nbm, tmp_path):
     first = {"agg": "min", "table": "output/cv.csv", "column": "lam"}
     assert nbm.check(tmp_path, b("800", {"op": "min", "args": [first, lo("output/cv2.csv")]}), {}) is None
     assert nbm.check(tmp_path, b("1600", {"op": "max", "args": [first, lo("output/cv2.csv")]}), {}) is None
+
+
+def test_private_study_checks_live_in_its_own_repo(vn, tmp_path, monkeypatch):
+    # A study with number_checks/ keeps its bindings and allowlists there,
+    # so the public tools repo never holds a private study's prose.
+    monkeypatch.setattr(vn, "SIBLINGS", tmp_path)
+    (tmp_path / "priv" / "number_checks").mkdir(parents=True)
+    assert vn.bind_dir("priv") == tmp_path / "priv" / "number_checks" / "bindings"
+    assert vn.allow_dir("priv") == tmp_path / "priv" / "number_checks" / "allowlists"
+    assert vn.bind_dir("pub") == vn.BIND_DIR and vn.allow_dir("pub") == vn.ALLOW_DIR

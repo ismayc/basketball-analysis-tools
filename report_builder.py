@@ -36,6 +36,10 @@ FAVICON = family_brand.FAVICON
 
 STUDIES = ["jersey-height-study", "playbyplay-study", "tracking-study",
            "lineup-valuation-study", "shot-quality-study", "draft-study"]
+# A study listed nowhere here (a private one) still builds when named,
+# `report_builder.py <repo>`, if it has docs/story.md; it gets no hub card
+# and `--all` skips it. Its kicker, if any, is docs/kicker.txt in its repo,
+# so this public file never names it.
 
 # Display face for headings (family identity, shared with the mebounds
 # story), inlined as data URIs so it renders identically offline.
@@ -965,12 +969,18 @@ def build_study(repo: str) -> None:
     # for GitHub's native rendering
     html = html.replace('<abbr title="', '<abbr data-tip="')
     kicker = (HUB_CARDS.get(repo, ("", ""))[0]
-              or NEW_CARDS.get(repo, {}).get("kicker", ""))
+              or NEW_CARDS.get(repo, {}).get("kicker", "")
+              or unlisted_kicker(repo))
     if kicker:
         html = html.replace(
             "<h1>", f'<div class="eyebrow">{kicker}</div>\n<h1>', 1)
     (docs / "index.html").write_text(page(title_text, html, repo=repo))
     print(f"built {repo}/docs/index.html")
+
+
+def unlisted_kicker(repo: str) -> str:
+    f = SIBLINGS / repo / "docs" / "kicker.txt"
+    return f.read_text().strip() if f.exists() else ""
 
 
 def build_hub() -> None:
@@ -1139,8 +1149,13 @@ def main(argv: list[str]) -> int:
     targets = (STUDIES + storied_new
                if (not argv or argv[0] == "--all") else argv)
     for r in targets:
-        if r in STUDIES or r in storied_new:
+        if (r in STUDIES or r in storied_new
+                or (SIBLINGS / r / "docs" / "story.md").exists()):
             build_study(r)
+        else:
+            # naming a repo the builder does not know used to do nothing
+            print(f"not a study with a docs/story.md: {r}", file=sys.stderr)
+            return 1
     if not argv or argv[0] == "--all":
         build_hub()
         build_scouting_index()

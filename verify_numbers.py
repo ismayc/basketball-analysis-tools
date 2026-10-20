@@ -27,7 +27,8 @@ untracked files included) passed 400 of 400 random wrong numbers. Exact
 per-number cell bindings are the planned replacement.
 
 A token that matches nothing must be listed in an allowlist file with a
-reason, or the check fails. Allowlists live in number_allowlists/ as
+reason, or the check fails. Allowlists live in number_allowlists/ (a
+private study's in its own number_checks/allowlists/) as
 "<repo>__<filename>.txt", one entry per line: the token, two spaces, then
 "# reason". "token @ text" scopes an entry to occurrences whose masked
 context ends with text.
@@ -59,6 +60,21 @@ BIND_DIR = REPO / "number_bindings"
 STUDIES = ["jersey-height-study", "playbyplay-study", "tracking-study",
            "lineup-valuation-study", "shot-quality-study", "draft-study",
            "contract-year-study", "playoff-series-study", "elam-ending-study"]
+# A private study keeps its bindings and allowlists in its own repo, under
+# number_checks/{bindings,allowlists}/, so this public repo never holds its
+# prose or numbers. Any sibling with that folder is checked too.
+STUDIES += sorted(d.parent.name for d in SIBLINGS.glob("*/number_checks")
+                  if d.is_dir() and d.parent.name not in STUDIES)
+
+
+def bind_dir(repo: str) -> Path:
+    local = SIBLINGS / repo / "number_checks"
+    return local / "bindings" if local.is_dir() else BIND_DIR
+
+
+def allow_dir(repo: str) -> Path:
+    local = SIBLINGS / repo / "number_checks"
+    return local / "allowlists" if local.is_dir() else ALLOW_DIR
 
 # files verified, as (repo, relative path)
 FILES = ([(s, "docs/story.md") for s in STUDIES]
@@ -389,7 +405,7 @@ def allowed_reason(occ: dict, allowed: dict) -> str | None:
 
 
 def allowlist_for(repo: str, rel: str) -> dict[str, str]:
-    f = ALLOW_DIR / f"{repo}__{rel.replace('/', '_')}.txt"
+    f = allow_dir(repo) / f"{repo}__{rel.replace('/', '_')}.txt"
     allowed: dict[str, str] = {}
     if f.exists():
         for line in f.read_text().splitlines():
@@ -422,7 +438,7 @@ def check_bound(repo: str, rel: str, text: str, allowed: dict,
     """Strict check of a document with a bindings file: every number is
     allowlisted or bound to a tracked cell that displays exactly as it does."""
     base = repo_base(repo)
-    bindings = nb.load(nb.path_for(BIND_DIR, repo, rel))
+    bindings = nb.load(nb.path_for(bind_dir(repo), repo, rel))
     tracked = set(tracked_tables(base))
     cache: dict = {}
     problems, bound = [], 0
@@ -456,11 +472,11 @@ def check_bound(repo: str, rel: str, text: str, allowed: dict,
 
 def propose_cli(repo: str, rel: str) -> int:
     base = repo_base(repo)
-    path = nb.path_for(BIND_DIR, repo, rel)
+    path = nb.path_for(bind_dir(repo), repo, rel)
     occs, _ = checked_occurrences(base, rel, (base / rel).read_text())
     bound, open_items = nb.propose(base, tracked_tables(base), occs, nb.load(path),
                                    allowlist_for(repo, rel), allowed_reason)
-    BIND_DIR.mkdir(exist_ok=True)
+    path.parent.mkdir(parents=True, exist_ok=True)
     nb.save(path, bound)
     prop = path.with_suffix(".proposals.json")
     if open_items:
@@ -483,7 +499,7 @@ def unused_entries() -> list[str]:
         for key, line in allowlist_for(repo, rel).items():
             if not any(allowed_reason(o, {key: line}) for o in occs):
                 out.append(f"{repo}/{rel} allowlist {key}")
-        for b in nb.load(nb.path_for(BIND_DIR, repo, rel)):
+        for b in nb.load(nb.path_for(bind_dir(repo), repo, rel)):
             if not any(nb.find([b], o) for o in occs):
                 out.append(f"{repo}/{rel} binding {b['sign']}{b['token']}")
     return out
@@ -509,7 +525,7 @@ def main(argv: list[str]) -> int:
         files_n += 1
         allowed = allowlist_for(repo, rel)
         name = f"{repo}/{rel}"
-        if nb.path_for(BIND_DIR, repo, rel).exists():
+        if nb.path_for(bind_dir(repo), repo, rel).exists():
             text = path.read_text()
             n, problems = check_bound(repo, rel, text, allowed, unverified)
             checked += len(checked_occurrences(base, rel, text)[0])
@@ -519,7 +535,7 @@ def main(argv: list[str]) -> int:
             if problems:
                 problems.append(f"to rebind after an intended edit: python verify_numbers.py "
                                 f"--propose {repo} {rel}, then settle number_bindings/"
-                                f"{nb.path_for(BIND_DIR, repo, rel).with_suffix('.proposals.json').name}")
+                                f"{nb.path_for(bind_dir(repo), repo, rel).with_suffix('.proposals.json').name}")
                 failures.append(f"{name}:\n      " + "\n      ".join(problems))
             continue
         pool = pools.get(repo, union)

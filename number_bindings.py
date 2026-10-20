@@ -35,6 +35,7 @@ from __future__ import annotations
 
 import itertools
 import json
+import math
 from pathlib import Path
 
 import polars as pl
@@ -150,7 +151,7 @@ def eval_expr(e, load) -> float | str:
     """An expression over cells: a number, a cell reference {"table",
     "where", "column"} (column may be __rows__ or __columns__), an
     aggregate {"agg": "median" | "mean", ...}, or {"op": "-" | "/" | "*" | "abs"
-    | "1-" | "round" | "min" | "max", "args": [...]}. "2.3 times the next-largest drop" is
+    | "1-" | "round" | "floor" | "min" | "max", "args": [...]}. "2.3 times the next-largest drop" is
     abs(step) / abs(next drop); "a maximum over ~40,000 frames" is
     round(median frames, -4)."""
     if isinstance(e, (int, float)):
@@ -204,6 +205,12 @@ def eval_expr(e, load) -> float | str:
         return min(vals) if op == "min" else max(vals)
     if op == "round":
         return float(round(vals[0], int(vals[1])))
+    if op == "floor":
+        # "at least 99.85%" is a floor: rounding a 0.99859 minimum to
+        # 99.86% would claim more than the data show. The 1e-9 keeps an
+        # exact 0.995 from flooring to 0.994 on float noise.
+        k = 10 ** int(vals[1])
+        return math.floor(vals[0] * k + 1e-9) / k
     if op == "abs":
         return abs(vals[0])
     if op == "1-":
