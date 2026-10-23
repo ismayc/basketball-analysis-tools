@@ -571,7 +571,8 @@ def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
 {body}
 </main>
 <footer>Public data · dual-implementation reconciled · every gate scripted ·
-<a href="{GH}/basketball-data-science">the family on GitHub</a></footer>
+<a href="{GH}/basketball-data-science">the family on GitHub</a> ·
+<a href="https://sunbirds.ai/">Consulting: sunbirds.ai</a></footer>
 {THEME_SCRIPT}
 {REVEAL_SCRIPT}
 {NAV_SCRIPT if nav else ""}
