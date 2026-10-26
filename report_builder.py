@@ -321,6 +321,13 @@ NEW_CARDS = {
             "minutes in basketball: a close game's last two minutes take "
             "10.2 real minutes."),
     },
+    "heliocentrism-study": {
+        "kicker": "35,492 NBA and 6,469 WNBA games",
+        "headline": (
+            "NBA offenses did not become solar systems: the top creator's "
+            "per-game share slipped from 31.5% to 30.5% over 30 seasons. "
+            "By 2026 the WNBA was the more concentrated league."),
+    },
 }
 
 CSS = """
