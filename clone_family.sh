@@ -6,6 +6,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 for r in basketball-data-science jersey-height-study playbyplay-study \
          tracking-study lineup-valuation-study shot-quality-study \
-         draft-study basketball-sql-layer nba-scouting-onepagers; do
+         draft-study basketball-sql-layer nba-scouting-onepagers \
+         nba-season-data; do
   [ -d "$r" ] || git clone "https://github.com/ismayc/$r"
 done
