@@ -61,7 +61,7 @@
    "abs": false
   },
   {
-   "token": "0.26",
+   "token": "0.21",
    "sign": "+",
    "before": "racy</div> <div class=\"value\">",
    "nth": 0,
@@ -76,7 +76,7 @@
    "abs": false
   },
   {
-   "token": "170",
+   "token": "171",
    "sign": "",
    "before": "ub\">The same comparison across",
    "nth": 0,
@@ -91,7 +91,7 @@
    "abs": false
   },
   {
-   "token": "1.14",
+   "token": "1.19",
    "sign": "-",
    "before": "e comparison across # series (",
    "nth": 0,
@@ -106,7 +106,7 @@
    "abs": false
   },
   {
-   "token": "1.67",
+   "token": "1.61",
    "sign": "+",
    "before": "mparison across # series (# to",
    "nth": 0,
@@ -182,7 +182,7 @@
    "abs": false
   },
   {
-   "token": "1.00",
+   "token": "1.04",
    "sign": "-",
    "before": "ainst the series average (WNBA",
    "nth": 0,
@@ -228,7 +228,7 @@
    "abs": false
   },
   {
-   "token": "0.26",
+   "token": "0.21",
    "sign": "+",
    "before": "against Game # alone, the WNBA",
    "nth": 0,
@@ -243,7 +243,7 @@
    "abs": false
   },
   {
-   "token": "0.64",
+   "token": "0.58",
    "sign": "+",
    "before": "t Game # alone, the WNBA # and",
    "nth": 0,
@@ -385,7 +385,7 @@
    "abs": false
   },
   {
-   "token": "2.34",
+   "token": "2.31",
    "sign": "-",
    "before": "points in the NBA (# to #) and",
    "nth": 0,
@@ -414,7 +414,7 @@
    "abs": false
   },
   {
-   "token": "1.00",
+   "token": "1.04",
    "sign": "-",
    "before": "nt in both leagues (NBA # WNBA",
    "nth": 0,
@@ -801,7 +801,7 @@
    "abs": false
   },
   {
-   "token": "7.7",
+   "token": "7.9",
    "sign": "+",
    "before": " In the WNBA the difference is",
    "nth": 0,
@@ -815,7 +815,7 @@
    "abs": false
   },
   {
-   "token": "7.0",
+   "token": "6.8",
    "sign": "-",
    "before": " points, with an interval from",
    "nth": 0,
@@ -829,7 +829,7 @@
    "abs": false
   },
   {
-   "token": "22.5",
+   "token": "22.7",
    "sign": "+",
    "before": "ts, with an interval from # to",
    "nth": 0,
@@ -843,7 +843,7 @@
    "abs": false
   },
   {
-   "token": "167",
+   "token": "168",
    "sign": "",
    "before": "an interval from # to # across",
    "nth": 0,
