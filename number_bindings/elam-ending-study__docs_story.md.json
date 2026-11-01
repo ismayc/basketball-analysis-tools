@@ -1,7 +1,7 @@
 {
  "bindings": [
   {
-   "token": "4,860",
+   "token": "4,866",
    "sign": "",
    "before": "three seasons of both leagues:",
    "nth": 0,
@@ -151,7 +151,7 @@
    "abs": false
   },
   {
-   "token": "4,860",
+   "token": "4,866",
    "sign": "",
    "before": "st the league's game logs (all",
    "nth": 0,
@@ -500,7 +500,7 @@
    "abs": false
   },
   {
-   "token": "308",
+   "token": "313",
    "sign": "",
    "before": " bigger gaps, but they rest on",
    "nth": 0,
