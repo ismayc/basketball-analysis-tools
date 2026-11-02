@@ -17,6 +17,7 @@ Run: python report_builder.py --all         every repo's docs/
 from __future__ import annotations
 
 import html as html_lib
+import json
 import re
 import shutil
 import sys
@@ -228,7 +229,7 @@ def section_nav(body: str) -> tuple[str, str]:
 
     def h2(m: re.Match) -> str:
         label = m[1]
-        if has_beats and html_lib.unescape(label) != METHOD_H2:
+        if has_beats and html_lib.unescape(label) not in (METHOD_H2, KEY_TERMS_H2):
             return m[0]
         sid = unique(slug(label))
         items.append((sid, "Method" if html_lib.unescape(label) == METHOD_H2 else label))
@@ -900,6 +901,82 @@ def diagram_card(repo_dir: Path, ref: str, caption: str) -> str:
             f'<figcaption>{caption}</figcaption></figure>')
 
 
+KEY_TERMS_H2 = "Key terms"
+# Skipped by local tooltips: headings stay plain, and a term is never nested.
+_NO_TIP = {"h1", "h2", "h3", "h4", "abbr", "a", "code", "pre", "summary", "script", "style"}
+# In the page body, not the shared stylesheet, so a study with no terms file
+# builds byte for byte as before. Focus shows the tip for keyboards and touch.
+_KEY_TERMS_CSS = ("<style>abbr[data-tip]:focus::after{content:attr(data-tip);position:absolute;"
+                  "left:0;top:1.5em;z-index:40;background:var(--ink);color:var(--surface);"
+                  "padding:.5rem .75rem;border-radius:7px;width:max-content;"
+                  "max-width:min(340px,80vw);font-size:.82rem;line-height:1.45;font-weight:400;"
+                  "white-space:normal;box-shadow:0 4px 16px rgba(0,0,0,.28);pointer-events:none}"
+                  "abbr[data-tip]:focus{outline:none}"
+                  "abbr[data-tip]:hover::after,abbr[data-tip]:focus::after{left:var(--tip-x,0px)}"
+                  ".keyterms{margin:1rem 0}.keyterms dt{font-weight:600;margin-top:.9rem}"
+                  ".keyterms dd{margin:.15rem 0 0;color:var(--ink-2)}</style>"
+                  # Move a tip left when it would run off the screen.
+                  "<script>(function(){function place(e){var t=e.target;"
+                  "if(!t.matches||!t.matches('abbr[data-tip]'))return;"
+                  "t.style.setProperty('--tip-x','0px');"
+                  "var s=getComputedStyle(t,'::after'),w=parseFloat(s.width)||0,"
+                  "p=(parseFloat(s.paddingLeft)||0)+(parseFloat(s.paddingRight)||0),"
+                  "x=t.getBoundingClientRect().left,"
+                  "room=document.documentElement.clientWidth-8,"
+                  "shift=Math.min(0,room-(x+w+p));"
+                  "shift=Math.max(shift,8-x);"
+                  "t.style.setProperty('--tip-x',shift+'px');}"
+                  "document.addEventListener('mouseover',place);"
+                  "document.addEventListener('focusin',place);})();</script>")
+
+
+def local_terms(repo_dir: Path) -> list[dict]:
+    """A study's own terms from docs/terms.json: terms that only it uses, so
+    they stay out of the family glossary. A study need not have the file."""
+    p = repo_dir / "docs" / "terms.json"
+    return json.loads(p.read_text()) if p.exists() else []
+
+
+def tipify_local(body: str, terms: list[dict]) -> str:
+    """Hover tips for a study's own terms, longest alias first, in rendered
+    HTML. Each tip is focusable, so touch and keyboard readers can open it."""
+    if not terms:
+        return body
+    defs = {a: t["definition"] for t in terms for a in t["aliases"]}
+    pat = re.compile(r"(?<![A-Za-z0-9_-])("
+                     + "|".join(re.escape(a) for a in sorted(defs, key=len, reverse=True))
+                     + r")(?![A-Za-z0-9_-])")
+
+    def tip(m: re.Match) -> str:
+        d = html_lib.escape(defs[m[1]], quote=True)
+        return f'<abbr title="{d}" tabindex="0">{m[1]}</abbr>'
+
+    out, stack = [], []
+    for part in re.split(r"(<[^>]+>)", body):
+        tag = re.match(r"<(/?)([a-zA-Z0-9]+)", part)
+        if tag and tag[2].lower() in _NO_TIP:
+            if tag[1]:
+                if stack:
+                    stack.pop()
+            elif not part.endswith("/>"):
+                stack.append(tag[2].lower())
+            out.append(part)
+        elif part.startswith("<") or stack:
+            out.append(part)
+        else:
+            out.append(pat.sub(tip, part))
+    return "".join(out)
+
+
+def key_terms_section(terms: list[dict]) -> str:
+    """The same definitions at the end of the page, for print and for phones."""
+    if not terms:
+        return ""
+    items = "".join(f"<dt>{html_lib.escape(t['term'])}</dt><dd>{html_lib.escape(t['definition'])}</dd>"
+                    for t in terms)
+    return f'\n{_KEY_TERMS_CSS}<h2>{KEY_TERMS_H2}</h2><dl class="keyterms">{items}</dl>'
+
+
 def terms_panel(md_text: str) -> str:
     keys = glossary.terms_for(md_text)
     if not keys:
@@ -917,6 +994,7 @@ def build_study(repo: str) -> None:
     story = repo_dir / "docs" / "story.md"
     if story.exists():
         md_text = story.read_text()
+        own_terms = local_terms(repo_dir)
         used = re.findall(r"\{\{fig:([^|}]+)\|([^}]*)\}\}", md_text)
         placeholders = {}
         for i, (ref, cap) in enumerate(used):
@@ -931,7 +1009,9 @@ def build_study(repo: str) -> None:
         for i, (ref, cap) in enumerate(dused):
             key = f"SVGPLACEHOLDER{i}ENDSVG"
             md_text = md_text.replace("{{svg:%s|%s}}" % (ref, cap), key, 1)
-            diagrams[key] = diagram_card(repo_dir, ref.strip(), cap.strip())
+            # The caption gets its tips here, since the SVG text must not get any.
+            diagrams[key] = diagram_card(repo_dir, ref.strip(),
+                                         tipify_local(cap.strip(), own_terms))
         html = markdown.markdown(md_text,
                                  extensions=["tables", "fenced_code"])
         html = wrap_tables(absolutize_links(html, repo))
@@ -942,6 +1022,7 @@ def build_study(repo: str) -> None:
         if panel:
             html = html.replace("</p>", "</p>\n" + panel, 1)
         html = tipify_html(html)
+        html = tipify_local(html, own_terms)
         for key, card in diagrams.items():
             html = html.replace(f"<p>{key}</p>", card).replace(key, card)
         referenced = {r.strip() for r, _ in used}
@@ -965,6 +1046,7 @@ def build_study(repo: str) -> None:
                  f'analysis is implemented independently in R and Python and '
                  f'reconciled to numeric tolerance; <code>run_checks.sh</code> '
                  f'replays every gate.</p>')
+        html += key_terms_section(own_terms)
     else:
         md_text = (repo_dir / "README.md").read_text()
         html = markdown.markdown(md_text, extensions=["tables", "fenced_code"])
