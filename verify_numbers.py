@@ -245,6 +245,31 @@ def occurrences(text: str) -> list[dict]:
     return occurrences_of_prose(strip_nonprose(text))
 
 
+def is_list_marker(prose: str, m: re.Match) -> bool:
+    """Whether a number is a markdown list or heading marker, not a claim. A
+    marker is a whole number at the start of a line, then ". " or ") ". In a
+    wrapped paragraph such a number is a claim ("(3.1 to\\n3.7) in"), and
+    skipping it passed any wrong value with no error (found November 2, 2026),
+    so a bare marker also needs a line before it that is blank, indented, or
+    a list item."""
+    start = prose.rfind("\n", 0, m.start()) + 1
+    prefix = prose[start:m.start()]
+    if not LIST_PREFIX.fullmatch(prefix):
+        return False
+    if not m.group(1).rstrip(".").isdigit():
+        return False
+    is_dot = m.group(1).endswith(".") and prose[m.end():m.end() + 1] in (" ", "")
+    if not is_dot and prose[m.end():m.end() + 2] != ") ":
+        return False
+    if prefix.strip():      # "### 3. ", "> 1. ", "- 2) " carry their own marker
+        return True
+    if start == 0:
+        return True
+    prev = prose[prose.rfind("\n", 0, start - 1) + 1:start - 1]
+    return (not prev.strip() or prev[0].isspace()
+            or bool(re.match(r"[#>*-]|\d+[.)]\s", prev)))
+
+
 def occurrences_of_prose(prose: str) -> list[dict]:
     out = []
     for m in TOKEN.finditer(prose):
@@ -264,10 +289,7 @@ def occurrences_of_prose(prose: str) -> list[dict]:
         if SEASON.match(ctx.strip()):
             continue
         lead = prose[m.start():m.start(1)]
-        line = prose[prose.rfind("\n", 0, m.start()) + 1:m.start()]
-        if (not lead and m.group(1).endswith(".") and LIST_PREFIX.fullmatch(line)
-                and prose[m.end():m.end() + 1] in (" ", "")) or (
-                not lead and LIST_PREFIX.fullmatch(line) and prose[m.end():m.end() + 2] == ") "):
+        if not lead and is_list_marker(prose, m):
             continue
         if not lead and (LABEL_BEFORE.search(prose[max(0, m.start() - 40):m.start()])
                          or (suffix == "%" and LEVEL_AFTER.match(prose, m.end()))):

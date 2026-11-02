@@ -184,6 +184,24 @@ def test_list_markers_and_section_references_are_labels(vn):
     assert vn.tokens_of(text) == ["35.1%"]
 
 
+def test_wrapped_number_at_line_start_is_checked_not_a_list_marker(vn):
+    # A wrapped paragraph can start a line with a number. It stays a claim.
+    assert vn.tokens_of("The rate rose to 3.4 (3.1 to\n3.7) in the last era.\n") == ["3.4", "3.1", "3.7"]
+    assert vn.tokens_of("The final count of wins was\n12. The next game was close.\n") == ["12"]
+    assert vn.tokens_of("The lead reached\n12) and held.\n") == ["12"]
+
+
+def test_multiline_list_items_stay_markers(vn):
+    # A list item's indented continuation does not hide the next marker.
+    assert vn.tokens_of("1. First item\n   runs long.\n2. Second item.\n") == []
+    assert vn.tokens_of("Intro:\n\n1. First.\n2. Second.\n") == []
+    assert vn.tokens_of("> 1. Quoted item.\n") == []
+
+
+def test_decimal_at_line_start_is_never_a_list_marker(vn):
+    assert vn.tokens_of("\n3.7) in the last era.\n") == ["3.7"]
+
+
 def test_leading_dot_decimal_is_a_number(vn):
     assert vn.tokens_of("correlation .44 → .12") == [".44", ".12"]
 
