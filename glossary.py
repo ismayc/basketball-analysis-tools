@@ -206,6 +206,7 @@ DOCS: dict[str, str] = {
     "playoff-series-study/README.md": HUB_GLOSSARY_URL,
     "elam-ending-study/README.md": HUB_GLOSSARY_URL,
     "heliocentrism-study/README.md": HUB_GLOSSARY_URL,
+    "safe-lead-study/README.md": HUB_GLOSSARY_URL,
     "basketball-sql-layer/README.md": HUB_GLOSSARY_URL,
     "nba-scouting-onepagers/README.md": HUB_GLOSSARY_URL,
 }

@@ -329,6 +329,13 @@ NEW_CARDS = {
             "per-game share slipped from 31.5% to 30.5% over 30 seasons. "
             "By 2026 the WNBA was the more concentrated league."),
     },
+    "safe-lead-study": {
+        "kicker": "35,492 NBA and 6,469 WNBA games",
+        "headline": (
+            "A double-digit lead entering the fourth is less safe than it was: "
+            "NBA teams down 10 to 14 won 5.8% of the time in the first five "
+            "seasons and 10.1% in the last five."),
+    },
 }
 
 CSS = """
