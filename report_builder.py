@@ -165,6 +165,11 @@ NAV_SCRIPT = """<script>
     return document.getElementById(a.getAttribute("href").slice(1));
   });
   var last = null;
+  // A wrapped nav is taller, so a jump must clear its measured height.
+  function measure() {
+    document.documentElement.style.setProperty(
+      "--nav-h", nav.getBoundingClientRect().height + "px");
+  }
   function update() {
     var edge = nav.getBoundingClientRect().bottom + 24, cur = -1;
     targets.forEach(function (t, i) {
@@ -191,7 +196,8 @@ NAV_SCRIPT = """<script>
   // Straight from the event, not via requestAnimationFrame, which stalls in
   // background tabs and offscreen frames; eight rect reads per scroll is cheap.
   window.addEventListener("scroll", update, {passive: true});
-  window.addEventListener("resize", update);
+  window.addEventListener("resize", function () { measure(); update(); });
+  measure();
   update();
 })();
 </script>"""
@@ -278,10 +284,10 @@ HUB_CARDS = {
         "pick: the scouts already priced them in."),
 }
 
-# Newer analyses get their own hub section; the original six stay put.
-# Add a repo here and rebuild to grow the section. "href" overrides the
-# card's read link; "extra" appends an additional link. A repo listed here
-# that also has docs/story.md gets its page built like a study.
+# Later analyses. A repo added here also needs a place in HUB_CATEGORIES, or
+# the hub build stops. "href" overrides the card's read link; "extra" appends
+# an additional link. A repo listed here that also has docs/story.md gets its
+# page built like a study.
 NEW_CARDS = {
     "mebounds": {
         "kicker": "2M play-by-play events, WNBA × NBA",
@@ -337,6 +343,48 @@ NEW_CARDS = {
             "seasons and 10.1% in the last five."),
     },
 }
+
+# The hub groups every study by the kind of question it answers, in this
+# order: (heading, one-line description, repos in card order).
+HUB_CATEGORIES = [
+    ("Game strategy and endings",
+     "When to shoot, when a lead is safe, and what a different ending would "
+     "change.",
+     ["safe-lead-study", "playbyplay-study", "elam-ending-study"]),
+    ("Shooting and offense",
+     "What repeats in shooting, who creates the offense, and whether threes "
+     "go cold in Game 1.",
+     ["shot-quality-study", "heliocentrism-study", "playoff-series-study"]),
+    ("Player value and contracts",
+     "What a player adds to a lineup, whether a contract year changes "
+     "performance, and whether the mebound is earned.",
+     ["lineup-valuation-study", "contract-year-study", "mebounds"]),
+    ("The draft",
+     "What public college stats add to the pick, and whether any franchise "
+     "provably beats its draft slots.",
+     ["draft-study", "draft-potential-by-team"]),
+    ("Measurement and data quality",
+     "Two cases where the data moved instead of the game: a rule change "
+     "behind a famous trend, and a clock latency in raw tracking.",
+     ["jersey-height-study", "tracking-study"]),
+]
+
+
+def check_hub_categories() -> None:
+    """Stop the build unless each study card sits in exactly one category.
+
+    Without this, a study added to NEW_CARDS alone would vanish from the hub
+    with no error."""
+    placed = [r for _, _, repos in HUB_CATEGORIES for r in repos]
+    expected = set(HUB_CARDS) | set(NEW_CARDS)
+    missing = sorted(expected - set(placed))
+    unknown = sorted(set(placed) - expected)
+    repeated = sorted({r for r in placed if placed.count(r) > 1})
+    if missing or unknown or repeated:
+        raise ValueError(
+            f"HUB_CATEGORIES is out of step: missing {missing}, "
+            f"no card for {unknown}, repeated {repeated}")
+
 
 CSS = """
 :root {
@@ -485,13 +533,16 @@ details.terms summary { padding: .55rem .9rem; cursor: pointer;
   color: var(--ink-2); font-weight: 600; }
 details.terms ul { margin: 0; padding: .2rem 1.4rem .8rem; }
 details.terms li { margin: .3rem 0; color: var(--ink-2); }
-/* sticky section nav (study pages): the masthead scrolls away, this stays */
+/* sticky section nav (study pages and the hub): the masthead scrolls away,
+   this stays. It wraps on a desktop and scrolls sideways on a phone. */
 .sectionnav { position: sticky; top: 0; z-index: 30; background: var(--surface);
   border-bottom: 1px solid var(--rule); }
 .sectionnav .inner { width: min(1200px, 94vw); margin: 0 auto; display: flex;
   gap: 1.3rem; overflow-x: auto; white-space: nowrap; scrollbar-width: none;
   padding: .55rem 0 .45rem; }
 .sectionnav .inner::-webkit-scrollbar { display: none; }
+@media (min-width: 768px) { .sectionnav .inner { flex-wrap: wrap;
+  row-gap: .25rem; } }
 .sectionnav a { font-family: "Barlow Condensed", system-ui, sans-serif;
   font-weight: 500; font-size: .95rem; letter-spacing: .1em;
   text-transform: uppercase; color: var(--ink-3); text-decoration: none;
@@ -499,7 +550,7 @@ details.terms li { margin: .3rem 0; color: var(--ink-2); }
 .sectionnav a:hover { color: var(--ink); }
 .sectionnav a[aria-current="true"] { color: var(--accent-ink);
   border-bottom-color: var(--accent); }
-main [id] { scroll-margin-top: 3.6rem; }
+main [id] { scroll-margin-top: calc(var(--nav-h, 2.9rem) + .7rem); }
 /* hub cards */
 .cards { display: grid; grid-template-columns:
   repeat(auto-fit, minmax(290px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
@@ -540,7 +591,8 @@ html.reveal .is-in { opacity: 1; transform: none; }
 """
 
 
-def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
+def page(title: str, body: str, deck: str = "", repo: str = "",
+         sections: bool = False) -> str:
     fallback = ("Reconciled, validated basketball analytics on public data: "
                 "part of the basketball-data-science family.")
     description = deck or fallback
@@ -548,7 +600,7 @@ def page(title: str, body: str, deck: str = "", repo: str = "") -> str:
     gh_link = (f'<a href="{GH}/{repo}">Code on GitHub</a>' if repo
                else f'<a href="{GH}/basketball-data-science">GitHub</a>')
     nav = ""
-    if repo:
+    if repo or sections:
         body, nav = section_nav(body)
     return f"""<!doctype html>
 <html lang="en">
@@ -1101,9 +1153,20 @@ def build_hub() -> None:
   <span class="links">{links}</span>
 </div>"""
 
-    cards = [card(r, *HUB_CARDS[r]) for r in STUDIES]
-    new_cards = [card(r, c["kicker"], c["headline"], c.get("href"),
-                      c.get("extra")) for r, c in NEW_CARDS.items()]
+    def study_card(r):
+        if r in HUB_CARDS:
+            return card(r, *HUB_CARDS[r])
+        c = NEW_CARDS[r]
+        return card(r, c["kicker"], c["headline"], c.get("href"), c.get("extra"))
+
+    check_hub_categories()
+    n_studies = sum(len(repos) for _, _, repos in HUB_CATEGORIES)
+    categories = "\n".join(
+        f"""<h2>{title}</h2>
+<p>{blurb}</p>
+<div class="cards">
+{"".join(study_card(r) for r in repos)}
+</div>""" for title, blurb, repos in HUB_CATEGORIES)
     layers = f"""<div class="card">
   <span class="kicker">SQL layer</span>
   <h3>basketball sql layer</h3>
@@ -1127,27 +1190,16 @@ def build_hub() -> None:
   <span class="links"><a href="{GH}/basketball-analysis-tools">code</a></span>
 </div>"""
     body = f"""<div class="hero">
-<div class="eyebrow">Six studies &middot; three layers &middot; one discipline</div>
+<div class="eyebrow">{n_studies} studies &middot; three layers &middot; one discipline</div>
 <h1>Basketball data science</h1>
-<p class="deck">Six studies and three working layers on public NBA, WNBA,
-G League, and college data, written as narratives, run as pipelines, and
-gated like production code.</p>
+<p class="deck">{n_studies} studies and three working layers on public NBA,
+WNBA, G League, and college data, written as narratives, run as pipelines,
+and gated like production code.</p>
 </div>
-<p>The studies build on each other deliberately. The first asks the
-smallest question: did NBA players really get shorter? The famous decline
-turns out to be mostly a measurement-rule change, a rehearsal for every
-"the metric moved" conversation that matters. From there the family works
-up the stack. A full season of play-by-play turns the 2-for-1 debate into
-a measured trade-off. Seven million frames of raw tracking expose a
-scorer's-table clock latency that quietly fabricates findings when
-ignored. Regularized lineup models put honest error bars on player value,
-then rebuild it from an independent unit of observation to prove the
-ordering isn't plumbing. A shot-pricing model splits shooting into the
-skill that repeats and the skill that doesn't, and turns that split into
-a projection rule that beats naive carry-forward out of sample. And the
-draft study reports the most useful kind of result, that public college
-stats add <em>nothing</em> beyond the pick, because knowing the ceiling
-of public information is itself an edge.</p>
+<p>The studies are grouped by the question they answer: how to play the end
+of a game, how shots and offense are created, what a player is worth, what
+can be known about a draft, and whether the measurement itself can be
+trusted. Start anywhere. Each one stands alone.</p>
 <p>One discipline runs through all of it. Every analysis is implemented
 twice, in R and in Python, and the two must reconcile to numeric tolerance
 before any finding is written. That gate is not ceremony. It caught a
@@ -1157,20 +1209,12 @@ standard-error column while every sum still matched. Results are validated
 against independent external data before being believed, no analysis
 number in any README is typed by hand (findings scripts
 write them from committed outputs, with drift gates), numbers in the
-narrative pages are matched against those outputs on every check run (a
-loose check, being replaced by bindings to exact output cells), and each
-study states plainly what it cannot claim.</p>
+narrative pages are bound to exact output cells and rechecked on every check
+run, and each study states plainly what it cannot claim.</p>
 <p>Each card below opens the study as a narrative (the question, the
 evidence, and the specific figures that carry it), with the full technical
 write-up one link deeper.</p>
-<h2>The studies</h2>
-<div class="cards">
-{"".join(cards)}
-</div>
-<h2>New analyses</h2>
-<div class="cards">
-{"".join(new_cards)}
-</div>
+{categories}
 <h2>The layers on top</h2>
 <div class="cards">
 {layers}
@@ -1194,7 +1238,8 @@ survey</a></p>"""
     body = link_study_mentions(body)
     (docs / "index.html").write_text(page(
         "Basketball Data Science: studies, tools, and standards", body,
-        "Reconciled, validated basketball analytics on public data."))
+        "Reconciled, validated basketball analytics on public data.",
+        sections=True))
     print("built basketball-data-science/docs/index.html")
 
 
