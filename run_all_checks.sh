@@ -41,6 +41,10 @@ echo
 echo "=== numbers: every prose number bound to one committed output cell ==="
 $PY verify_numbers.py --check | tail -1
 echo
+echo "=== hub cards: every number on a built hub card has a committed source ==="
+# Full output: the numbers with no committed source must show.
+$PY check_hub_cards.py
+echo
 echo "=== cross-study identity tests (pytest) ==="
 $PY -m pytest tests/python -q
 echo

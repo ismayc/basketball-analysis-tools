@@ -1,0 +1,721 @@
+{
+ "entries": [
+  {
+   "card": "jersey height study",
+   "token": "46",
+   "table": "output/number_by_season.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/number_by_season.csv",
+    "where": {},
+    "column": "__rows__",
+    "repo": "jersey-height-study"
+   }
+  },
+  {
+   "card": "jersey height study",
+   "token": "75",
+   "table": "output/results_python.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2019
+        },
+        "column": "value",
+        "repo": "jersey-height-study"
+       },
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2018
+        },
+        "column": "value",
+        "repo": "jersey-height-study"
+       }
+      ]
+     },
+     {
+      "op": "-",
+      "args": [
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2025
+        },
+        "column": "value",
+        "repo": "jersey-height-study"
+       },
+       {
+        "table": "output/results_python.csv",
+        "where": {
+         "metric": "mean_height_in",
+         "season_start": 2002
+        },
+        "column": "value",
+        "repo": "jersey-height-study"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "card": "jersey height study",
+   "token": "2019",
+   "reason": "the year of the rule change, a date"
+  },
+  {
+   "card": "playbyplay study",
+   "token": "0.2",
+   "table": "output/bootstrap_net_restricted.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/bootstrap_net_restricted.csv",
+    "where": {},
+    "column": "estimate",
+    "repo": "playbyplay-study"
+   }
+  },
+  {
+   "card": "playbyplay study",
+   "token": "2",
+   "reason": "names the 2-for-1 strategy"
+  },
+  {
+   "card": "playbyplay study",
+   "token": "1",
+   "reason": "names the 2-for-1 strategy"
+  },
+  {
+   "card": "tracking study",
+   "token": "2.5",
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "min",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s",
+    "repo": "tracking-study"
+   }
+  },
+  {
+   "card": "tracking study",
+   "token": "6",
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/possession_validation.csv",
+    "column": "calibrated_lead_s",
+    "repo": "tracking-study"
+   }
+  },
+  {
+   "card": "tracking study",
+   "token": "97.6",
+   "table": "output/possession_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "/",
+    "args": [
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_agree",
+      "repo": "tracking-study"
+     },
+     {
+      "agg": "sum",
+      "table": "output/possession_validation.csv",
+      "column": "fga_checked",
+      "repo": "tracking-study"
+     }
+    ]
+   }
+  },
+  {
+   "card": "tracking study",
+   "token": "7.5",
+   "reason": "UNVERIFIED: de-duplicated frame total, stated in the tracking-study README and BRIEF; no committed output holds the total"
+  },
+  {
+   "card": "shot quality study",
+   "token": "218,701",
+   "table": "output/backtest_metrics.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/backtest_metrics.csv",
+    "where": {
+     "season": "2023-24"
+    },
+    "column": "n",
+    "repo": "shot-quality-study"
+   }
+  },
+  {
+   "card": "shot quality study",
+   "token": ".9",
+   "table": "output/persistence.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/persistence.csv",
+    "where": {
+     "pair": "2023-24 to 2024-25",
+     "metric": "xpps"
+    },
+    "column": "r",
+    "repo": "shot-quality-study"
+   }
+  },
+  {
+   "card": "shot quality study",
+   "token": ".6",
+   "table": "output/persistence.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/persistence.csv",
+    "where": {
+     "pair": "2023-24 to 2024-25",
+     "metric": "making_100"
+    },
+    "column": "r",
+    "repo": "shot-quality-study"
+   }
+  },
+  {
+   "card": "shot quality study",
+   "token": "10",
+   "table": "output/projection_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "op": "min",
+    "args": [
+     {
+      "op": "1-",
+      "args": [
+       {
+        "table": "output/projection_validation.csv",
+        "where": {
+         "check": "EB beats naive carry-forward, 2023-24 to 2024-25 (MAE ratio)"
+        },
+        "column": "value",
+        "repo": "shot-quality-study"
+       }
+      ]
+     },
+     {
+      "op": "1-",
+      "args": [
+       {
+        "table": "output/projection_validation.csv",
+        "where": {
+         "check": "EB beats naive carry-forward, 2024-25 to 2025-26 (MAE ratio)"
+        },
+        "column": "value",
+        "repo": "shot-quality-study"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "card": "draft study",
+   "token": "56,781",
+   "table": "data/torvik_2011_2022.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "data/torvik_2011_2022.csv",
+    "where": {},
+    "column": "__rows__",
+    "repo": "draft-study"
+   }
+  },
+  {
+   "card": "mebounds",
+   "token": "2",
+   "reason": "UNVERIFIED: 2,038,513 events, recomputed from local parquet files on November 3, 2026; no committed output holds the total"
+  },
+  {
+   "card": "mebounds",
+   "token": "18",
+   "repo": "mebounds",
+   "json": "output/story_data.json",
+   "key": [
+    "facts",
+    "recov_2026"
+   ],
+   "abs": false
+  },
+  {
+   "card": "mebounds",
+   "token": "23",
+   "repo": "mebounds",
+   "json": "output/story_data.json",
+   "key": [
+    "facts",
+    "recov_2025"
+   ],
+   "abs": false
+  },
+  {
+   "card": "mebounds",
+   "token": "3.6",
+   "reason": "UNVERIFIED: 3.62 in 2026, recomputed from local parquet files on November 3, 2026; the WNBA season rates are not in a committed output"
+  },
+  {
+   "card": "mebounds",
+   "token": "4.5",
+   "reason": "UNVERIFIED: 4.48 in 2025, recomputed from local parquet files on November 3, 2026; the WNBA season rates are not in a committed output"
+  },
+  {
+   "card": "draft potential by team",
+   "token": "27",
+   "table": "output/pick_curve.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/pick_curve.csv",
+    "where": {
+     "pick": 1
+    },
+    "column": "picks",
+    "repo": "draft-potential-by-team"
+   }
+  },
+  {
+   "card": "draft potential by team",
+   "token": "489",
+   "table": "output/teams.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/teams.csv",
+    "where": {
+     "team": "Oklahoma City Thunder"
+    },
+    "column": "value_ws",
+    "repo": "draft-potential-by-team"
+   }
+  },
+  {
+   "card": "draft potential by team",
+   "token": "27",
+   "table": "output/summary_counts.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/summary_counts.csv",
+    "where": {
+     "metric": "franchises_crossing_zero"
+    },
+    "column": "value",
+    "repo": "draft-potential-by-team"
+   }
+  },
+  {
+   "card": "draft potential by team",
+   "token": "30",
+   "table": "output/teams.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/teams.csv",
+    "where": {},
+    "column": "__rows__",
+    "repo": "draft-potential-by-team"
+   }
+  },
+  {
+   "card": "contract year study",
+   "token": "27",
+   "reason": "the analysis era, 2000 to 2026, fixed in the study design"
+  },
+  {
+   "card": "contract year study",
+   "token": "0.21",
+   "table": "output/effect_primary_python.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/effect_primary_python.csv",
+    "where": {
+     "spec": "strict",
+     "era": "2000-2026",
+     "tier": "role"
+    },
+    "column": "diff",
+    "repo": "contract-year-study"
+   }
+  },
+  {
+   "card": "contract year study",
+   "token": "0.25",
+   "table": "output/effect_primary_python.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/effect_primary_python.csv",
+    "where": {
+     "spec": "strict",
+     "era": "2000-2026",
+     "tier": "star"
+    },
+    "column": "diff",
+    "repo": "contract-year-study"
+   }
+  },
+  {
+   "card": "playoff series study",
+   "token": "1",
+   "reason": "names Game 1"
+  },
+  {
+   "card": "playoff series study",
+   "token": "0.03",
+   "table": "output/game1_summary.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "table": "output/game1_summary.csv",
+    "where": {
+     "LEAGUE": 0,
+     "PANEL": "all",
+     "METRIC": "D_PCT"
+    },
+    "column": "MEAN",
+    "repo": "playoff-series-study"
+   }
+  },
+  {
+   "card": "playoff series study",
+   "token": "1",
+   "reason": "names Game 1"
+  },
+  {
+   "card": "playoff series study",
+   "token": "7",
+   "reason": "names Game 7"
+  },
+  {
+   "card": "elam ending study",
+   "token": "4,866",
+   "table": "output/games.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/games.csv",
+    "where": {},
+    "column": "__rows__",
+    "repo": "elam-ending-study"
+   }
+  },
+  {
+   "card": "elam ending study",
+   "token": "3",
+   "table": "output/replay_summary.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "table": "output/replay_summary.csv",
+    "where": {
+     "league": "nba",
+     "season": "pooled",
+     "season_type": "regular"
+    },
+    "column": "flip_rate",
+    "repo": "elam-ending-study"
+   }
+  },
+  {
+   "card": "elam ending study",
+   "token": "10.2",
+   "table": "output/endgame_summary.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/endgame_summary.csv",
+    "where": {
+     "league": "nba",
+     "season": "pooled",
+     "season_type": "regular"
+    },
+    "column": "median_real_min_q4_last2_close",
+    "repo": "elam-ending-study"
+   }
+  },
+  {
+   "card": "heliocentrism study",
+   "token": "35,492",
+   "table": "output/validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/validation.csv",
+    "column": "games",
+    "repo": "heliocentrism-study",
+    "where": {
+     "league": "nba"
+    }
+   }
+  },
+  {
+   "card": "heliocentrism study",
+   "token": "6,469",
+   "table": "output/validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/validation.csv",
+    "column": "games",
+    "repo": "heliocentrism-study",
+    "where": {
+     "league": "wnba"
+    }
+   }
+  },
+  {
+   "card": "heliocentrism study",
+   "token": "31.5",
+   "table": "output/era_change.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "table": "output/era_change.csv",
+    "where": {
+     "league": "nba",
+     "metric": "game_top1_share"
+    },
+    "column": "first_mean",
+    "repo": "heliocentrism-study"
+   }
+  },
+  {
+   "card": "heliocentrism study",
+   "token": "30.5",
+   "table": "output/era_change.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "table": "output/era_change.csv",
+    "where": {
+     "league": "nba",
+     "metric": "game_top1_share"
+    },
+    "column": "last_mean",
+    "repo": "heliocentrism-study"
+   }
+  },
+  {
+   "card": "heliocentrism study",
+   "token": "30",
+   "table": "output/breaks.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/breaks.csv",
+    "where": {
+     "league": "nba",
+     "metric": "game_top1_share"
+    },
+    "column": "seasons",
+    "repo": "heliocentrism-study"
+   }
+  },
+  {
+   "card": "heliocentrism study",
+   "token": "2026",
+   "reason": "a year"
+  },
+  {
+   "card": "safe lead study",
+   "token": "35,492",
+   "table": "output/coverage.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/coverage.csv",
+    "column": "games_used",
+    "repo": "safe-lead-study",
+    "where": {
+     "league": "nba"
+    }
+   }
+  },
+  {
+   "card": "safe lead study",
+   "token": "6,469",
+   "table": "output/coverage.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/coverage.csv",
+    "column": "games_used",
+    "repo": "safe-lead-study",
+    "where": {
+     "league": "wnba"
+    }
+   }
+  },
+  {
+   "card": "safe lead study",
+   "token": "10",
+   "reason": "the situation definition, leads of 10 to 14"
+  },
+  {
+   "card": "safe lead study",
+   "token": "14",
+   "reason": "the situation definition, leads of 10 to 14"
+  },
+  {
+   "card": "safe lead study",
+   "token": "5.8",
+   "table": "output/situation_change.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "table": "output/situation_change.csv",
+    "where": {
+     "league": "nba",
+     "situation": "start of Q4, up 10-14"
+    },
+    "column": "first_rate",
+    "repo": "safe-lead-study"
+   }
+  },
+  {
+   "card": "safe lead study",
+   "token": "10.1",
+   "table": "output/situation_change.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 100,
+   "abs": false,
+   "expr": {
+    "table": "output/situation_change.csv",
+    "where": {
+     "league": "nba",
+     "situation": "start of Q4, up 10-14"
+    },
+    "column": "last_rate",
+    "repo": "safe-lead-study"
+   }
+  },
+  {
+   "card": "basketball sql layer",
+   "token": "0.0",
+   "table": "output/sql_validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "max",
+    "table": "output/sql_validation.csv",
+    "column": "value",
+    "where_not": {
+     "check": "05 stint summary: max relative |diff| vs polars re-derivation"
+    },
+    "repo": "basketball-sql-layer"
+   }
+  },
+  {
+   "card": "nba scouting onepagers",
+   "token": "30",
+   "reason": "teams in the league, a league fact"
+  },
+  {
+   "card": "nba scouting onepagers",
+   "token": "2025",
+   "reason": "names the 2025-26 season"
+  },
+  {
+   "card": "nba scouting onepagers",
+   "token": "26",
+   "reason": "names the 2025-26 season"
+  }
+ ]
+}

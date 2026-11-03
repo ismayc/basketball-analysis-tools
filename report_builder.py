@@ -618,6 +618,11 @@ def page(title: str, body: str, deck: str = "", repo: str = "",
     nav = ""
     if repo or nav_labels:
         body, nav = section_nav(body, nav_labels)
+    # The hub lists the studies and the scouting reports itself, so only other
+    # pages need these links.
+    family_links = "" if nav_labels else (
+        f'<a href="{PAGES}/basketball-data-science/">All studies</a>\n'
+        f'  <a href="{PAGES}/nba-scouting-onepagers/">Scouting one-pagers</a>\n  ')
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -644,9 +649,7 @@ def page(title: str, body: str, deck: str = "", repo: str = "",
 <header class="masthead"><div class="inner">
   <a class="family" href="{PAGES}/basketball-data-science/">Basketball Data Science</a>
   <span class="spacer"></span>
-  <a href="{PAGES}/basketball-data-science/">All studies</a>
-  <a href="{PAGES}/nba-scouting-onepagers/">Scouting one-pagers</a>
-  {gh_link}
+  {family_links}{gh_link}
   <button class="themebtn" type="button" aria-label="Toggle color theme">◐</button>
 </div></header>
 {nav}
