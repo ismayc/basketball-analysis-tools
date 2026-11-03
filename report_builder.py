@@ -211,13 +211,13 @@ def slug(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", html_lib.unescape(text).lower()).strip("-")
 
 
-def section_nav(body: str) -> tuple[str, str]:
+def section_nav(body: str, short: dict[str, str] | None = None) -> tuple[str, str]:
     """Give each section an id and return the sticky nav that links them.
 
     Story pages group their sections under eyebrow beats ("The question",
     "Limits"), so the nav lists those, plus the method section at the end.
-    A page without beats lists its h2 headings. Fewer than three sections
-    gets no nav."""
+    A page without beats lists its h2 headings, with `short` giving a shorter
+    nav label for a heading. Fewer than three sections gets no nav."""
     seen: set[str] = set()
     items: list[tuple[str, str]] = []
 
@@ -238,7 +238,9 @@ def section_nav(body: str) -> tuple[str, str]:
         if has_beats and html_lib.unescape(label) not in (METHOD_H2, KEY_TERMS_H2):
             return m[0]
         sid = unique(slug(label))
-        items.append((sid, "Method" if html_lib.unescape(label) == METHOD_H2 else label))
+        plain = html_lib.unescape(label)
+        items.append((sid, "Method" if plain == METHOD_H2
+                      else (short or {}).get(plain, label)))
         return f'<h2 id="{sid}">{label}</h2>'
 
     has_beats = bool(NAV_BEAT.search(body))
@@ -321,7 +323,7 @@ NEW_CARDS = {
             "Game 1, and the share climbs through Game 7."),
     },
     "elam-ending-study": {
-        "kicker": "4,860 games under a target-score ending",
+        "kicker": "4,866 games under a target-score ending",
         "headline": (
             "The Elam Ending would change the winner of about 3% of games "
             "and barely move the leader's odds, while cutting the slowest "
@@ -368,6 +370,20 @@ HUB_CATEGORIES = [
      "behind a famous trend, and a clock latency in raw tracking.",
      ["jersey-height-study", "tracking-study"]),
 ]
+
+
+# Short labels so the hub's sticky nav fits on one desktop row. The headings
+# on the page keep their full names.
+HUB_NAV_LABELS = {
+    "Game strategy and endings": "Strategy",
+    "Shooting and offense": "Shooting",
+    "Player value and contracts": "Player value",
+    "The draft": "Draft",
+    "Measurement and data quality": "Measurement",
+    "The layers on top": "Layers",
+    "Also live": "Also live",
+    "Standards & references": "References",
+}
 
 
 def check_hub_categories() -> None:
@@ -592,7 +608,7 @@ html.reveal .is-in { opacity: 1; transform: none; }
 
 
 def page(title: str, body: str, deck: str = "", repo: str = "",
-         sections: bool = False) -> str:
+         nav_labels: dict[str, str] | None = None) -> str:
     fallback = ("Reconciled, validated basketball analytics on public data: "
                 "part of the basketball-data-science family.")
     description = deck or fallback
@@ -600,8 +616,8 @@ def page(title: str, body: str, deck: str = "", repo: str = "",
     gh_link = (f'<a href="{GH}/{repo}">Code on GitHub</a>' if repo
                else f'<a href="{GH}/basketball-data-science">GitHub</a>')
     nav = ""
-    if repo or sections:
-        body, nav = section_nav(body)
+    if repo or nav_labels:
+        body, nav = section_nav(body, nav_labels)
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -1239,7 +1255,7 @@ survey</a></p>"""
     (docs / "index.html").write_text(page(
         "Basketball Data Science: studies, tools, and standards", body,
         "Reconciled, validated basketball analytics on public data.",
-        sections=True))
+        nav_labels=HUB_NAV_LABELS))
     print("built basketball-data-science/docs/index.html")
 
 

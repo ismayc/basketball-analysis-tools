@@ -44,3 +44,10 @@ def test_built_hub_has_every_category_card_and_nav_link(tmp_path, monkeypatch):
             assert f'{r.replace("-", " ")}</a></h3>' in html
     assert "New analyses" not in html
     assert "Six studies" not in html
+    # Every h2 has a short nav label, so the nav stays on one desktop row.
+    nav = html.split('class="sectionnav"')[1].split("</nav>")[0]
+    assert nav.count("<a ") == len(rb.HUB_NAV_LABELS)
+    for full, short in rb.HUB_NAV_LABELS.items():
+        assert f">{short}</a>" in nav
+        if full != short:
+            assert f">{full}</a>" not in nav
