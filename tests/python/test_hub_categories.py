@@ -44,14 +44,19 @@ def test_built_hub_has_every_category_card_and_nav_link(tmp_path, monkeypatch):
             assert f'{r.replace("-", " ")}</a></h3>' in html
     assert "New analyses" not in html
     assert "Six studies" not in html
-    # The hub masthead drops the links to itself and to the scouting reports,
-    # which the page already lists; other pages keep them.
+    # No masthead has the "All studies" or "Scouting one-pagers" links
+    # (dropped from the hub November 3, 2026, and from every other page
+    # November 10). The family name links to the hub, which lists the
+    # scouting reports.
     masthead = html.split('class="masthead"')[1].split("</header>")[0]
     assert "All studies" not in masthead
     assert "Scouting one-pagers" not in masthead
     assert "nba-scouting-onepagers/" in html.split("</header>")[1]
     other = rb.page("t", "<h1>t</h1>", repo="some-study")
-    assert "All studies" in other and "Scouting one-pagers" in other
+    other_mast = other.split('class="masthead"')[1].split("</header>")[0]
+    assert "All studies" not in other_mast
+    assert "Scouting one-pagers" not in other_mast
+    assert f'href="{rb.PAGES}/basketball-data-science/">Basketball Data Science' in other_mast
     # Every h2 has a short nav label, so the nav stays on one desktop row.
     nav = html.split('class="sectionnav"')[1].split("</nav>")[0]
     assert nav.count("<a ") == len(rb.HUB_NAV_LABELS)
