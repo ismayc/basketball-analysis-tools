@@ -716,6 +716,60 @@
    "card": "nba scouting onepagers",
    "token": "26",
    "reason": "names the 2025-26 season"
+  },
+  {
+   "card": "kills study",
+   "token": "31,197",
+   "table": "output/validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/validation.csv",
+    "column": "games",
+    "repo": "kills-study",
+    "where": {
+     "league": "nba"
+    }
+   }
+  },
+  {
+   "card": "kills study",
+   "token": "3,880",
+   "table": "output/validation.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "agg": "sum",
+    "table": "output/validation.csv",
+    "column": "games",
+    "repo": "kills-study",
+    "where": {
+     "league": "wnba"
+    }
+   }
+  },
+  {
+   "card": "kills study",
+   "token": "22",
+   "table": "output/records.csv",
+   "where": {},
+   "column": "expr",
+   "scale": 1,
+   "abs": false,
+   "expr": {
+    "table": "output/records.csv",
+    "where": {
+     "league": "nba",
+     "rank": 1
+    },
+    "column": "length",
+    "repo": "kills-study"
+   }
   }
  ]
 }

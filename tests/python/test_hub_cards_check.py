@@ -34,7 +34,7 @@ def test_number_pattern_reads_ranges_units_and_signs():
 def test_built_hub_passes(page, entries):
     problems, counts, _ = chc.check_page(page, entries)
     assert problems == []
-    assert counts["cards"] == 16
+    assert counts["cards"] == 17
     assert counts["numbers"] == counts["bound"] + counts["allowed"] == len(entries)
 
 

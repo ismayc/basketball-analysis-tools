@@ -344,6 +344,13 @@ NEW_CARDS = {
             "NBA teams down 10 to 14 won 5.8% of the time in the first five "
             "seasons and 10.1% in the last five."),
     },
+    "kills-study": {
+        "kicker": "31,197 NBA and 3,880 WNBA games",
+        "headline": (
+            "Three straight stops tell you nothing that a defense's stop rate "
+            "does not, but the count still has a record book: 22 straight "
+            "scoreless possessions, twice."),
+    },
 }
 
 # The hub groups every study by the kind of question it answers, in this
@@ -366,9 +373,10 @@ HUB_CATEGORIES = [
      "provably beats its draft slots.",
      ["draft-study", "draft-potential-by-team"]),
     ("Measurement and data quality",
-     "Two cases where the data moved instead of the game: a rule change "
-     "behind a famous trend, and a clock latency in raw tracking.",
-     ["jersey-height-study", "tracking-study"]),
+     "Whether a popular stat measures anything new, and two cases where the "
+     "data moved instead of the game: a rule change behind a famous trend, "
+     "and a clock latency in raw tracking.",
+     ["kills-study", "jersey-height-study", "tracking-study"]),
 ]
 
 
