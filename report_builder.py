@@ -620,6 +620,12 @@ def page(title: str, body: str, deck: str = "", repo: str = "",
     fallback = ("Reconciled, validated basketball analytics on public data: "
                 "part of the basketball-data-science family.")
     description = deck or fallback
+    # Escape for attribute values. Unescape first so an entity already in
+    # the text (&amp;) is not escaped twice. A raw double quote in a title
+    # ended the og:title attribute early: the kills study's card read only
+    # "Is a" in link previews (November 10, 2026).
+    title_attr = html_lib.escape(html_lib.unescape(title), quote=True)
+    description = html_lib.escape(html_lib.unescape(description), quote=True)
     og_url = f"{PAGES}/{repo or 'basketball-data-science'}/"
     gh_link = (f'<a href="{GH}/{repo}">Code on GitHub</a>' if repo
                else f'<a href="{GH}/basketball-data-science">GitHub</a>')
@@ -635,12 +641,12 @@ def page(title: str, body: str, deck: str = "", repo: str = "",
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
+<title>{title_attr}</title>
 <meta name="description" content="{description}">
 {FAVICON}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Basketball Data Science">
-<meta property="og:title" content="{title}">
+<meta property="og:title" content="{title_attr}">
 <meta property="og:description" content="{description}">
 <meta property="og:url" content="{og_url}">
 <meta property="og:image" content="{OG_IMAGE}">
